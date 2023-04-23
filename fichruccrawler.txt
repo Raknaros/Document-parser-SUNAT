@@ -1,0 +1,879 @@
+--------------------------------------------------------------------------------------------------------------
+<table align="center" border="0" cellpadding="3" cellspacing="2" class="form-table" width="100%">
+<tbody><tr>
+<td><strong><font class="bgn"><p align="center">Información General del Contribuyente</p></font></strong>
+<table border="0" cellpadding="0" cellspacing="0" width="100%">
+<tbody><tr>
+<td class="bgn" valign="top" width="25%">Apellidos y Nombres ó Razón Social</td>
+<td class="bgn" valign="bottom" width="1%"> :</td>
+<td class="bg" valign="bottom" width="30%">INVERSIONES Y SERVICIOS RPM EIRL</td>
+</tr>
+<tr>
+<td class="bgn" valign="top" width="25%">Tipo de Contribuyente</td>
+<td class="bgn" valign="bottom" width="1%"> :</td>
+<td class="bg" colspan="4" valign="bottom" width="30%">
+
+ 07-EMPRESA INDIVIDUAL DE RESP. LTDA   </td>
+</tr>
+<tr>
+<td class="bgn" valign="top" width="15%">Fecha de Inscripción</td>
+<td class="bgn" valign="bottom" width="1%"> :</td>
+<td class="bg" valign="bottom" width="30%">
+           07/07/2020  </td>
+</tr>
+<tr>
+<td class="bgn" valign="top" width="15%">Fecha de Inicio de Actividades</td>
+<td class="bgn" valign="bottom" width="1%"> :</td>
+<td class="bg" valign="bottom" width="30%">
+          02/07/2020
+                  </td>
+</tr>
+<tr>
+<td class="bgn" valign="top" width="25%">Estado del Contribuyente</td>
+<td class="bgn" valign="bottom" width="1%"> :  </td>
+<td class="bg" valign="bottom" width="30%">
+ACTIVO                     </td>
+</tr>
+<tr>
+<td class="bgn" valign="top" width="15%"> Dependencia SUNAT</td>
+<td class="bgn" valign="bottom" width="1%"> :</td>
+<td class="bg" valign="bottom" width="30%">
+0021 - INTENDENCIA LIMA
+</td>
+</tr>
+<tr>
+<td class="bgn" valign="top" width="25%">Condición del Domicilio Fiscal</td>
+<td class="bgn" valign="bottom" width="1%"> : </td>
+<td class="bg" valign="bottom" width="30%">
+HABIDO                  </td>
+</tr>
+<!-- //MLR Inicio cambio P_DSNT_CPLE_0009_5_FE-MASIFICACION -->
+<tr>
+<td class="bgn">Emisor electrónico desde</td>
+<td class="bgn"> :  </td>
+<td class="bg">04/09/2020</td>
+</tr>
+<tr>
+<td class="bgn">Comprobantes electrónicos
+    </td>
+<td class="bgn"> :  </td>
+<td class="bg">FACTURA (desde 04/09/2020), (desde 11/09/2020)</td>
+</tr>
+<!-- //MLR Fin cambio P_DSNT_CPLE_0009_5_FE-MASIFICACION -->
+<tr>
+<td class="bgn" valign="top" width="15%">Tamaño</td>
+<td class="bgn" valign="bottom" width="1%"> :</td>
+<td class="bg" valign="bottom" width="30%">PRINCIPAL</td>
+</tr>
+</tbody></table>
+</td>
+</tr>
+</tbody></table>
+<br/>
+--------------------------------------------------------------------------------------------------------------
+<table border="0" cellpadding="3" cellspacing="2" class="form-table" width="100%">
+<tbody><tr>
+<td><strong><font class="lnk10"><p align="center">Datos del Contribuyente</p>
+</font></strong><p></p>
+<table border="0" cellpadding="0" cellspacing="0" width="100%">
+<tbody><tr>
+<td class="bgn" valign="top" width="25%">Nombre Comercial</td>
+<td class="bgn" valign="bottom" width="1%">:</td>
+<td class="bg" valign="bottom" width="30%">
+              -</td>
+</tr>
+<tr>
+<td class="bgn" valign="top" width="25%"> Tipo de Representación</td>
+<td class="bg" valign="top" width="1%"> :</td>
+<td class="bg" valign="top" width="30%">
+
+             -</td>
+</tr>
+<!---I#P_SNADE003-1#20141109#CFS-->
+<!--   <tr> -->
+<tr style="display: none;">
+<!---F#P_SNADE003-1#20141109#CFS-->
+<td class="bgn" valign="top" width="25%">Actividad Económica Principal</td>
+<td class="bgn" valign="bottom" width="1%"> :</td>
+<td class="bg" valign="bottom" width="30%">
+
+                37100 -
+                  RECICLAMIENTO DESPERDICIOS METALIC.         </td>
+</tr>
+<!---I#P_SNADE003-1#20141109#CFS-->
+<!--   <tr> -->
+<tr style="display: none;">
+<!---F#P_SNADE003-1#20141109#CFS-->
+<td class="bgn" valign="top" width="25%"> Actividad Económica Secundaria 1</td>
+<td class="bgn" valign="top" width="1%"> :</td>
+<td class="bg" valign="top" width="30%">
+
+             -</td>
+</tr>
+<!---I#P_SNADE003-1#20141109#CFS-->
+<!--   <tr> -->
+<tr style="display: none;">
+<!---F#P_SNADE003-1#20141109#CFS-->
+<td class="bgn" valign="top" width="25%">Actividad Económica Secundaria 2</td>
+<td class="bgn" valign="bottom" width="1%"> :</td>
+<td class="bg" valign="bottom" width="30%">
+
+             -    </td>
+</tr>
+<!---I#P_SNADE003-1#20141109#CFS-->
+<tr>
+<td class="bgn">Actividad Económica Principal </td>
+<td class="bgn"> :</td>
+<td class="bg">
+<!-- SC003-2015 Inicio -->
+
+                3830 - RECUPERACIÓN DE MATERIALES
+
+         <!-- SC003-2015 Fin -->
+</td>
+</tr>
+<tr>
+<td class="bgn">Actividad Económica Secundaria 1 </td>
+<td class="bgn"> :      </td>
+<td class="bg">
+<!-- SC003-2015 Inicio -->
+
+                        -
+
+         <!-- SC003-2015 Fin -->
+</td>
+</tr>
+<tr>
+<td class="bgn" valign="top" width="25%">Actividad Económica Secundaria 2 </td>
+<td class="bgn" valign="bottom" width="1%"> :</td>
+<td class="bg" valign="bottom" width="30%">
+<!-- SC003-2015 Inicio -->
+
+                        -
+
+        <!-- SC003-2015 Fin -->
+</td>
+</tr>
+<!---F#P_SNADE003-1#20141109#CFS-->
+<tr>
+<td class="bgn" valign="top" width="25%">Sistema Emisión Comprobantes de Pago</td>
+<td class="bgn" valign="bottom" width="1%"> :</td>
+<td class="bg" valign="bottom" width="30%"> MANUAL                                                                                                                            </td>
+</tr>
+<tr>
+<td class="bgn" valign="top" width="25%">Sistema de Contabilidad</td>
+<td class="bgn" valign="bottom" width="1%"> :</td>
+<td class="bg" valign="bottom" width="30%"> MANUAL                                                                                                                            </td>
+</tr>
+<tr>
+<td class="bgn" valign="top" width="25%">Código de Profesión / Oficio</td>
+<td class="bgn" valign="bottom" width="1%"> :</td>
+<td class="bg" valign="bottom" width="30%">
+                -</td>
+</tr>
+<tr>
+<td class="bgn" valign="top" width="25%">Actividad de Comercio Exterior</td>
+<td class="bgn" valign="bottom" width="1%"> :</td>
+<td class="bg" valign="bottom" width="30%">
+<b>
+        IMPORTADOR/EXPORTADOR
+        </b></td>
+</tr>
+<!-- PAS20171U210100026 -->
+<!-- Fin PAS20171U210100026 -->
+<tr>
+<td class="bgn" valign="top" width="25%">Número Fax</td>
+<td class="bgn" valign="top" width="1%">:</td>
+<td class="bg" valign="top" width="30%">
+          -     </td>
+</tr>
+<tr>
+<td class="bgn" valign="top" width="25%">Teléfono Fijo 1</td>
+<td class="bgn" valign="top" width="1%"> :</td>
+<td class="bg" valign="top" width="30%">
+          -       </td>
+</tr>
+<tr>
+<td class="bgn" valign="top" width="25%">Teléfono Fijo 2</td>
+<td class="bgn" valign="bottom" width="1%"> :</td>
+<td class="bg" valign="bottom" width="30%">
+          -         </td>
+</tr>
+<tr>
+<td class="bgn" valign="top" width="25%">Teléfono  Móvil 1</td>
+<td class="bgn" valign="top" width="1%"> :</td>
+<td class="bg" valign="top" width="30%">
+
+
+ 1        -
+
+ 950125405
+        </td>
+</tr>
+<tr>
+<td class="bgn" valign="top" width="25%">Teléfono  Móvil 2</td>
+<td class="bgn" valign="top" width="1%"> :</td>
+<td class="bg" valign="top" width="30%">
+
+
+ 1  -
+
+ 989904930</td>
+</tr>
+<tr>
+<td class="bgn" valign="top" width="25%">Correo Electrónico 1</td>
+<td class="bgn" valign="bottom" width="1%"> :</td>
+<td class="bg" valign="bottom" width="30%">
+
+             is.rpm@outlook.com    </td>
+</tr>
+<tr>
+<td class="bgn" valign="top" width="25%">Correo Electrónico 2</td>
+<td class="bgn" valign="bottom" width="1%"> :</td>
+<td class="bg" valign="bottom" width="30%">
+
+             administracion@is-rpm.com </td>
+</tr>
+</tbody></table>
+</td>
+</tr>
+</tbody></table>
+<br/>
+--------------------------------------------------------------------------------------------------------------
+<table border="0" cellpadding="3" cellspacing="2" class="form-table" width="100%">
+<tbody><tr>
+<td>
+<strong><font class="lnk10"><p align="center">Domicilio Fiscal</p></font></strong>
+<table border="0" cellpadding="0" cellspacing="0" width="100%">
+<!---I#P_SNADE003-1#20141109#CFS-->
+<tbody><tr>
+<td class="bgn" valign="top" width="25%">Actividad Economica</td>
+<td class="bgn" valign="bottom" width="1%">:</td>
+<td class="bg" valign="bottom" width="30%">
+<!-- SC003-2015 Inicio -->
+
+                3830 - RECUPERACIÓN DE MATERIALES
+
+        <!-- SC003-2015 Fin -->
+</td>
+</tr>
+<!---F#P_SNADE003-1#20141109#CFS-->
+<tr>
+<td class="bgn" valign="top" width="25%">Departamento</td>
+<td class="bgn" valign="bottom" width="1%">:</td>
+<td class="bg" valign="bottom" width="30%">
+                LIMA</td>
+</tr>
+<tr>
+<td class="bgn" valign="top" width="25%">Provincia</td>
+<td class="bgn" valign="bottom" width="1%">:</td>
+<td class="bg" valign="bottom" width="30%">
+       HUAROCHIRI
+       </td>
+</tr>
+<tr>
+<td class="bgn" valign="top" width="25%">Distrito</td>
+<td class="bgn" valign="bottom" width="1%">:</td>
+<td class="bg" valign="bottom" width="30%">
+         SAN ANTONIO
+      </td>
+</tr>
+<tr>
+<td class="bgn" valign="top" width="25%">Tipo y Nombre Zona</td>
+<td class="bgn" valign="bottom" width="1%">:</td>
+<td class="bg" valign="bottom" width="30%">
+
+
+    LOT.
+                INDUSTRIAL HUACHIPA ESTE
+                        </td>
+</tr>
+<tr>
+<td class="bgn" valign="top" width="25%">Tipo y Nombre Vía</td>
+<td class="bgn" valign="bottom" width="1%">:</td>
+<td class="bg" valign="bottom" width="30%">
+
+                  -
+        </td>
+</tr>
+<tr>
+<td class="bgn" valign="top" width="25%">Nro</td>
+<td class="bgn" valign="top" width="1%">:</td>
+<td class="bg" valign="top" width="30%">
+          -
+    </td>
+</tr>
+<tr>
+<td class="bgn" valign="top" width="25%">Km</td>
+<td class="bgn" valign="bottom" width="1%">:</td>
+<td class="bg" valign="bottom" width="30%">
+   - </td>
+</tr>
+<tr>
+<td class="bgn" valign="top" width="25%">Mz</td>
+<td class="bgn" valign="top" width="1%">:</td>
+<td class="bg" valign="top" width="30%">
+
+             B2      </td>
+</tr>
+<tr>
+<td class="bgn" valign="top" width="25%">Lote</td>
+<td class="bgn" valign="top" width="1%">:</td>
+<td class="bg" valign="top" width="30%">
+
+             7   </td>
+</tr>
+<tr>
+<td class="bgn" valign="top" width="25%">Dpto</td>
+<td class="bgn" valign="bottom" width="1%">:</td>
+<td class="bg" valign="bottom" width="30%">
+   -</td>
+</tr>
+<tr>
+<td class="bgn" valign="top" width="25%">Interior</td>
+<td class="bgn" valign="top" width="1%">:</td>
+<td class="bg" valign="top" width="30%">
+             - </td>
+</tr>
+<tr>
+<td class="bgn" valign="top" width="25%">Otras Referencias</td>
+<td class="bgn" valign="bottom" width="1%">:</td>
+<td class="bg" valign="bottom" width="30%">
+             - </td>
+</tr>
+<!-- tr>
+    <td width="25%" valign="top" class="bgn">Horario de Notificaci&oacute;n</td>
+    <td width="1%" valign="bottom" class="bgn">:</td>
+    <td width="30%" valign="bottom" class="bg">
+
+
+                 <b>  </b>
+
+            -</td>
+  </tr-->
+<tr>
+<td class="bgn" valign="top" width="25%">Condición del inmueble declarado como Domicilio Fiscal</td>
+<td class="bgn" valign="top" width="1%">:</td>
+<td class="bg" valign="top" width="30%">
+
+             ALQUILADO
+            </td>
+</tr>
+<tr>
+<!--td width="25%" valign="top" class="bgn">Licencia Municipal</td>
+    <td width="1%" valign="bottom" class="bgn">:</td>
+    <td width="30%" valign="top" class="bg">    </td>
+  </tr-->
+</tr></tbody></table>
+</td>
+</tr>
+</tbody></table>
+<br/>
+--------------------------------------------------------------------------------------------------------------
+<table border="0" cellpadding="3" cellspacing="2" class="form-table" width="100%">
+<tbody><tr>
+<td>
+<p align="center"><strong><font class="bgn">Datos de la Empresa</font></strong>
+</p>
+<table border="0" cellpadding="0" cellspacing="0" width="100%">
+<tbody><tr>
+<td class="bgn" valign="top" width="25%">Fecha Inscripción RR.PP</td>
+<td class="bgn" valign="bottom" width="1%"> :</td>
+<td class="bg" valign="bottom" width="30%">
+
+                25/04/2012
+        </td>
+</tr>
+<tr>
+<td class="bgn" valign="top" width="25%">Número de Partida Registral</td>
+<td class="bgn" valign="bottom" width="1%"> :</td>
+<td class="bg" valign="bottom" width="30%">
+
+            12831870
+                </td>
+</tr>
+<tr>
+<td class="bgn" valign="top" width="25%">Tomo/Ficha</td>
+<td class="bgn" valign="top" width="1%">:</td>
+<td class="bg" valign="top" width="30%">
+        -</td>
+</tr>
+<tr>
+<td class="bgn" valign="top" width="25%">Folio</td>
+<td class="bgn" valign="bottom" width="1%">:    </td>
+<td class="bg" valign="bottom" width="30%">
+        -</td>
+</tr>
+<tr>
+<td class="bgn" valign="top" width="25%">Asiento</td>
+<td class="bgn" valign="top" width="1%">:</td>
+<td class="bg" valign="top" width="30%">
+ -</td>
+</tr>
+<tr>
+<td class="bgn" valign="top" width="21%">Origen del Capital</td>
+<td class="bgn" valign="bottom" width="1%"> :</td>
+<td class="bg" valign="bottom" width="30%">
+
+        NACIONAL
+            </td>
+</tr>
+<tr>
+<td class="bgn" valign="top" width="25%">País de Origen del Capital</td>
+<td class="bgn" valign="top" width="1%">:</td>
+<td class="bg" valign="top" width="30%">
+ -      </td>
+</tr>
+</tbody></table>
+</td>
+</tr>
+</tbody></table>
+<br/>
+--------------------------------------------------------------------------------------------------------------
+<table cellpadding="3" cellspacing="2" class="form-table" width="100%">
+<tbody><tr>
+<td><p align="center"><strong><font class="bgn">Registro de Tributos Afectos</font></strong></p>
+<table cellpadding="0" cellspacing="0" width="100%">
+<tbody><tr>
+<td class="beta">
+<table cellpadding="2" cellspacing="1" width="100%">
+<tbody><tr>
+<th class="beta" height="22" rowspan="2" valign="middle" width="21%"><p align="center">Tributo</p></th>
+<th class="beta" height="22" rowspan="2" valign="middle" width="14%"><p align="center">Afecto desde</p></th>
+<th class="beta" colspan="3" height="14" valign="middle" width="65%"><p align="center">Exoneración</p></th>
+</tr>
+<tr>
+<th class="beta" height="1" valign="middle" width="11%"><p align="center">Marca de Exoneración</p></th>
+<th class="beta" height="1" valign="middle" width="10%"><p align="center">Desde</p></th>
+<th class="beta" height="1" valign="middle" width="12%"><p align="center">Hasta</p></th>
+</tr>
+<tr>
+<td class="bg" height="14" nowrap="" valign="middle" width="21%"><p align="center">
+  IGV - OPER. INT. - CTA. PROPIA     </p></td>
+<td class="bg" height="14" nowrap="" valign="middle" width="14%"><p align="center">
+  02/07/2020    </p></td>
+<td class="bg" height="14" nowrap="" valign="middle" width="13%"><p align="center">
+  -    </p></td>
+<td class="bg" height="14" nowrap="" valign="middle" width="10%"><p align="center">
+          -         </p></td>
+<td class="bg" height="14" nowrap="" valign="middle" width="12%"><p align="center">
+           -        </p></td>
+</tr>
+<tr>
+<td class="bg" height="14" nowrap="" valign="middle" width="21%"><p align="center">
+  RENTA 4TA. CATEG. RETENCIONES      </p></td>
+<td class="bg" height="14" nowrap="" valign="middle" width="14%"><p align="center">
+  01/04/2021    </p></td>
+<td class="bg" height="14" nowrap="" valign="middle" width="13%"><p align="center">
+  -    </p></td>
+<td class="bg" height="14" nowrap="" valign="middle" width="10%"><p align="center">
+          -         </p></td>
+<td class="bg" height="14" nowrap="" valign="middle" width="12%"><p align="center">
+           -        </p></td>
+</tr>
+<tr>
+<td class="bg" height="14" nowrap="" valign="middle" width="21%"><p align="center">
+  RENTA 5TA. CATEG. RETENCIONES      </p></td>
+<td class="bg" height="14" nowrap="" valign="middle" width="14%"><p align="center">
+  01/09/2020    </p></td>
+<td class="bg" height="14" nowrap="" valign="middle" width="13%"><p align="center">
+  -    </p></td>
+<td class="bg" height="14" nowrap="" valign="middle" width="10%"><p align="center">
+          -         </p></td>
+<td class="bg" height="14" nowrap="" valign="middle" width="12%"><p align="center">
+           -        </p></td>
+</tr>
+<tr>
+<td class="bg" height="14" nowrap="" valign="middle" width="21%"><p align="center">
+  RENTA - REGIMEN MYPE TRIBUTARIO    </p></td>
+<td class="bg" height="14" nowrap="" valign="middle" width="14%"><p align="center">
+  02/07/2020    </p></td>
+<td class="bg" height="14" nowrap="" valign="middle" width="13%"><p align="center">
+  -    </p></td>
+<td class="bg" height="14" nowrap="" valign="middle" width="10%"><p align="center">
+          -         </p></td>
+<td class="bg" height="14" nowrap="" valign="middle" width="12%"><p align="center">
+           -        </p></td>
+</tr>
+<tr>
+<td class="bg" height="14" nowrap="" valign="middle" width="21%"><p align="center">
+  ESSALUD SEG REGULAR TRABAJADOR     </p></td>
+<td class="bg" height="14" nowrap="" valign="middle" width="14%"><p align="center">
+  01/09/2020    </p></td>
+<td class="bg" height="14" nowrap="" valign="middle" width="13%"><p align="center">
+  -    </p></td>
+<td class="bg" height="14" nowrap="" valign="middle" width="10%"><p align="center">
+          -         </p></td>
+<td class="bg" height="14" nowrap="" valign="middle" width="12%"><p align="center">
+           -        </p></td>
+</tr>
+<tr>
+<td class="bg" height="14" nowrap="" valign="middle" width="21%"><p align="center">
+  SNP - LEY 19990                    </p></td>
+<td class="bg" height="14" nowrap="" valign="middle" width="14%"><p align="center">
+  01/02/2021    </p></td>
+<td class="bg" height="14" nowrap="" valign="middle" width="13%"><p align="center">
+  -    </p></td>
+<td class="bg" height="14" nowrap="" valign="middle" width="10%"><p align="center">
+          -         </p></td>
+<td class="bg" height="14" nowrap="" valign="middle" width="12%"><p align="center">
+           -        </p></td>
+</tr>
+</tbody></table>
+</td>
+</tr>
+</tbody></table>
+</td>
+</tr>
+</tbody></table>
+<br/>
+--------------------------------------------------------------------------------------------------------------
+<table cellpadding="3" cellspacing="2" class="form-table" width="100%">
+<tbody><tr>
+<td>
+<p align="center"><strong><font class="bgn">Representantes Legales</font></strong>
+</p>
+<table cellpadding="0" cellspacing="0" width="100%">
+<tbody><tr>
+<td class="beta">
+<table cellpadding="2" cellspacing="1" width="100%">
+<tbody><tr>
+<th class="beta" valign="middle" width="17%"><p align="center">Tipo y Número de Documento</p></th>
+<th class="beta" valign="middle" width="34%"><p align="center">Apellidos y Nombres</p></th>
+<th class="beta" valign="middle" width="22%"><p align="center">Cargo</p></th>
+<th class="beta" valign="middle" width="12%"><p align="center">Fecha de Nacimiento</p></th>
+<th class="beta" valign="middle" width="12%"><p align="center">Fecha Desde</p></th>
+<th class="beta" valign="middle" width="12%"><p align="center">Nro. Orden de Representación</p></th>
+</tr>
+<tr>
+<td class="bg" rowspan="3" width="17%"><p align="center">
+       DOC. NACIONAL DE IDENTIDAD     -09060831</p></td>
+<td class="bg" width="34%"><p align="center">
+PALOMINO ARISTE ROSA MERCEDES</p></td>
+<td class="bg" width="22%"><p align="center">
+TITULAR-GERENTE </p></td>
+<td class="bg" width="12%"><p align="center">
+               23/07/1952    </p></td>
+<td class="bg" width="12%"><p align="center">
+
+                        25/04/2012
+                   </p></td>
+<td class="bg" width="12%"><p align="center">
+            -
+        </p></td>
+</tr>
+<tr>
+<th class="beta" valign="middle" width="34%"><p align="center">Dirección</p></th>
+<th class="beta" valign="middle" width="12%"><p align="center">Ubigeo</p></th>
+<th class="beta" valign="middle" width="12%"><p align="center">Teléfono</p></th>
+<th class="beta" valign="middle" width="22%"><p align="center">Correo</p></th>
+</tr>
+<tr>
+<td class="bg" valign="middle" width="34%"><p align="center">A.H. EL PACIFICO 3RA ETAPA  Mz LL Lote 12</p></td>
+<td class="bg" valign="middle" width="12%"><p align="center">LIMA LIMA SAN MARTIN DE PORRES          </p></td>
+<td class="bg" valign="middle" width="12%"><p align="center">15 - 989904930</p></td>
+<td class="bg" valign="middle" width="22%"><p align="center">is.rpm@outlook.com</p></td>
+</tr>
+</tbody></table>
+</td>
+</tr>
+</tbody></table>
+</td>
+</tr>
+</tbody></table>
+<br/>
+--------------------------------------------------------------------------------------------------------------
+<table cellpadding="3" cellspacing="2" class="form-table" width="100%">
+<tbody><tr>
+<td>
+<p align="center"><strong><font class="bgn">Otras Personas Vinculadas</font></strong></p>
+<form method="POST" name="selectForm">
+<table cellpadding="0" cellspacing="0" width="100%">
+<tbody><tr>
+<td class="beta">
+<table cellpadding="2" cellspacing="1" width="100%">
+<tbody><tr>
+<th class="beta" valign="middle" width="7%"><p align="center">Tipo y Nro.Doc.</p></th>
+<th class="beta" valign="middle" width="34%"><p align="center">Apellidos y Nombres</p></th>
+<th class="beta" valign="middle" width="22%"><p align="center">Vinculo</p></th>
+<th class="beta" valign="middle" width="12%"><p align="center">Fecha de Nacimiento</p></th>
+<th class="beta" valign="middle" width="12%"><p align="center">Fecha Desde</p></th>
+<!-- PAS20175E210100043 MARIA ANDREA INICIO -->
+<!--     <th width="3%" valign="middle" class="beta"><p align="center">Residencia</th> -->
+<th class="beta" valign="middle" width="3%"><p align="center">Origen</p></th>
+<!-- PAS20175E210100043 MARIA ANDREA FIN -->
+<th class="beta" valign="middle" width="10%"><p align="center">Porcentaje</p></th>
+</tr>
+<tr>
+<td class="bg" rowspan="3" width="7%"><p align="center">
+
+DOC. NACIONAL DE IDENTIDAD     -09060831</p></td>
+<td class="bg" width="34%"><p align="center">
+ PALOMINO ARISTE ROSA MERCEDES   </p></td>
+<td class="bg" width="22%"><p align="center">
+                TITULAR</p></td>
+<td class="bg" width="12%"><p align="center">
+
+                23/07/1952</p></td>
+<td class="bg" width="12%"><p align="center">
+
+                25/04/2012   </p></td>
+<td class="bg" width="12%"><p align="center">
+ -   </p></td>
+<td align="right" class="bg" width="10%">
+-    </td>
+</tr>
+<tr>
+<th class="beta" valign="middle" width="34%"><p align="center">Dirección</p></th>
+<th class="beta" valign="middle" width="12%"><p align="center">Ubigeo</p></th>
+<th class="beta" valign="middle" width="12%"><p align="center">Teléfono</p></th>
+<th class="beta" colspan="3" valign="middle" width="22%"><p align="center">Correo</p></th>
+</tr>
+<tr>
+<td class="bg" valign="middle" width="34%"><p align="center">A.H. EL PACIFICO 3RA ETAPA  Mz LL Lote 12</p></td>
+<td class="bg" valign="middle" width="12%"><p align="center">LIMA LIMA SAN MARTIN DE PORRES</p></td>
+<td class="bg" valign="middle" width="12%"><p align="center">15 - 989904930</p></td>
+<td class="bg" colspan="3" valign="middle" width="22%"><p align="center">is.rpm@outlook.com</p></td>
+</tr>
+</tbody></table>
+</td>
+</tr>
+</tbody></table>
+</form>
+</td>
+</tr>
+</tbody></table>
+<br/>
+--------------------------------------------------------------------------------------------------------------
+<table cellpadding="3" cellspacing="2" class="form-table" width="100%">
+<tbody><tr>
+<td>
+<p align="center"><font class="bgn"><strong>Establecimientos Anexos</strong></font></p>
+<table cellpadding="0" cellspacing="0" width="100%">
+<tbody><tr>
+<td class="beta">
+<table cellpadding="2" cellspacing="1" width="100%">
+<tbody><tr>
+<th class="beta" width="3%"><p align="center">Código</p></th>
+<th class="beta" width="10%"><p align="center">Tipo</p></th>
+<th class="beta" width="15%"><p align="center">Denominación</p></th>
+<th class="beta" width="10%"><p align="center">Ubigeo</p></th>
+<th class="beta" width="47%"><p align="center">Domicilio</p></th>
+<th class="beta" width="7%"><p align="center">Otras Referencias</p></th>
+<th class="beta" width="8%"><p align="center">Cond.Legal</p></th>
+</tr>
+<tr>
+<td class="bg" width="10%"><p align="center">
+<!--Inicio PAS20145E210000530 f2_160317 YNCH-->
+ 0001   </p></td>
+<td class="bg" width="10%"><p align="center">
+     DEPOSITO    </p></td>
+<td class="bg" width="15%"><p align="center">
+
+ -   </p></td>
+<td class="bg" width="18%"><p align="center">
+LIMA
+          LIMA
+          PUENTE PIEDRA                 </p></td>
+<td class="bg" width="47%"><p align="center">
+ APV. LAS TRES REGIONES  Mz H Lote 6A   </p></td>
+<td class="bg" width="7%"><p align="center">
+-       </p></td>
+<td class="bg" width="8%"><p align="center">
+
+          CESION EN USO.
+</p></td>
+</tr>
+<tr>
+<td class="bg" width="10%"><p align="center">
+<!--Inicio PAS20145E210000530 f2_160317 YNCH-->
+ 0003   </p></td>
+<td class="bg" width="10%"><p align="center">
+     S.PRODUCTIVA    </p></td>
+<td class="bg" width="15%"><p align="center">
+
+ PLANTA FAME   </p></td>
+<td class="bg" width="18%"><p align="center">
+LIMA
+          LIMA
+          LURIGANCHO                    </p></td>
+<td class="bg" width="47%"><p align="center">
+ ---- EX HACIENDA NEVERIA KM. 3.5 CAJAMARQUILLA HUACHIPA ---- AREA  Mz T Lote 4   </p></td>
+<td class="bg" width="7%"><p align="center">
+-       </p></td>
+<td class="bg" width="8%"><p align="center">
+
+          ALQUILADO
+</p></td>
+</tr>
+
+
+**************************************************************
+<cac:DiscrepancyResponse>
+		<cbc:ReferenceID>E001 - 5</cbc:ReferenceID>
+		<cbc:ResponseCode>01</cbc:ResponseCode>
+		<cbc:Description><![CDATA[Anulación de la operación]]></cbc:Description>
+	</cac:DiscrepancyResponse>
+
+-------------------------------------------------
+<cac:BillingReference>
+		<cac:InvoiceDocumentReference>
+			<cbc:ID>E001 - 5</cbc:ID>
+			<cbc:IssueDate>2021-10-13</cbc:IssueDate>
+			<cbc:DocumentTypeCode listAgencyName="PE:SUNAT" listName="Tipo de Documento" listURI="urn:pe:gob:sunat:cpe:see:gem:catalogos:catalogo01">01</cbc:DocumentTypeCode>
+			<cbc:DocumentType><![CDATA[ FACTURA ELECTRONICA BASICA ]]></cbc:DocumentType>
+		</cac:InvoiceDocumentReference>
+	</cac:BillingReference>
+
+-------------------------------------------------
+<cac:AccountingSupplierParty>
+		<cac:Party>
+			<cac:PartyIdentification>
+				<cbc:ID schemeAgencyName="PE:SUNAT" schemeID="6" schemeName="Documento de Identidad" schemeURI="urn:pe:gob:sunat:cpe:see:gem:catalogos:catalogo06">10411343435</cbc:ID>
+			</cac:PartyIdentification>
+			<cac:PartyName>
+				<cbc:Name/>
+			</cac:PartyName>
+			<cac:PartyLegalEntity>
+				<cbc:RegistrationName><![CDATA[TROYA MARTINEZ SILVANA CAROLINA]]></cbc:RegistrationName>
+				<cac:RegistrationAddress>
+					<cbc:AddressTypeCode listAgencyName="PE:SUNAT" listName="Establecimientos anexos">0</cbc:AddressTypeCode>
+										<cbc:BuildingNumber>3080</cbc:BuildingNumber>
+										<cbc:CitySubdivisionName>-</cbc:CitySubdivisionName>
+					<cbc:CityName><![CDATA[LIMA]]></cbc:CityName>
+					<cbc:CountrySubentity><![CDATA[LIMA]]></cbc:CountrySubentity>
+					<cbc:CountrySubentityCode><![CDATA[150135]]></cbc:CountrySubentityCode>
+					<cbc:District><![CDATA[SAN MARTIN DE PORRES]]></cbc:District>		
+					<cac:AddressLine>
+						<cbc:Line><![CDATA[ JR. MANUEL CALLAGER 3080 CRUCE AV. UNIVERSITARIA CON JOSE GRANDA   3080  ]]></cbc:Line>
+					</cac:AddressLine>
+					<cac:Country>
+					  <cbc:IdentificationCode>PE</cbc:IdentificationCode>
+					</cac:Country>
+				</cac:RegistrationAddress>
+			</cac:PartyLegalEntity>			
+		</cac:Party>
+	</cac:AccountingSupplierParty>
+
+----------------------------------------------------------------
+	<cac:AccountingCustomerParty>
+			<cac:Party>
+			<cac:PartyIdentification>
+			<cbc:ID schemeAgencyName="PE:SUNAT" schemeID="6" schemeName="Documento de Identidad" schemeURI="urn:pe:gob:sunat:cpe:see:gem:catalogos:catalogo06">20549945245</cbc:ID>
+			</cac:PartyIdentification>
+			<cac:PartyLegalEntity>
+				<cbc:RegistrationName><![CDATA[CO LOGISTIC PERU S.A.C.]]></cbc:RegistrationName>
+								<cac:RegistrationAddress>
+					<cbc:AddressTypeCode listAgencyName="PE:SUNAT" listName="Establecimientos anexos">0</cbc:AddressTypeCode>
+					<cbc:BuildingNumber/>	 
+									    <cbc:CitySubdivisionName/>
+				    					<cbc:CityName>PROV. CONST. DEL CALLAO</cbc:CityName>
+				    <cbc:CountrySubentity>PROV. CONST. DEL CALLAO</cbc:CountrySubentity>
+					<cbc:CountrySubentityCode/>
+					 <cbc:District>CALLAO  </cbc:District>
+					<cac:AddressLine>
+						<cbc:Line><![CDATA[ AV. ELMER FAUCETT - URB. INDUSTRIAL BOCANEGRA KM. 2    PROV. CONST. DEL CALLAO-PROV. CONST. DEL CALLAO-CALLAO]]></cbc:Line>
+					</cac:AddressLine>
+					<cac:Country>
+					  <cbc:IdentificationCode>PE</cbc:IdentificationCode>
+					</cac:Country>
+				</cac:RegistrationAddress>
+							</cac:PartyLegalEntity>
+		</cac:Party>
+	</cac:AccountingCustomerParty>
+--------------------------------------------
+<cac:PaymentTerms>
+		<cbc:ID>FormaPago</cbc:ID> 
+		<cbc:PaymentMeansID>Credito</cbc:PaymentMeansID> 
+		<cbc:Amount currencyID="PEN">4130.00</cbc:Amount>
+	</cac:PaymentTerms>	
+	
+	<cac:PaymentTerms>
+		<cbc:ID>FormaPago</cbc:ID> 
+		<cbc:PaymentMeansID>Cuota001</cbc:PaymentMeansID>
+		<cbc:Amount currencyID="PEN">4130.00</cbc:Amount> 
+		<cbc:PaymentDueDate>2021-10-20</cbc:PaymentDueDate>
+	</cac:PaymentTerms>
+-------------------------------------------
+	<cac:TaxTotal>
+	   <cbc:TaxAmount currencyID="PEN">630.00</cbc:TaxAmount>
+	   			   	   				
+					   
+	   
+					   <cac:TaxSubtotal>
+	   <!--TotalGravOnerMasISC-->
+        <cbc:TaxableAmount currencyID="PEN">3500.00</cbc:TaxableAmount>
+        <cbc:TaxAmount currencyID="PEN">630.00</cbc:TaxAmount>
+        <cac:TaxCategory>
+          <cbc:ID schemeAgencyName="United Nations Economic Commission for Europe" schemeID="UN/ECE 5305" schemeName="Tax Category Identifier">S</cbc:ID>
+          <cac:TaxScheme>
+            <cbc:ID schemeAgencyName="PE:SUNAT" schemeID="UN/ECE 5153" schemeName="Codigo de tributos">1000</cbc:ID>
+            <cbc:Name>IGV</cbc:Name>
+            <cbc:TaxTypeCode>VAT</cbc:TaxTypeCode>
+          </cac:TaxScheme>
+        </cac:TaxCategory>
+	   </cac:TaxSubtotal>
+						
+																									</cac:TaxTotal>
+    
+	<cac:LegalMonetaryTotal>
+		<cbc:LineExtensionAmount currencyID="PEN">3500.00</cbc:LineExtensionAmount>
+				<cbc:AllowanceTotalAmount currencyID="PEN">0.00</cbc:AllowanceTotalAmount>
+		<cbc:ChargeTotalAmount currencyID="PEN">0.00</cbc:ChargeTotalAmount>
+		  		  <cbc:PrepaidAmount currencyID="PEN">0.00</cbc:PrepaidAmount>
+		  		        <!-- Monto de Redondeo -->
+        		<cbc:PayableAmount currencyID="PEN">4130.00</cbc:PayableAmount>
+	</cac:LegalMonetaryTotal>
+		<cac:CreditNoteLine>
+		<cbc:ID>1</cbc:ID>
+		    	<cbc:CreditedQuantity unitCode="NIU" unitCodeListAgencyName="United Nations Economic Commission for Europe" unitCodeListID="UN/ECE rec 20">100.00</cbc:CreditedQuantity>		
+		<cbc:LineExtensionAmount currencyID="PEN">3500.00</cbc:LineExtensionAmount>
+		
+		<cac:BillingReference>
+			<cac:BillingReferenceLine>
+				<cbc:ID>1</cbc:ID>
+			</cac:BillingReferenceLine>
+		</cac:BillingReference>
+		
+								<cac:PricingReference>
+			<cac:AlternativeConditionPrice>
+				<cbc:PriceAmount currencyID="PEN">41.30</cbc:PriceAmount>
+				<cbc:PriceTypeCode listAgencyName="PE:SUNAT" listName="Tipo de Precio" listURI="urn:pe:gob:sunat:cpe:see:gem:catalogos:catalogo16">01</cbc:PriceTypeCode>
+			</cac:AlternativeConditionPrice>
+		</cac:PricingReference>
+		<!-- TAX Impuestos Item-->
+		<cac:TaxTotal>
+		  <!--xy-->
+		  <cbc:TaxAmount currencyID="PEN">630.00</cbc:TaxAmount>
+		  <!-- cac:TaxSubtotal -->
+		  						
+						
+				<!--Excluyentes :: Otro Tributo - Gratuita(Bonificacion) - Exportacion - Onerosa(Bonitificacion) {Gravada, Inafecta, Exonerada} -->
+							<!--5-->
+															<cac:TaxSubtotal>
+				<cbc:TaxableAmount currencyID="PEN">3500.0000000000</cbc:TaxableAmount>
+				<cbc:TaxAmount currencyID="PEN">630.00</cbc:TaxAmount>
+				<cac:TaxCategory>
+				  <cbc:ID schemeAgencyName="United Nations Economic Commission for Europe" schemeID="UN/ECE 5305" schemeName="Tax Category Identifier">S</cbc:ID>
+				  <cbc:Percent>0.18</cbc:Percent>
+				  <cbc:TaxExemptionReasonCode listAgencyName="PE:SUNAT" listName="Afectacion del IGV" listURI="urn:pe:gob:sunat:cpe:see:gem:catalogos:catalogo07">10</cbc:TaxExemptionReasonCode>
+				  <cac:TaxScheme>
+					<cbc:ID schemeAgencyName="PE:SUNAT" schemeID="UN/ECE 5153" schemeName="Codigo de tributos">1000</cbc:ID>
+					<cbc:Name>IGV</cbc:Name>
+					<cbc:TaxTypeCode>VAT</cbc:TaxTypeCode>
+				  </cac:TaxScheme>
+				</cac:TaxCategory>
+			</cac:TaxSubtotal>
+							<!-- /cac:TaxSubtotal -->
+		</cac:TaxTotal>
+--------------------------------------------------
+				<cac:Item>
+			<cbc:Description><![CDATA[ CARTON CORRUGADO 1.20 MT X 7.5 MT ]]></cbc:Description>			
+			<cac:SellersItemIdentification>
+						    				<cbc:ID>0</cbc:ID>
+										</cac:SellersItemIdentification>
+		</cac:Item>
+		
+		<cac:Price>
+			<cbc:PriceAmount currencyID="PEN">35.00</cbc:PriceAmount>
+		</cac:Price>	
