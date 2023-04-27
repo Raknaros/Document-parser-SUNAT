@@ -18,11 +18,4 @@ for a in pdtdir:
             strcolumns.append(str(column))
         pdtcsv=pdtcsv[1:].set_axis(strcolumns,axis="columns").rename(columns={"7":"periodo_tributario","13":"fecha_presentacion","58":"hora"})
         pdtcsv["nro_orden"]=a[a.index("_",12)+1:a.index("_",17)]
-        #columnas=list(pdtcsv)
-        #columnas.append("popable")
-        #pdtdf=pdtcsv.set_axis([columnas[1:]],axis=1).drop("popable",axis=1)
-        #pdtpf=pd.DataFrame(pdtpf[[]])
-        #pdtdf=pdtdf[["Nro Casilla","Valor Casilla"]].T
-        #pdtdf.columns=pdtdf.iloc[0]
-        #pdtdf=pdtdf[1:].reset_index(drop=True)
-        print(pdtcsv)
+        #pdtImport.
