@@ -1,4 +1,4 @@
-package pe.impulsa.SUNATParser.impulsadb;
+package pe.impulsa.SUNATParser.parserdb;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -21,28 +21,27 @@ import java.util.Map;
 @Configuration
 @EnableTransactionManagement
 @EnableJpaRepositories(
-        entityManagerFactoryRef="secondEntityManagerFactoryBean",
-        basePackages={"pe.impulsa.SUNATParser.impulsadb.repo"},
-        transactionManagerRef="secondTransactionManager"
+        entityManagerFactoryRef="entityManagerFactoryBean",
+        basePackages={"pe.impulsa.SUNATParser.parserdb.repo"},
+        transactionManagerRef="transactionManager"
 )
-public class ImpulsaDBConfig {
+public class ParserDBConfig {
 
     @Autowired
     private Environment environment;
     //datasource
-    @Bean(name="secondDataSource")
+    @Bean
     @Primary
     public DataSource dataSource(){
         DriverManagerDataSource dataSource=new DriverManagerDataSource();
-        dataSource.setUrl(environment.getProperty("second.datasource.url"));
-        dataSource.setDriverClassName(environment.getProperty("second.datasource.driver-class-name"));
-        dataSource.setUsername(environment.getProperty("second.datasource.username"));
-        dataSource.setPassword(environment.getProperty("second.datasource.password"));
-
+        dataSource.setUrl(environment.getProperty("spring.datasource.url"));
+        dataSource.setDriverClassName(environment.getProperty("spring.datasource.driver-class-name"));
+        dataSource.setUsername(environment.getProperty("spring.datasource.username"));
+        dataSource.setPassword("");
         return dataSource;
     }
     //entityManagerFactory
-    @Bean(name="secondEntityManagerFactoryBean")
+    @Bean(name="entityManagerFactoryBean")
     @Primary
     public LocalContainerEntityManagerFactoryBean entityManagerFactoryBean(){
         LocalContainerEntityManagerFactoryBean bean=new LocalContainerEntityManagerFactoryBean();
@@ -50,21 +49,20 @@ public class ImpulsaDBConfig {
         JpaVendorAdapter adapter=new HibernateJpaVendorAdapter();
         bean.setJpaVendorAdapter(adapter);
         Map<String,String> props=new HashMap<>();
-        props.put("hibernate.dialect","org.hibernate.dialect.PostgreSQLDialect");
+        props.put("hibernate.dialect","org.hibernate.dialect.H2Dialect");
         props.put("hibernate.show_sql","true");
         props.put("hibernate.hbm2ddl.auto","update");
         bean.setJpaPropertyMap(props);
-        bean.setPackagesToScan("pe.impulsa.DriverSUNAT.impulsadb.models");
+        bean.setPackagesToScan("pe.impulsa.SUNATParser.parserdb.models");
         return bean;
     }
 
     //platformTransactionManager
     @Primary
-    @Bean(name="secondTransactionManager")
+    @Bean(name="transactionManager")
     public PlatformTransactionManager transactionManager(){
         JpaTransactionManager manager=new JpaTransactionManager();
         manager.setEntityManagerFactory(entityManagerFactoryBean().getObject());
         return manager;
     }
-
 }

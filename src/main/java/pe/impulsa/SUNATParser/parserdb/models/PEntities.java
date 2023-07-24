@@ -1,4 +1,4 @@
-package pe.impulsa.SUNATParser.impulsadb.models;
+package pe.impulsa.SUNATParser.parserdb.models;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -8,21 +8,13 @@ import lombok.Setter;
 import org.hibernate.annotations.DynamicUpdate;
 
 @Entity
-@Table(name="entities",schema="acc")
+@Table(name="entities")
 @NoArgsConstructor
-@AllArgsConstructor
 @Getter
 @Setter
 @DynamicUpdate
-public class IEntities {
-    /*@GeneratedValue(strategy = GenerationType.IDENTITY)
-            TABLE,
-            generator = "table-generator")
-    @TableGenerator(name = "table-generator",
-            schema="acc",
-            table = "entities",
-            pkColumnName = "entity_id",
-            valueColumnName = "seq_value")*/
+@AllArgsConstructor
+public class PEntities {
     @Id
     @Column(name = "entity_id")
     private Integer entityId;
@@ -44,8 +36,15 @@ public class IEntities {
     @Basic
     @Column(name="observaciones")
     private String Observaciones;
-    @Basic
-    @Column(name="activo")
-    Boolean Activo;
+
+    public PEntities(Integer entity_id, String nombre_razon, String tipo_documento, String numero_documento, String usuario_sol, String clave_sol) {
+        this.entityId = entity_id;
+        this.nombreRazon = nombre_razon;
+        this.tipoDocumento = tipo_documento;
+        this.numeroDocumento = numero_documento;
+        this.usuarioSol = usuario_sol;
+        this.claveSol = clave_sol;
+    }
+
 
 }

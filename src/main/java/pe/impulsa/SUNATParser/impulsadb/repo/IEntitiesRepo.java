@@ -1,7 +1,7 @@
-package pe.impulsa.DriverSUNAT.impulsadb.repo;
+package pe.impulsa.SUNATParser.impulsadb.repo;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-import pe.impulsa.DriverSUNAT.impulsadb.models.IEntities;
+import pe.impulsa.SUNATParser.impulsadb.models.IEntities;
 
 import java.util.List;
 
