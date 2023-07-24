@@ -9,10 +9,7 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.*;
 import java.nio.charset.StandardCharsets;
-import java.util.Enumeration;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import java.util.zip.ZipEntry;
@@ -21,9 +18,10 @@ import java.util.zip.ZipFile;
 
 
 public class ExtractXml {
-    public static void main(String[] args) throws ParserConfigurationException, IOException, SAXException {
+
+    public Map<String, String> listaXml(String ruta){
         Map<String, String> filesContent = new HashMap<>();
-        Set<File> listFilesUsingJavaIO = Stream.of(new File("/home/raknaros/xmls").listFiles()).collect(Collectors.toSet());
+        Set<File> listFilesUsingJavaIO = Stream.of(new File(ruta).listFiles()).collect(Collectors.toSet());
         for (File file:listFilesUsingJavaIO){
             String zipFilePath = file.toString();
             try (ZipFile zipFile = new ZipFile(zipFilePath)) {
@@ -52,18 +50,7 @@ public class ExtractXml {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            /* Imprimir los nombres de los archivos y su contenido
-            for (Map.Entry<String, String> entry : filesContent.entrySet()) {
-                System.out.println("Archivo: " + entry.getKey());
-                System.out.println("Contenido:\n" + entry.getValue());
-            }*/
         }
-        for(Map.Entry<String, String> entry : filesContent.entrySet()){
-            DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
-            DocumentBuilder db=dbf.newDocumentBuilder();
-            InputSource is = new InputSource(new StringReader(entry.getValue()));
-            Document doc=db.parse(is);
-            System.out.println(doc.getDocumentElement().getNodeName());
-        }
+        return filesContent;
     }
 }
