@@ -11,13 +11,14 @@ import java.io.IOException;
 
 @SpringBootTest
 class SunatParserApplicationTests {
-
+	@Autowired
+	Factura factura;
 
 
 	@Test
 	void contextLoads() throws ParserConfigurationException, IOException, SAXException {
-		Factura factura = new Factura("/home/raknaros/xmls/");
-		factura.facturas();
+
+		factura.facturas("/home/raknaros/xmls/");
 
 	}
 

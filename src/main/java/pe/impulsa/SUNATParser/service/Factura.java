@@ -17,16 +17,11 @@ import java.util.Map;
 @Service
 public class Factura extends ExtractXml {
     DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
-    DocumentBuilder db=dbf.newDocumentBuilder();
-    Map<String, String> mapXmls;
-    public Factura(String ruta) throws ParserConfigurationException {
-         mapXmls = listaXml(ruta);
-    }
 
-    public void facturas() throws ParserConfigurationException, IOException, SAXException {
-        for (Map.Entry<String, String> entry : mapXmls.entrySet()){
+    public void facturas(String ruta) throws ParserConfigurationException, IOException, SAXException {
+        for (Map.Entry<String, String> entry : listaXml(ruta).entrySet()){
             if(entry.getKey().startsWith("FACTURA")){
-
+                DocumentBuilder db=dbf.newDocumentBuilder();
                 InputSource is = new InputSource(new StringReader(entry.getValue()));
                 Document doc=db.parse(is);
                 System.out.println(doc.getDocumentElement().getNodeName());
