@@ -38,7 +38,6 @@ public class ImpulsaDBConfig {
         dataSource.setDriverClassName(environment.getProperty("second.datasource.driver-class-name"));
         dataSource.setUsername(environment.getProperty("second.datasource.username"));
         dataSource.setPassword(environment.getProperty("second.datasource.password"));
-
         return dataSource;
     }
     //entityManagerFactory
@@ -54,7 +53,7 @@ public class ImpulsaDBConfig {
         props.put("hibernate.show_sql","true");
         props.put("hibernate.hbm2ddl.auto","update");
         bean.setJpaPropertyMap(props);
-        bean.setPackagesToScan("pe.impulsa.DriverSUNAT.impulsadb.models");
+        bean.setPackagesToScan("pe.impulsa.SUNATParser.impulsadb.models");
         return bean;
     }
 

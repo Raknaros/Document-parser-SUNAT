@@ -13,7 +13,6 @@ import org.hibernate.annotations.DynamicUpdate;
 @Getter
 @Setter
 @DynamicUpdate
-@AllArgsConstructor
 public class PEntities {
     @Id
     @Column(name = "entity_id")
@@ -35,7 +34,7 @@ public class PEntities {
     private String claveSol;
     @Basic
     @Column(name="observaciones")
-    private String Observaciones;
+    private String observaciones;
 
     public PEntities(Integer entity_id, String nombre_razon, String tipo_documento, String numero_documento, String usuario_sol, String clave_sol) {
         this.entityId = entity_id;

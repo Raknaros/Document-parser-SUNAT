@@ -43,9 +43,9 @@ public class IEntities {
     private String claveSol;
     @Basic
     @Column(name="observaciones")
-    private String Observaciones;
+    private String observaciones;
     @Basic
     @Column(name="activo")
-    Boolean Activo;
+    private Boolean activo;
 
 }
