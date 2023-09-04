@@ -24,17 +24,11 @@ public class IEntities {
             pkColumnName = "entity_id",
             valueColumnName = "seq_value")*/
     @Id
-    @Column(name = "entity_id")
-    private Integer entityId;
+    @Column(name = "ruc")
+    private Long ruc;
     @Basic
     @Column(name="nombre_razon")
     private String nombreRazon;
-    @Basic
-    @Column(name="tipo_documento")
-    private String tipoDocumento;
-    @Basic
-    @Column(name="numero_documento")
-    private String numeroDocumento;
     @Basic
     @Column(name="usuario_sol")
     private String usuarioSol;
@@ -47,5 +41,16 @@ public class IEntities {
     @Basic
     @Column(name="activo")
     private Boolean activo;
-
+    @Basic
+    @Column(name="alias")
+    private String alias;
+    @Basic
+    @Column(name="related_user")
+    private Long related_user;
+    @Basic
+    @Column(name="suscribed_until")
+    private Boolean suscribedUntil;
+    @Basic
+    @Column(name="suscription")
+    private Integer suscription;
 }

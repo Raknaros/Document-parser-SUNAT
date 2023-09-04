@@ -15,17 +15,11 @@ import org.hibernate.annotations.DynamicUpdate;
 @DynamicUpdate
 public class PEntities {
     @Id
-    @Column(name = "entity_id")
-    private Integer entityId;
+    @Column(name = "ruc")
+    private Long ruc;
     @Basic
     @Column(name="nombre_razon")
     private String nombreRazon;
-    @Basic
-    @Column(name="tipo_documento")
-    private String tipoDocumento;
-    @Basic
-    @Column(name="numero_documento")
-    private String numeroDocumento;
     @Basic
     @Column(name="usuario_sol")
     private String usuarioSol;
@@ -36,11 +30,9 @@ public class PEntities {
     @Column(name="observaciones")
     private String observaciones;
 
-    public PEntities(Integer entity_id, String nombre_razon, String tipo_documento, String numero_documento, String usuario_sol, String clave_sol) {
-        this.entityId = entity_id;
+    public PEntities(Long ruc, String nombre_razon, String usuario_sol, String clave_sol) {
+        this.ruc = ruc;
         this.nombreRazon = nombre_razon;
-        this.tipoDocumento = tipo_documento;
-        this.numeroDocumento = numero_documento;
         this.usuarioSol = usuario_sol;
         this.claveSol = clave_sol;
     }
