@@ -1,12 +1,12 @@
 package pe.impulsa.SUNATParser.controller;
 
+import jakarta.xml.bind.JAXBException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.xml.sax.SAXException;
-import pe.impulsa.SUNATParser.parserdb.models.PEntities;
 import pe.impulsa.SUNATParser.parserdb.repo.PEntitiesRepo;
 import pe.impulsa.SUNATParser.service.DataMethods;
-import pe.impulsa.SUNATParser.service.Factura;
+import pe.impulsa.SUNATParser.service.ParseXML;
 
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
@@ -19,12 +19,12 @@ public class TestController {
     @Autowired
     PEntitiesRepo Pentitiesrepo;
     @Autowired
-    Factura factura;
+    ParseXML parseXML;
 
     @GetMapping("/facturas")
-    public Integer parsearFacturas() throws ParserConfigurationException, IOException, SAXException {
+    public Integer parsearFacturas() throws ParserConfigurationException, IOException, SAXException, JAXBException {
 
-        return factura.facturas("D:\\SUNAT-Parser\\xmls");
+        return parseXML.facturas("D:\\SUNAT-Parser\\xmls");
     }
     @GetMapping("/reset")
     public String iniciarEntidades(){

@@ -7,6 +7,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.DynamicUpdate;
 
+import java.sql.Date;
+
 @Entity
 @Table(name="entities",schema="acc")
 @NoArgsConstructor
@@ -49,7 +51,7 @@ public class IEntities {
     private Long related_user;
     @Basic
     @Column(name="suscribed_until")
-    private Boolean suscribedUntil;
+    private Date suscribedUntil;
     @Basic
     @Column(name="suscription")
     private Integer suscription;
