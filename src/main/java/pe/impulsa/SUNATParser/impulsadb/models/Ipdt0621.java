@@ -6,7 +6,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.math.BigDecimal;
 import java.sql.Date;
 
 @Entity
@@ -15,7 +14,7 @@ import java.sql.Date;
 @NoArgsConstructor
 @Getter
 @Setter
-public class IPDT0621 {
+public class Ipdt0621 {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     @Column(name = "id")

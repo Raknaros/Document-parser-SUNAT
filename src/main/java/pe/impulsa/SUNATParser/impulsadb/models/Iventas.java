@@ -15,7 +15,7 @@ import java.sql.Date;
 @NoArgsConstructor
 @Getter
 @Setter
-public class IVentas {
+public class Iventas {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     @Column(name = "id")

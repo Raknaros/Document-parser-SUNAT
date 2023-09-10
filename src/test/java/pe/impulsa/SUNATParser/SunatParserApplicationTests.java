@@ -4,8 +4,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.xml.sax.SAXException;
-import pe.impulsa.SUNATParser.impulsadb.repo.IEntitiesRepo;
-import pe.impulsa.SUNATParser.parserdb.repo.PEntitiesRepo;
+import pe.impulsa.SUNATParser.impulsadb.repo.IentitiesRepo;
+import pe.impulsa.SUNATParser.parserdb.repo.PentitiesRepo;
 import pe.impulsa.SUNATParser.service.DataMethods;
 import pe.impulsa.SUNATParser.service.ParseXML;
 
@@ -17,9 +17,9 @@ class SunatParserApplicationTests {
 	@Autowired
 	ParseXML parseXML;
 	@Autowired
-	IEntitiesRepo Ientitiesrepo;
+	IentitiesRepo Ientitiesrepo;
 	@Autowired
-	PEntitiesRepo Pentitiesrepo;
+    PentitiesRepo Pentitiesrepo;
 	@Autowired
 	DataMethods dataMethods;
 

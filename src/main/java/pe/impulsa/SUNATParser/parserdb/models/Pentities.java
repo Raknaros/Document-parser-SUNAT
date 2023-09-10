@@ -1,7 +1,6 @@
 package pe.impulsa.SUNATParser.parserdb.models;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -13,7 +12,7 @@ import org.hibernate.annotations.DynamicUpdate;
 @Getter
 @Setter
 @DynamicUpdate
-public class PEntities {
+public class Pentities {
     @Id
     @Column(name = "ruc")
     private Long ruc;
@@ -30,7 +29,7 @@ public class PEntities {
     @Column(name="observaciones")
     private String observaciones;
 
-    public PEntities(Long ruc, String nombre_razon, String usuario_sol, String clave_sol) {
+    public Pentities(Long ruc, String nombre_razon, String usuario_sol, String clave_sol) {
         this.ruc = ruc;
         this.nombreRazon = nombre_razon;
         this.usuarioSol = usuario_sol;

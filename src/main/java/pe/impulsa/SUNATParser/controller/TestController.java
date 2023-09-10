@@ -4,7 +4,7 @@ import jakarta.xml.bind.JAXBException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.xml.sax.SAXException;
-import pe.impulsa.SUNATParser.parserdb.repo.PEntitiesRepo;
+import pe.impulsa.SUNATParser.parserdb.repo.PentitiesRepo;
 import pe.impulsa.SUNATParser.service.DataMethods;
 import pe.impulsa.SUNATParser.service.ParseXML;
 
@@ -17,7 +17,7 @@ public class TestController {
     @Autowired
     DataMethods dataMethods;
     @Autowired
-    PEntitiesRepo Pentitiesrepo;
+    PentitiesRepo Pentitiesrepo;
     @Autowired
     ParseXML parseXML;
 

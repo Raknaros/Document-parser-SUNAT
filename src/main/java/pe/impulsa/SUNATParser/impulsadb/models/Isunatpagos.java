@@ -15,7 +15,7 @@ import java.sql.Date;
 @NoArgsConstructor
 @Getter
 @Setter
-public class ISunatpagos {
+public class Isunatpagos {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     @Column(name = "id")

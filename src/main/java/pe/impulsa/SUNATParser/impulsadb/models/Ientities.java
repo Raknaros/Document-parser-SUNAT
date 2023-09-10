@@ -16,7 +16,7 @@ import java.sql.Date;
 @Getter
 @Setter
 @DynamicUpdate
-public class IEntities {
+public class Ientities {
     /*@GeneratedValue(strategy = GenerationType.IDENTITY)
             TABLE,
             generator = "table-generator")

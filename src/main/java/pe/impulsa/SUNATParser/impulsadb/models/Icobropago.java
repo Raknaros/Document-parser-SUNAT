@@ -7,7 +7,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import java.math.BigDecimal;
 import java.sql.Date;
-import java.util.Objects;
 
 @Entity
 @Table(name = "_7", schema = "acc")
@@ -15,7 +14,7 @@ import java.util.Objects;
 @NoArgsConstructor
 @Getter
 @Setter
-public class ICobropago {
+public class Icobropago {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     @Column(name = "cui_relacionado")
