@@ -42,10 +42,10 @@ public class ParseXML extends ExtractXml {
                 if(dataMethods.verifyxml(Integer.valueOf(formatoAnoMes.format(e.getIssuedate())),cui)){
                     if(dataMethods.verifysupplier(Long.valueOf(e.getAccountingSupplierParty().getParty().getPartyIdentification().getId().getValue())){
                         Iventas venta=new Iventas();
-                        venta.setRuc();
+                        venta.setRuc(e.getAccountingSupplierParty().getParty().getPartyIdentification().getId().getValor);
                         venta.setPeriodoTributario();
-                        venta.setTipoOperacion();
-                        venta.setTipoComprobante();
+                        venta.setTipoOperacion(1);
+                        venta.setTipoComprobante(Integer.valueOf(e.getInvoiceTypeCode().getValor()));
                         venta.setFechaEmision();
                         venta.setFechaVencimiento();
                         venta.setNumeroSerie();
