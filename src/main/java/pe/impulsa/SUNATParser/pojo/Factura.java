@@ -5,7 +5,8 @@ import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import lombok.Getter;
 import pe.impulsa.SUNATParser.pojo.xmlelements.*;
 
-import java.util.Date;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
 
 @XmlRootElement(name = "Invoice",namespace="urn:oasis:names:specification:ubl:schema:xsd:Invoice-2")
@@ -15,9 +16,9 @@ public class Factura {
     private String ublversionid;
     private String customizationid;
     private String id;
-    private Date issuedate;
-    private Date issuetime;
-    private Date duedate;
+    private LocalDate issuedate;
+    private LocalTime issuetime;
+    private LocalDate duedate;
 
     @XmlElement(name="UBLExtensions",namespace="urn:oasis:names:specification:ubl:schema:xsd:CommonExtensionComponents-2")
     public void setUblExtensions(UBLExtensions ublExtensions) {
@@ -42,30 +43,30 @@ public class Factura {
         this.id = id;
     }
 
-    public Date getIssuedate() {
+    public LocalDate getIssuedate() {
         return issuedate;
     }
     @XmlElement(name="IssueDate",namespace="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2")
     @XmlJavaTypeAdapter(DateAdapter.class)
-    public void setIssuedate(Date issuedate) {
+    public void setIssuedate(LocalDate issuedate) {
         this.issuedate = issuedate;
     }
 
-    public Date getIssuetime() {
+    public LocalTime getIssuetime() {
         return issuetime;
     }
     @XmlElement(name="IssueTime",namespace="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2")
     @XmlJavaTypeAdapter(TimeAdapter.class)
-    public void setIssuetime(Date issuetime) {
+    public void setIssuetime(LocalTime issuetime) {
         this.issuetime = issuetime;
     }
 
-    public Date getDuedate() {
+    public LocalDate getDuedate() {
         return duedate;
     }
     @XmlElement(name="DueDate",namespace="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2")
     @XmlJavaTypeAdapter(DateAdapter.class)
-    public void setDuedate(Date duedate) {
+    public void setDuedate(LocalDate duedate) {
         this.duedate = duedate;
     }
 

@@ -5,6 +5,7 @@ import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import pe.impulsa.SUNATParser.pojo.DateAdapter;
 import pe.impulsa.SUNATParser.pojo.xmlelements.paymentterms.PayeeFinancialAccount;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 public class PaymentTerms {
@@ -14,7 +15,7 @@ public class PaymentTerms {
     private PayeeFinancialAccount payeefinancialaccount;
     private float paymentpercent;
     private AtrSet4 amount;
-    private Date paymentduedate;
+    private LocalDate paymentduedate;
 
     public String getId() {
         return id;
@@ -64,12 +65,12 @@ public class PaymentTerms {
         this.amount = amount;
     }
 
-    public Date getPaymentduedate() {
+    public LocalDate getPaymentduedate() {
         return paymentduedate;
     }
     @XmlElement(name="PaymentDueDate",namespace="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2")
     @XmlJavaTypeAdapter(DateAdapter.class)
-    public void setPaymentduedate(Date paymentduedate) {
+    public void setPaymentduedate(LocalDate paymentduedate) {
         this.paymentduedate = paymentduedate;
     }
 }
