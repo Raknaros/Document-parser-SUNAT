@@ -19,7 +19,7 @@ public class Iinventario {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     @Column(name = "id")
-    private long id;
+    private Long id;
     @Basic
     @Column(name = "ruc")
     private Long ruc;
@@ -30,8 +30,8 @@ public class Iinventario {
     @Column(name = "periodo_tributario")
     private Integer periodoTributario;
     @Basic
-    @Column(name = "fecha_ingreso")
-    private Date fechaIngreso;
+    @Column(name = "fecha")
+    private Date fecha;
     @Basic
     @Column(name = "clasificacion_bienes_servicios")
     private Integer clasificacionBienesServicios;
@@ -46,7 +46,7 @@ public class Iinventario {
     private String unidadMedida;
     @Basic
     @Column(name = "cantidad")
-    private Integer cantidad;
+    private Float cantidad;
     @Basic
     @Column(name = "precio_unitario")
     private BigDecimal precioUnitario;
@@ -65,4 +65,7 @@ public class Iinventario {
     @Basic
     @Column(name = "cui_relacionado")
     private String cuiRelacionado;
+    @Basic
+    @Column(name="tipo_operacion")
+    private Integer tipoOperacion;
 }

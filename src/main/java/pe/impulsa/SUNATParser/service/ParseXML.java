@@ -8,18 +8,20 @@ import org.springframework.stereotype.Service;
 import pe.impulsa.SUNATParser.impulsadb.models.Iinventario;
 import pe.impulsa.SUNATParser.impulsadb.models.Iventas;
 import pe.impulsa.SUNATParser.impulsadb.models.Icompras;
+import pe.impulsa.SUNATParser.impulsadb.repo.IcomprasRepo;
+import pe.impulsa.SUNATParser.impulsadb.repo.IinventarioRepo;
+import pe.impulsa.SUNATParser.impulsadb.repo.IventasRepo;
 import pe.impulsa.SUNATParser.pojo.BoletaVenta;
 import pe.impulsa.SUNATParser.pojo.Factura;
 import pe.impulsa.SUNATParser.pojo.NotaCredito;
 import pe.impulsa.SUNATParser.pojo.NotaDebito;
+import pe.impulsa.SUNATParser.pojo.xmlelements.InvoiceLine;
 import pe.impulsa.SUNATParser.pojo.xmlelements.taxtotal.TaxSubtotal;
 
 import java.io.StringReader;
 import java.math.BigDecimal;
 import java.sql.Date;
-import java.text.SimpleDateFormat;
 import java.time.format.DateTimeFormatter;
-import java.util.List;
 import java.util.Map;
 
 @Service
@@ -27,14 +29,18 @@ public class ParseXML extends ExtractXml {
     private final DataMethods dataMethods;
     private static DateTimeFormatter anomesdia = DateTimeFormatter.ofPattern("yyyyMMdd");
     private static DateTimeFormatter anomes = DateTimeFormatter.ofPattern("yyyyMM");
-    private final Iventas iventas;
-    private final Icompras icompras;
+    private final IventasRepo iventasRepo;
+    private final IcomprasRepo icomprasRepo;
+    private final IinventarioRepo iinventarioRepo;
+    private final Iinventario inventario;
     Integer i=0;
 
-    public ParseXML(DataMethods dataMethods, Iventas iventas, Icompras icompras) {
+    public ParseXML(DataMethods dataMethods, IventasRepo iventasRepo, IcomprasRepo icomprasRepo, IinventarioRepo iinventarioRepo, Iinventario inventario) {
         this.dataMethods = dataMethods;
-        this.iventas = iventas;
-        this.icompras = icompras;
+        this.iventasRepo = iventasRepo;
+        this.icomprasRepo = icomprasRepo;
+        this.iinventarioRepo = iinventarioRepo;
+        this.inventario = inventario;
     }
 
     public Integer facturas(String ruta) throws JAXBException {
@@ -120,7 +126,23 @@ public class ParseXML extends ExtractXml {
                         venta.setObservaciones("PRUEBA");
                         //Pendiente configurar los repositorios
                         //INGRESAR INVENTARIO
-                        Iinventario inventario=new Iinventario();
+
+                        for(InvoiceLine i:e.getInvoiceLine()){
+                            //Iinventario inventario=new Iinventario();
+                            inventario.setTipoOperacion(1);
+                            inventario.setPeriodoTributario(Integer.valueOf(anomes.format(e.getIssuedate())));
+                            inventario.setFecha(Date.valueOf(e.getIssuedate()));
+                            inventario.setCodigoItem(i.getItem().getSellersItemIdentification().getId());
+                            inventario.setDescripcion(i.getItem().getDescription());
+                            inventario.setUnidadMedida(i.getInvoicedQuantity().getUnitCode());
+                            inventario.setCantidad(i.getInvoicedQuantity().getValor());
+                            inventario.setPrecioUnitario(i.getPrice().getPriceAmount().getValor());
+                            inventario.setTipoDocumentoReferencia(Integer.valueOf(e.getDespatchDocumentReference().getDocumentTypeCode()));
+                            inventario.setNumeroDocumentoReferencia(e.getDespatchDocumentReference().getId());
+                            inventario.setCuiRelacionado(cui);
+                            inventario.setObservaciones("PRUEBA");
+                            iinventarioRepo.save(inventario);
+                        }
                     }else if(dataMethods.verifycustomer(Long.valueOf(e.getAccountingSupplierParty().getParty().getPartyIdentification().getId().getValue())){
                         //INGRESAR COMPRA
                         Icompras compra=new Icompras();

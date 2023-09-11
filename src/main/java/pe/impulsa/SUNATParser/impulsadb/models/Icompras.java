@@ -19,7 +19,7 @@ public class Icompras {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     @Column(name = "id")
-    private long id;
+    private Long id;
     @Basic
     @Column(name = "ruc")
     private Long ruc;
