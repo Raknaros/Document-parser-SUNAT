@@ -5,6 +5,7 @@ import jakarta.xml.bind.JAXBException;
 import jakarta.xml.bind.Unmarshaller;
 import org.springframework.stereotype.Service;
 
+import pe.impulsa.SUNATParser.impulsadb.models.Iinventario;
 import pe.impulsa.SUNATParser.impulsadb.models.Iventas;
 import pe.impulsa.SUNATParser.impulsadb.models.Icompras;
 import pe.impulsa.SUNATParser.pojo.BoletaVenta;
@@ -45,18 +46,19 @@ public class ParseXML extends ExtractXml {
                 Factura e=(Factura) jaxbUnmarshaller.unmarshal(content);
                 String cui=Long.toHexString(Long.valueOf(e.getAccountingSupplierParty().getParty().getPartyIdentification().getId().getValue()))+e.getInvoiceTypeCode().getValor()+e.getId().split("-")[0].trim()+e.getId().split("-")[1].trim();
                 if(dataMethods.verifyxml(Integer.valueOf(anomes.format(e.getIssuedate())),cui)){
-                    BigDecimal totalBaseImponible;
-                    BigDecimal totalDescuento;
-                    BigDecimal totalIgv;
-                    BigDecimal totalIsc;
-                    BigDecimal totalOtrosCargos;
-                    BigDecimal totalExonerado;
-                    BigDecimal totalInafecto;
-                    BigDecimal totalGratuito;
-                    BigDecimal totalOtrosTributos;
-                    BigDecimal subTotalVenta;
-                    BigDecimal totalAdelanto;
+                    BigDecimal totalBaseImponible=new BigDecimal(0);
+                    BigDecimal totalDescuento=new BigDecimal(0);
+                    BigDecimal totalIgv=new BigDecimal(0);
+                    BigDecimal totalIsc=new BigDecimal(0);
+                    BigDecimal totalOtrosCargos=new BigDecimal(0);
+                    BigDecimal totalExonerado=new BigDecimal(0);
+                    BigDecimal totalInafecto=new BigDecimal(0);
+                    BigDecimal totalGratuito=new BigDecimal(0);
+                    BigDecimal totalOtrosTributos=new BigDecimal(0);
+                    BigDecimal subTotalVenta=new BigDecimal(0);
+                    BigDecimal totalAdelanto=new BigDecimal(0);
                     if(dataMethods.verifysupplier(Long.valueOf(e.getAccountingSupplierParty().getParty().getPartyIdentification().getId().getValue()))){
+                        //INGRESAR VENTA
                         Iventas venta=new Iventas();
                         venta.setRuc(Long.valueOf(e.getAccountingSupplierParty().getParty().getPartyIdentification().getId().getValue()));
                         venta.setPeriodoTributario(Integer.valueOf(anomes.format(e.getIssuedate())));
@@ -89,16 +91,97 @@ public class ParseXML extends ExtractXml {
                         totalDescuento=e.getLegalMonetaryTotal().getAllowanceTotalAmount().getValor();
                         totalOtrosCargos=e.getLegalMonetaryTotal().getChargeTotalAmount().getValor();
                         totalAdelanto=e.getLegalMonetaryTotal().getPrepaidAmount().getValor();
-                        if((totalIgv.compareTo(BigDecimal.ZERO)==0||totalIgv.equals(null))&&(totalExonerado.compareTo(BigDecimal.ZERO)==0||totalExonerado.equals(null))&&(totalInafecto.compareTo(BigDecimal.ZERO)==0||totalInafecto.equals(null))){
+                        //Si Base imponible no es null y suma de exonerado e inafecto no es null ni 0 destino es 3
+                        //Si base imponible es null y sumat de exonerado e inafecto no es null ni 0 destino 2
+                        //Si base imponible no es null y suma de exonerado e inafecto es null o 0 destino 1
+                        if(totalBaseImponible.compareTo(BigDecimal.ZERO)!=0&&totalExonerado.add(totalInafecto).compareTo(BigDecimal.ZERO)!=0){
+                            venta.setDestino(3);
+                            venta.setValor(totalBaseImponible);
+                            venta.setIgv(totalIgv);
+                            venta.setIsc(totalIsc);
+                            venta.setOtrosCargos(totalOtrosCargos.add(totalOtrosTributos).add(totalInafecto).add(totalExonerado));
+                        }else if(totalBaseImponible.compareTo(BigDecimal.ZERO)==0){
+                            venta.setDestino(2);
+                            venta.setValor(totalExonerado.add(totalInafecto));
+                            venta.setIgv(new BigDecimal(0));
+                            venta.setIsc(totalIsc);
+                            venta.setOtrosCargos(totalOtrosCargos.add(totalOtrosTributos));
+                        }else if(totalExonerado.add(totalInafecto).compareTo(BigDecimal.ZERO)==0){
                             venta.setDestino(1);
+                            venta.setValor(totalBaseImponible);
+                            venta.setIgv(totalIgv);
+                            venta.setIsc(totalIsc);
+                            venta.setOtrosCargos(totalOtrosCargos.add(totalOtrosTributos));
                         }
-                        venta.setIcbp(new BigDecimal(0.00));
+                        venta.setIcbp(new BigDecimal(0));
                         venta.setTipoMoneda(e.getDocumentCurrencyCode().getValor());
-                        venta.setTasaDetraccion();
-                        venta.setTasaPercepcion();
+                        venta.setTasaDetraccion(null);
+                        venta.setTasaPercepcion(null);
+                        venta.setObservaciones("PRUEBA");
+                        //Pendiente configurar los repositorios
+                        //INGRESAR INVENTARIO
+                        Iinventario inventario=new Iinventario();
                     }else if(dataMethods.verifycustomer(Long.valueOf(e.getAccountingSupplierParty().getParty().getPartyIdentification().getId().getValue())){
+                        //INGRESAR COMPRA
                         Icompras compra=new Icompras();
-                        compra.set
+                        compra.setRuc(Long.valueOf(e.getAccountingCustomerParty().getParty().getPartyIdentification().getId().getValue()));
+                        compra.setPeriodoTributario(Integer.valueOf(anomes.format(e.getIssuedate())));
+                        compra.setTipoOperacion(1);
+                        compra.setTipoComprobante(Integer.valueOf(e.getInvoiceTypeCode().getValor()));
+                        compra.setFechaEmision(Date.valueOf(e.getIssuedate()));
+                        compra.setFechaVencimiento(Date.valueOf(e.getDuedate()));
+                        compra.setNumeroSerie(e.getId().split("-")[0].trim());
+                        compra.setNumeroCorrelativo(e.getId().split("-")[1].trim());
+                        compra.setTipoDocumento(e.getAccountingSupplierParty().getParty().getPartyIdentification().getId().getSchemeID());
+                        compra.setNumeroDocumento(e.getAccountingSupplierParty().getParty().getPartyIdentification().getId().getValue());
+                        for(TaxSubtotal t:e.getTaxTotal().getTaxSubtotal()){
+                            if(t.getTaxCategory().getTaxScheme().getId().getSchemeID().equals("1000")){
+                                totalBaseImponible=t.getTaxableAmount().getValor();
+                                totalIgv=t.getTaxAmount().getValor();
+                            }else if(t.getTaxCategory().getTaxScheme().getId().getSchemeID().equals("2000")){
+                                totalIsc=t.getTaxAmount().getValor();
+                            }else if(t.getTaxCategory().getTaxScheme().getId().getSchemeID().equals("9999")){
+                                totalOtrosTributos=t.getTaxAmount().getValor();
+                            }else if(t.getTaxCategory().getTaxScheme().getId().getSchemeID().equals("9998")){
+                                totalInafecto=t.getTaxableAmount().getValor();
+                            }else if(t.getTaxCategory().getTaxScheme().getId().getSchemeID().equals("9997")){
+                                totalExonerado=t.getTaxableAmount().getValor();
+                            }else if(t.getTaxCategory().getTaxScheme().getId().getSchemeID().equals("9996")){
+                                totalGratuito=t.getTaxableAmount().getValor();
+                                totalIgv=t.getTaxAmount().getValor();
+                            }
+                        }
+                        subTotalVenta=e.getLegalMonetaryTotal().getLineExtensionAmount().getValor();
+                        totalDescuento=e.getLegalMonetaryTotal().getAllowanceTotalAmount().getValor();
+                        totalOtrosCargos=e.getLegalMonetaryTotal().getChargeTotalAmount().getValor();
+                        totalAdelanto=e.getLegalMonetaryTotal().getPrepaidAmount().getValor();
+                        //Si Base imponible no es null y suma de exonerado e inafecto no es null ni 0 destino es 3
+                        //Si base imponible es null y sumat de exonerado e inafecto no es null ni 0 destino 2
+                        //Si base imponible no es null y suma de exonerado e inafecto es null o 0 destino 1
+                        if(totalBaseImponible.compareTo(BigDecimal.ZERO)!=0&&totalExonerado.add(totalInafecto).compareTo(BigDecimal.ZERO)!=0){
+                            compra.setDestino(5);
+                            compra.setValor(totalBaseImponible);
+                            compra.setIgv(totalIgv);
+                            compra.setIsc(totalIsc);
+                            compra.setOtrosCargos(totalOtrosCargos.add(totalOtrosTributos).add(totalInafecto).add(totalExonerado));
+                        }else if(totalBaseImponible.compareTo(BigDecimal.ZERO)==0){
+                            compra.setDestino(4);
+                            compra.setValor(totalExonerado.add(totalInafecto));
+                            compra.setIgv(new BigDecimal(0));
+                            compra.setIsc(totalIsc);
+                            compra.setOtrosCargos(totalOtrosCargos.add(totalOtrosTributos));
+                        }else if(totalExonerado.add(totalInafecto).compareTo(BigDecimal.ZERO)==0){
+                            compra.setDestino(1);
+                            compra.setValor(totalBaseImponible);
+                            compra.setIgv(totalIgv);
+                            compra.setIsc(totalIsc);
+                            compra.setOtrosCargos(totalOtrosCargos.add(totalOtrosTributos));
+                        }
+                        compra.setIcbp(new BigDecimal(0));
+                        compra.setTipoMoneda(e.getDocumentCurrencyCode().getValor());
+                        compra.setTasaDetraccion(null);
+                        compra.setTasaPercepcion(null);
+                        compra.setObservaciones("PRUEBA");
                     }
                 }
 
