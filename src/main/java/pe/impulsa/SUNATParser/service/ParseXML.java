@@ -32,15 +32,13 @@ public class ParseXML extends ExtractXml {
     private final IventasRepo iventasRepo;
     private final IcomprasRepo icomprasRepo;
     private final IinventarioRepo iinventarioRepo;
-    private final Iinventario inventario;
     Integer i=0;
 
-    public ParseXML(DataMethods dataMethods, IventasRepo iventasRepo, IcomprasRepo icomprasRepo, IinventarioRepo iinventarioRepo, Iinventario inventario) {
+    public ParseXML(DataMethods dataMethods, IventasRepo iventasRepo, IcomprasRepo icomprasRepo, IinventarioRepo iinventarioRepo) {
         this.dataMethods = dataMethods;
         this.iventasRepo = iventasRepo;
         this.icomprasRepo = icomprasRepo;
         this.iinventarioRepo = iinventarioRepo;
-        this.inventario = inventario;
     }
 
     public Integer facturas(String ruta) throws JAXBException {
@@ -126,9 +124,9 @@ public class ParseXML extends ExtractXml {
                         venta.setObservaciones("PRUEBA");
                         //Pendiente configurar los repositorios
                         //INGRESAR INVENTARIO
-
+                        Iinventario inventario=new Iinventario();
                         for(InvoiceLine i:e.getInvoiceLine()){
-                            //Iinventario inventario=new Iinventario();
+
                             inventario.setTipoOperacion(1);
                             inventario.setPeriodoTributario(Integer.valueOf(anomes.format(e.getIssuedate())));
                             inventario.setFecha(Date.valueOf(e.getIssuedate()));
@@ -143,7 +141,7 @@ public class ParseXML extends ExtractXml {
                             inventario.setObservaciones("PRUEBA");
                             iinventarioRepo.save(inventario);
                         }
-                    }else if(dataMethods.verifycustomer(Long.valueOf(e.getAccountingSupplierParty().getParty().getPartyIdentification().getId().getValue())){
+                    }else if(dataMethods.verifycustomer(Long.valueOf(e.getAccountingSupplierParty().getParty().getPartyIdentification().getId().getValue()))){
                         //INGRESAR COMPRA
                         Icompras compra=new Icompras();
                         compra.setRuc(Long.valueOf(e.getAccountingCustomerParty().getParty().getPartyIdentification().getId().getValue()));
