@@ -13,9 +13,9 @@ import lombok.Setter;
 @Getter
 @Setter
 public class Plog {
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Id
     @Column(name = "ruc")
-    @GeneratedValue(strategy = GenerationType.AUTO)
     Long id;
     @Basic
     @Column(name="periodo")

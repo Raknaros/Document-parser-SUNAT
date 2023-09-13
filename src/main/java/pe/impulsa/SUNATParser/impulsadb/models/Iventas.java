@@ -105,6 +105,6 @@ public class Iventas {
     @Column(name = "igv")
     private BigDecimal igv;
     @Basic
-    @Column(name = "cuenta_contable")
-    private Integer cuentaContable;
+    @Column(name = "cuenta_contable",length = 6)
+    private String cuentaContable;
 }

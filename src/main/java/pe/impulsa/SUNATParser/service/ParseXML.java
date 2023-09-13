@@ -122,7 +122,7 @@ public class ParseXML extends ExtractXml {
                         venta.setTasaDetraccion(null);
                         venta.setTasaPercepcion(null);
                         venta.setObservaciones("PRUEBA");
-                        //Pendiente configurar los repositorios
+                        iventasRepo.save(venta);
                         //INGRESAR INVENTARIO
                         Iinventario inventario=new Iinventario();
                         for(InvoiceLine i:e.getInvoiceLine()){
@@ -141,12 +141,12 @@ public class ParseXML extends ExtractXml {
                             inventario.setObservaciones("PRUEBA");
                             iinventarioRepo.save(inventario);
                         }
-                    }else if(dataMethods.verifycustomer(Long.valueOf(e.getAccountingSupplierParty().getParty().getPartyIdentification().getId().getValue()))){
+                    }else if(dataMethods.verifycustomer(Long.valueOf(e.getAccountingCustomerParty().getParty().getPartyIdentification().getId().getValue()))){
                         //INGRESAR COMPRA
                         Icompras compra=new Icompras();
                         compra.setRuc(Long.valueOf(e.getAccountingCustomerParty().getParty().getPartyIdentification().getId().getValue()));
                         compra.setPeriodoTributario(Integer.valueOf(anomes.format(e.getIssuedate())));
-                        compra.setTipoOperacion(1);
+                        compra.setTipoOperacion(2);
                         compra.setTipoComprobante(Integer.valueOf(e.getInvoiceTypeCode().getValor()));
                         compra.setFechaEmision(Date.valueOf(e.getIssuedate()));
                         compra.setFechaVencimiento(Date.valueOf(e.getDuedate()));
@@ -202,6 +202,25 @@ public class ParseXML extends ExtractXml {
                         compra.setTasaDetraccion(null);
                         compra.setTasaPercepcion(null);
                         compra.setObservaciones("PRUEBA");
+                        icomprasRepo.save(compra);
+                        //INGRESAR INVENTARIO
+                        Iinventario inventario=new Iinventario();
+                        for(InvoiceLine i:e.getInvoiceLine()){
+
+                            inventario.setTipoOperacion(2);
+                            inventario.setPeriodoTributario(Integer.valueOf(anomes.format(e.getIssuedate())));
+                            inventario.setFecha(Date.valueOf(e.getIssuedate()));
+                            inventario.setCodigoItem(i.getItem().getSellersItemIdentification().getId());
+                            inventario.setDescripcion(i.getItem().getDescription());
+                            inventario.setUnidadMedida(i.getInvoicedQuantity().getUnitCode());
+                            inventario.setCantidad(i.getInvoicedQuantity().getValor());
+                            inventario.setPrecioUnitario(i.getPrice().getPriceAmount().getValor());
+                            inventario.setTipoDocumentoReferencia(Integer.valueOf(e.getDespatchDocumentReference().getDocumentTypeCode()));
+                            inventario.setNumeroDocumentoReferencia(e.getDespatchDocumentReference().getId());
+                            inventario.setCuiRelacionado(cui);
+                            inventario.setObservaciones("PRUEBA");
+                            iinventarioRepo.save(inventario);
+                        }
                     }
                 }
 

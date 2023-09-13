@@ -46,7 +46,7 @@ public class Iinventario {
     private String unidadMedida;
     @Basic
     @Column(name = "cantidad")
-    private Float cantidad;
+    private Integer cantidad;
     @Basic
     @Column(name = "precio_unitario")
     private BigDecimal precioUnitario;
@@ -60,8 +60,8 @@ public class Iinventario {
     @Column(name = "observaciones")
     private String observaciones;
     @Basic
-    @Column(name = "codigo_cuenta")
-    private Integer codigoCuenta;
+    @Column(name = "cuenta_contable",length = 6)
+    private String cuentaContable;
     @Basic
     @Column(name = "cui_relacionado")
     private String cuiRelacionado;

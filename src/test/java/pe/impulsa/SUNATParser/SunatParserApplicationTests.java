@@ -27,6 +27,6 @@ class SunatParserApplicationTests {
 	void contextLoads() throws ParserConfigurationException, IOException, SAXException {
 		//dataMethods.resetAllEntities();
 		//factura.facturas("D:\\SUNAT-Parser\\xmls");
-		Ientitiesrepo.findAllByActivoAndObservacionesIsNot(true,"Problema Autenticacion").forEach(IEntities -> System.out.println(IEntities.getNumeroDocumento()));
+		Ientitiesrepo.findAllByActivoAndObservacionesIsNot(true,"Problema Autenticacion").forEach(IEntities -> System.out.println(IEntities.getRuc()));
 	}
 }
