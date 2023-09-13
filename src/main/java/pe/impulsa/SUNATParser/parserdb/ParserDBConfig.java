@@ -35,7 +35,7 @@ public class ParserDBConfig {
     public DataSource dataSource(){
         DriverManagerDataSource dataSource=new DriverManagerDataSource();
         dataSource.setUrl(environment.getProperty("spring.datasource.url"));
-        dataSource.setDriverClassName(environment.getProperty("spring.datasource.driver-class-name"));
+        dataSource.setDriverClassName(environment.getProperty("spring.datasource.driverClassName"));
         dataSource.setUsername(environment.getProperty("spring.datasource.username"));
         dataSource.setPassword("");
         return dataSource;
