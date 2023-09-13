@@ -7,4 +7,5 @@ import java.util.List;
 
 public interface IentitiesRepo extends JpaRepository<Ientities,Integer> {
     List<Ientities> findAllByActivoAndObservacionesIsNot(Boolean activo, String observaciones);
+    List<Ientities> findAllByActivo(Boolean activo);
 }

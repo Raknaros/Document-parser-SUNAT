@@ -24,7 +24,7 @@ public class TestController {
     @GetMapping("/facturas")
     public Integer parsearFacturas() throws ParserConfigurationException, IOException, SAXException, JAXBException {
 
-        return parseXML.facturas("/home/giumarchan/Documents/testxmls");
+        return parseXML.facturas("D:\\testdocs");
     }
     @GetMapping("/reset")
     public String iniciarEntidades(){

@@ -5,6 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.DynamicInsert;
+
 import java.math.BigDecimal;
 import java.sql.Date;
 
@@ -12,6 +14,7 @@ import java.sql.Date;
 @Table(name = "_7", schema = "acc")
 @AllArgsConstructor
 @NoArgsConstructor
+@DynamicInsert
 @Getter
 @Setter
 public class Icobropago {

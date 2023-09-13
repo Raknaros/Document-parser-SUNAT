@@ -63,32 +63,32 @@ public class ParseXML extends ExtractXml {
                     BigDecimal totalAdelanto=new BigDecimal(0);
                     if(dataMethods.verifysupplier(Long.valueOf(e.getAccountingSupplierParty().getParty().getPartyIdentification().getId().getValue()))){
                         //INGRESAR VENTA
+
                         Iventas venta=new Iventas();
                         venta.setRuc(Long.valueOf(e.getAccountingSupplierParty().getParty().getPartyIdentification().getId().getValue()));
                         venta.setPeriodoTributario(Integer.valueOf(anomes.format(e.getIssuedate())));
                         venta.setTipoOperacion(1);
                         venta.setTipoComprobante(Integer.valueOf(e.getInvoiceTypeCode().getValor()));
                         venta.setFechaEmision(Date.valueOf(e.getIssuedate()));
-                        venta.setFechaVencimiento(Date.valueOf(e.getDuedate()));
+                        venta.setFechaVencimiento(Date.valueOf("2023-08-29"));
                         venta.setNumeroSerie(e.getId().split("-")[0].trim());
                         venta.setNumeroCorrelativo(e.getId().split("-")[1].trim());
                         venta.setTipoDocumento(e.getAccountingCustomerParty().getParty().getPartyIdentification().getId().getSchemeID());
                         venta.setNumeroDocumento(e.getAccountingCustomerParty().getParty().getPartyIdentification().getId().getValue());
                         for(TaxSubtotal t:e.getTaxTotal().getTaxSubtotal()){
-                            if(t.getTaxCategory().getTaxScheme().getId().getSchemeID().equals("1000")){
-                                totalBaseImponible=t.getTaxableAmount().getValor();
-                                totalIgv=t.getTaxAmount().getValor();
-                            }else if(t.getTaxCategory().getTaxScheme().getId().getSchemeID().equals("2000")){
-                                totalIsc=t.getTaxAmount().getValor();
-                            }else if(t.getTaxCategory().getTaxScheme().getId().getSchemeID().equals("9999")){
-                                totalOtrosTributos=t.getTaxAmount().getValor();
-                            }else if(t.getTaxCategory().getTaxScheme().getId().getSchemeID().equals("9998")){
-                                totalInafecto=t.getTaxableAmount().getValor();
-                            }else if(t.getTaxCategory().getTaxScheme().getId().getSchemeID().equals("9997")){
-                                totalExonerado=t.getTaxableAmount().getValor();
-                            }else if(t.getTaxCategory().getTaxScheme().getId().getSchemeID().equals("9996")){
-                                totalGratuito=t.getTaxableAmount().getValor();
-                                totalIgv=t.getTaxAmount().getValor();
+                            switch (t.getTaxCategory().getTaxScheme().getId().getValue()) {
+                                case "1000" -> {
+                                    totalBaseImponible = t.getTaxableAmount().getValor();
+                                    totalIgv = t.getTaxAmount().getValor();
+                                }
+                                case "2000" -> totalIsc = t.getTaxAmount().getValor();
+                                case "9999" -> totalOtrosTributos = t.getTaxAmount().getValor();
+                                case "9998" -> totalInafecto = t.getTaxableAmount().getValor();
+                                case "9997" -> totalExonerado = t.getTaxableAmount().getValor();
+                                case "9996" -> {
+                                    totalGratuito = t.getTaxableAmount().getValor();
+                                    totalIgv = t.getTaxAmount().getValor();
+                                }
                             }
                         }
                         subTotalVenta=e.getLegalMonetaryTotal().getLineExtensionAmount().getValor();
@@ -117,16 +117,16 @@ public class ParseXML extends ExtractXml {
                             venta.setIsc(totalIsc);
                             venta.setOtrosCargos(totalOtrosCargos.add(totalOtrosTributos));
                         }
-                        venta.setIcbp(new BigDecimal(0));
+                        //venta.setIcbp(new BigDecimal(0));
                         venta.setTipoMoneda(e.getDocumentCurrencyCode().getValor());
-                        venta.setTasaDetraccion(null);
-                        venta.setTasaPercepcion(null);
+                        //venta.setTasaDetraccion(null);
+                        //venta.setTasaPercepcion(null);
                         venta.setObservaciones("PRUEBA");
                         iventasRepo.save(venta);
                         //INGRESAR INVENTARIO
                         Iinventario inventario=new Iinventario();
                         for(InvoiceLine i:e.getInvoiceLine()){
-
+                            inventario.setRuc(Long.valueOf(e.getAccountingSupplierParty().getParty().getPartyIdentification().getId().getValue()));
                             inventario.setTipoOperacion(1);
                             inventario.setPeriodoTributario(Integer.valueOf(anomes.format(e.getIssuedate())));
                             inventario.setFecha(Date.valueOf(e.getIssuedate()));
@@ -135,13 +135,19 @@ public class ParseXML extends ExtractXml {
                             inventario.setUnidadMedida(i.getInvoicedQuantity().getUnitCode());
                             inventario.setCantidad(i.getInvoicedQuantity().getValor());
                             inventario.setPrecioUnitario(i.getPrice().getPriceAmount().getValor());
-                            inventario.setTipoDocumentoReferencia(Integer.valueOf(e.getDespatchDocumentReference().getDocumentTypeCode()));
-                            inventario.setNumeroDocumentoReferencia(e.getDespatchDocumentReference().getId());
+                            //inventario.setIgv(i.getTaxTotal().getTaxSubtotal()[0].getTaxCaterogy().getPercent());
+                            try {
+                                inventario.setTipoDocumentoReferencia(Integer.valueOf(e.getDespatchDocumentReference().getDocumentTypeCode()));
+                                inventario.setNumeroDocumentoReferencia(e.getDespatchDocumentReference().getId());
+                            }catch (NullPointerException ex){
+                                inventario.setTipoDocumentoReferencia(Integer.valueOf(e.getInvoiceTypeCode().getValor()));
+                                inventario.setNumeroDocumentoReferencia(e.getId());
+                            }
                             inventario.setCuiRelacionado(cui);
                             inventario.setObservaciones("PRUEBA");
                             iinventarioRepo.save(inventario);
                         }
-                    }else if(dataMethods.verifycustomer(Long.valueOf(e.getAccountingCustomerParty().getParty().getPartyIdentification().getId().getValue()))){
+                    }if(dataMethods.verifycustomer(Long.valueOf(e.getAccountingCustomerParty().getParty().getPartyIdentification().getId().getValue()))){
                         //INGRESAR COMPRA
                         Icompras compra=new Icompras();
                         compra.setRuc(Long.valueOf(e.getAccountingCustomerParty().getParty().getPartyIdentification().getId().getValue()));
@@ -149,26 +155,25 @@ public class ParseXML extends ExtractXml {
                         compra.setTipoOperacion(2);
                         compra.setTipoComprobante(Integer.valueOf(e.getInvoiceTypeCode().getValor()));
                         compra.setFechaEmision(Date.valueOf(e.getIssuedate()));
-                        compra.setFechaVencimiento(Date.valueOf(e.getDuedate()));
+                        compra.setFechaVencimiento(Date.valueOf("2023-08-29"));
                         compra.setNumeroSerie(e.getId().split("-")[0].trim());
                         compra.setNumeroCorrelativo(e.getId().split("-")[1].trim());
                         compra.setTipoDocumento(e.getAccountingSupplierParty().getParty().getPartyIdentification().getId().getSchemeID());
                         compra.setNumeroDocumento(e.getAccountingSupplierParty().getParty().getPartyIdentification().getId().getValue());
                         for(TaxSubtotal t:e.getTaxTotal().getTaxSubtotal()){
-                            if(t.getTaxCategory().getTaxScheme().getId().getSchemeID().equals("1000")){
-                                totalBaseImponible=t.getTaxableAmount().getValor();
-                                totalIgv=t.getTaxAmount().getValor();
-                            }else if(t.getTaxCategory().getTaxScheme().getId().getSchemeID().equals("2000")){
-                                totalIsc=t.getTaxAmount().getValor();
-                            }else if(t.getTaxCategory().getTaxScheme().getId().getSchemeID().equals("9999")){
-                                totalOtrosTributos=t.getTaxAmount().getValor();
-                            }else if(t.getTaxCategory().getTaxScheme().getId().getSchemeID().equals("9998")){
-                                totalInafecto=t.getTaxableAmount().getValor();
-                            }else if(t.getTaxCategory().getTaxScheme().getId().getSchemeID().equals("9997")){
-                                totalExonerado=t.getTaxableAmount().getValor();
-                            }else if(t.getTaxCategory().getTaxScheme().getId().getSchemeID().equals("9996")){
-                                totalGratuito=t.getTaxableAmount().getValor();
-                                totalIgv=t.getTaxAmount().getValor();
+                            switch (t.getTaxCategory().getTaxScheme().getId().getValue()) {
+                                case "1000" -> {
+                                    totalBaseImponible = t.getTaxableAmount().getValor();
+                                    totalIgv = t.getTaxAmount().getValor();
+                                }
+                                case "2000" -> totalIsc = t.getTaxAmount().getValor();
+                                case "9999" -> totalOtrosTributos = t.getTaxAmount().getValor();
+                                case "9998" -> totalInafecto = t.getTaxableAmount().getValor();
+                                case "9997" -> totalExonerado = t.getTaxableAmount().getValor();
+                                case "9996" -> {
+                                    totalGratuito = t.getTaxableAmount().getValor();
+                                    totalIgv = t.getTaxAmount().getValor();
+                                }
                             }
                         }
                         subTotalVenta=e.getLegalMonetaryTotal().getLineExtensionAmount().getValor();
@@ -199,8 +204,8 @@ public class ParseXML extends ExtractXml {
                         }
                         compra.setIcbp(new BigDecimal(0));
                         compra.setTipoMoneda(e.getDocumentCurrencyCode().getValor());
-                        compra.setTasaDetraccion(null);
-                        compra.setTasaPercepcion(null);
+                        //compra.setTasaDetraccion(null);
+                        //compra.setTasaPercepcion(null);
                         compra.setObservaciones("PRUEBA");
                         icomprasRepo.save(compra);
                         //INGRESAR INVENTARIO
@@ -215,8 +220,13 @@ public class ParseXML extends ExtractXml {
                             inventario.setUnidadMedida(i.getInvoicedQuantity().getUnitCode());
                             inventario.setCantidad(i.getInvoicedQuantity().getValor());
                             inventario.setPrecioUnitario(i.getPrice().getPriceAmount().getValor());
-                            inventario.setTipoDocumentoReferencia(Integer.valueOf(e.getDespatchDocumentReference().getDocumentTypeCode()));
-                            inventario.setNumeroDocumentoReferencia(e.getDespatchDocumentReference().getId());
+                            try {
+                                inventario.setTipoDocumentoReferencia(Integer.valueOf(e.getDespatchDocumentReference().getDocumentTypeCode()));
+                                inventario.setNumeroDocumentoReferencia(e.getDespatchDocumentReference().getId());
+                            }catch (NullPointerException ex){
+                                inventario.setTipoDocumentoReferencia(Integer.valueOf(e.getInvoiceTypeCode().getValor()));
+                                inventario.setNumeroDocumentoReferencia(e.getId());
+                            }
                             inventario.setCuiRelacionado(cui);
                             inventario.setObservaciones("PRUEBA");
                             iinventarioRepo.save(inventario);

@@ -15,7 +15,6 @@ import java.sql.Date;
 @AllArgsConstructor
 @Getter
 @Setter
-@DynamicUpdate
 public class Ientities {
     /*@GeneratedValue(strategy = GenerationType.IDENTITY)
             TABLE,

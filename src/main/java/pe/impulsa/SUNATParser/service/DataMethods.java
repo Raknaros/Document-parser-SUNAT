@@ -24,7 +24,7 @@ public class DataMethods {
     public void resetAllEntities(){
 
         Pentitiesrepo.deleteAll();
-        List<Ientities> Entidades = Ientitiesrepo.findAllByActivoAndObservacionesIsNot(true, "Problema Autenticacion");
+        List<Ientities> Entidades = Ientitiesrepo.findAllByActivo(true);
         for (Ientities e : Entidades) {
             Pentities NuevaEntidad = new Pentities(e.getRuc(), e.getNombreRazon(), e.getUsuarioSol(), e.getClaveSol());
             Pentitiesrepo.save(NuevaEntidad);
