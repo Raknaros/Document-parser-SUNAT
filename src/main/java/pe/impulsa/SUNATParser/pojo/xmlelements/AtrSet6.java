@@ -8,7 +8,7 @@ public class AtrSet6 {
     private String unitCode;
     private String unitCodeListAgencyName;
     private String unitCodeListID;
-    private Integer valor;
+    private Float valor;
 
     public String getUnitCode() {
         return unitCode;
@@ -34,11 +34,11 @@ public class AtrSet6 {
         this.unitCodeListID = unitCodeListID;
     }
 
-    public Integer getValor() {
+    public Float getValor() {
         return valor;
     }
     @XmlValue
-    public void setValor(Integer valor) {
+    public void setValor(Float valor) {
         this.valor = valor;
     }
 }

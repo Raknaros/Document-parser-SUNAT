@@ -117,7 +117,7 @@ public class Ipdt0621 {
     private Integer c169;
     @Basic
     @Column(name = "_173")
-    private Double c173;
+    private Float c173;
     @Basic
     @Column(name = "_340")
     private Integer c340;
@@ -135,10 +135,10 @@ public class Ipdt0621 {
     private Integer c312;
     @Basic
     @Column(name = "_380")
-    private Double c380;
+    private Float c380;
     @Basic
     @Column(name = "_315")
-    private Double c315;
+    private Float c315;
     @Basic
     @Column(name = "_140")
     private Integer c140;

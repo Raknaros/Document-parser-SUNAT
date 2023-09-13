@@ -51,7 +51,7 @@ public class Isunatpagos {
     @Column(name = "detalle")
     private String detalle;
     @Basic
-    @Column(name = "importe")
+    @Column(name = "importe",precision = 10,scale = 2)
     private BigDecimal importe;
 }
 

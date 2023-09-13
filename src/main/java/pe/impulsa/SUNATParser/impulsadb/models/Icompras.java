@@ -63,16 +63,16 @@ public class Icompras {
     @Column(name = "destino")
     private Integer destino;
     @Basic
-    @Column(name = "valor")
+    @Column(name = "valor",precision = 10,scale = 2)
     private BigDecimal valor;
     @Basic
-    @Column(name = "icbp")
+    @Column(name = "icbp",precision = 4,scale = 2)
     private BigDecimal icbp;
     @Basic
-    @Column(name = "isc")
+    @Column(name = "isc",precision = 8,scale = 2)
     private BigDecimal isc;
     @Basic
-    @Column(name = "otros_cargos")
+    @Column(name = "otros_cargos",precision = 8,scale = 2)
     private BigDecimal otrosCargos;
     @Basic
     @Column(name = "tipo_moneda")
@@ -105,7 +105,7 @@ public class Icompras {
     @Column(name = "observaciones")
     private String observaciones;
     @Basic
-    @Column(name = "igv")
+    @Column(name = "igv",precision = 8,scale = 2)
     private BigDecimal igv;
     @Basic
     @Column(name = "cuenta_contable",length = 6)

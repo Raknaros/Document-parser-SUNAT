@@ -19,7 +19,7 @@ public class Iventas {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     @Column(name = "id")
-    private long id;
+    private Long id;
     @Basic
     @Column(name = "ruc")
     private Long ruc;
@@ -60,16 +60,16 @@ public class Iventas {
     @Column(name = "destino")
     private Integer destino;
     @Basic
-    @Column(name = "valor")
+    @Column(name = "valor",precision = 10,scale = 2)
     private BigDecimal valor;
     @Basic
-    @Column(name = "icbp")
+    @Column(name = "icbp",precision = 4,scale = 2)
     private BigDecimal icbp;
     @Basic
-    @Column(name = "isc")
+    @Column(name = "isc",precision = 8,scale = 2)
     private BigDecimal isc;
     @Basic
-    @Column(name = "otros_cargos")
+    @Column(name = "otros_cargos",precision = 8,scale = 2)
     private BigDecimal otrosCargos;
     @Basic
     @Column(name = "tipo_moneda")
@@ -102,7 +102,7 @@ public class Iventas {
     @Column(name = "observaciones")
     private String observaciones;
     @Basic
-    @Column(name = "igv")
+    @Column(name = "igv",precision = 8,scale = 2)
     private BigDecimal igv;
     @Basic
     @Column(name = "cuenta_contable",length = 6)
