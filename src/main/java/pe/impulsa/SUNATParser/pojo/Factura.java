@@ -4,6 +4,7 @@ import jakarta.xml.bind.annotation.*;
 import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import lombok.Getter;
 import pe.impulsa.SUNATParser.pojo.xmlelements.*;
+import pe.impulsa.SUNATParser.pojo.xmlelements.ublextensions.PaymentMeans;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -170,9 +171,12 @@ public class Factura {
     public void setInvoiceLine(List<InvoiceLine> invoiceLine) {
         this.invoiceLine = invoiceLine;
     }
+    @XmlElement(name="PaymentsMeans",namespace="urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2")
+    public void setPaymentmeans(PaymentMeans paymentmeans) {
+        this.paymentmeans = paymentmeans;
+    }
 
     private AtrSet2 invoiceTypeCode;
-    @Getter
     private List<AtrSet5> note;
     private OrderReference orderReference;
     private List<PaymentTerms> paymentTerms;
@@ -185,4 +189,5 @@ public class Factura {
     private TaxTotal taxTotal;
     private LegalMonetaryTotal legalMonetaryTotal;
     private List<InvoiceLine> invoiceLine;
+    private PaymentMeans paymentmeans;
 }

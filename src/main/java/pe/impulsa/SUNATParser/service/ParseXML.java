@@ -5,9 +5,11 @@ import jakarta.xml.bind.JAXBException;
 import jakarta.xml.bind.Unmarshaller;
 import org.springframework.stereotype.Service;
 
+import pe.impulsa.SUNATParser.impulsadb.models.Icobropago;
 import pe.impulsa.SUNATParser.impulsadb.models.Iinventario;
 import pe.impulsa.SUNATParser.impulsadb.models.Iventas;
 import pe.impulsa.SUNATParser.impulsadb.models.Icompras;
+import pe.impulsa.SUNATParser.impulsadb.repo.IcobropagoRepo;
 import pe.impulsa.SUNATParser.impulsadb.repo.IcomprasRepo;
 import pe.impulsa.SUNATParser.impulsadb.repo.IinventarioRepo;
 import pe.impulsa.SUNATParser.impulsadb.repo.IventasRepo;
@@ -15,6 +17,7 @@ import pe.impulsa.SUNATParser.pojo.BoletaVenta;
 import pe.impulsa.SUNATParser.pojo.Factura;
 import pe.impulsa.SUNATParser.pojo.NotaCredito;
 import pe.impulsa.SUNATParser.pojo.NotaDebito;
+import pe.impulsa.SUNATParser.pojo.xmlelements.AtrSet5;
 import pe.impulsa.SUNATParser.pojo.xmlelements.InvoiceLine;
 import pe.impulsa.SUNATParser.pojo.xmlelements.taxtotal.TaxSubtotal;
 
@@ -32,13 +35,15 @@ public class ParseXML extends ExtractXml {
     private final IventasRepo iventasRepo;
     private final IcomprasRepo icomprasRepo;
     private final IinventarioRepo iinventarioRepo;
+    private final IcobropagoRepo icobropagoRepo;
     Integer i=0;
 
-    public ParseXML(DataMethods dataMethods, IventasRepo iventasRepo, IcomprasRepo icomprasRepo, IinventarioRepo iinventarioRepo) {
+    public ParseXML(DataMethods dataMethods, IventasRepo iventasRepo, IcomprasRepo icomprasRepo, IinventarioRepo iinventarioRepo, IcobropagoRepo icobropagoRepo) {
         this.dataMethods = dataMethods;
         this.iventasRepo = iventasRepo;
         this.icomprasRepo = icomprasRepo;
         this.iinventarioRepo = iinventarioRepo;
+        this.icobropagoRepo = icobropagoRepo;
     }
 
     public Integer facturas(String ruta) throws JAXBException {
@@ -70,11 +75,40 @@ public class ParseXML extends ExtractXml {
                         venta.setTipoOperacion(1);
                         venta.setTipoComprobante(Integer.valueOf(e.getInvoiceTypeCode().getValor()));
                         venta.setFechaEmision(Date.valueOf(e.getIssuedate()));
-                        venta.setFechaVencimiento(Date.valueOf("2023-08-29"));
                         venta.setNumeroSerie(e.getId().split("-")[0].trim());
                         venta.setNumeroCorrelativo(e.getId().split("-")[1].trim());
                         venta.setTipoDocumento(e.getAccountingCustomerParty().getParty().getPartyIdentification().getId().getSchemeID());
                         venta.setNumeroDocumento(e.getAccountingCustomerParty().getParty().getPartyIdentification().getId().getValue());
+                        int z=0;
+                        for(AtrSet5 k:e.getNote()){
+                            if(k.getLanguageLocaleID().equals("2006")){
+                                venta.setTasaDetraccion(Integer.valueOf(e.getPaymentTerms().get(0).getPaymentmeansid()));
+                                z=1;
+                            }
+                        }
+                        if(!e.getPaymentTerms().get(z).getPaymentmeansid().equals("Contado")){
+                            venta.setFechaVencimiento(Date.valueOf(e.getDuedate()));
+                            Icobropago cobropago=new Icobropago();
+                            try {
+                                cobropago.setCuiRelacionado(cui);
+                                cobropago.setFechaCuota1(Date.valueOf(e.getPaymentTerms().get(z+1).getPaymentduedate()));
+                                cobropago.setImporteCuota1(e.getPaymentTerms().get(z+1).getAmount().getValor());
+                                cobropago.setFechaCuota2(Date.valueOf(e.getPaymentTerms().get(z+2).getPaymentduedate()));
+                                cobropago.setImporteCuota2(e.getPaymentTerms().get(z+2).getAmount().getValor());
+                                cobropago.setFechaCuota3(Date.valueOf(e.getPaymentTerms().get(z+3).getPaymentduedate()));
+                                cobropago.setImporteCuota3(e.getPaymentTerms().get(z+3).getAmount().getValor());
+                                cobropago.setFechaCuota4(Date.valueOf(e.getPaymentTerms().get(z+4).getPaymentduedate()));
+                                cobropago.setImporteCuota4(e.getPaymentTerms().get(z+4).getAmount().getValor());
+                                cobropago.setFechaCuota5(Date.valueOf(e.getPaymentTerms().get(z+5).getPaymentduedate()));
+                                cobropago.setImporteCuota5(e.getPaymentTerms().get(z+5).getAmount().getValor());
+                                cobropago.setFechaCuota6(Date.valueOf(e.getPaymentTerms().get(z+6).getPaymentduedate()));
+                                cobropago.setImporteCuota6(e.getPaymentTerms().get(z+6).getAmount().getValor());
+                                cobropago.setFechaCuota7(Date.valueOf(e.getPaymentTerms().get(z+7).getPaymentduedate()));
+                                cobropago.setImporteCuota7(e.getPaymentTerms().get(z+7).getAmount().getValor());
+                            }catch (Exception ignored){}finally {
+                                icobropagoRepo.save(cobropago);
+                            }
+                        }
                         for(TaxSubtotal t:e.getTaxTotal().getTaxSubtotal()){
                             switch (t.getTaxCategory().getTaxScheme().getId().getValue()) {
                                 case "1000" -> {
@@ -95,6 +129,7 @@ public class ParseXML extends ExtractXml {
                         totalDescuento=e.getLegalMonetaryTotal().getAllowanceTotalAmount().getValor();
                         totalOtrosCargos=e.getLegalMonetaryTotal().getChargeTotalAmount().getValor();
                         totalAdelanto=e.getLegalMonetaryTotal().getPrepaidAmount().getValor();
+                        venta.setTipoMoneda(e.getDocumentCurrencyCode().getValor());
                         //Si Base imponible no es null y suma de exonerado e inafecto no es null ni 0 destino es 3
                         //Si base imponible es null y sumat de exonerado e inafecto no es null ni 0 destino 2
                         //Si base imponible no es null y suma de exonerado e inafecto es null o 0 destino 1
@@ -118,7 +153,6 @@ public class ParseXML extends ExtractXml {
                             venta.setOtrosCargos(totalOtrosCargos.add(totalOtrosTributos));
                         }
                         //venta.setIcbp(new BigDecimal(0));
-                        venta.setTipoMoneda(e.getDocumentCurrencyCode().getValor());
                         //venta.setTasaDetraccion(null);
                         //venta.setTasaPercepcion(null);
                         venta.setObservaciones("PRUEBA");
@@ -135,7 +169,11 @@ public class ParseXML extends ExtractXml {
                             inventario.setUnidadMedida(i.getInvoicedQuantity().getUnitCode());
                             inventario.setCantidad(i.getInvoicedQuantity().getValor());
                             inventario.setPrecioUnitario(i.getPrice().getPriceAmount().getValor());
-                            //inventario.setIgv(i.getTaxTotal().getTaxSubtotal()[0].getTaxCaterogy().getPercent());
+                            for(TaxSubtotal a:i.getTaxTotal().getTaxSubtotal()){
+                                if(a.getTaxCategory().getTaxScheme().getId().getValue().equals("1000")){
+                                    inventario.setIgv(a.getTaxCategory().getPercent());
+                                }
+                            }
                             try {
                                 inventario.setTipoDocumentoReferencia(Integer.valueOf(e.getDespatchDocumentReference().getDocumentTypeCode()));
                                 inventario.setNumeroDocumentoReferencia(e.getDespatchDocumentReference().getId());
@@ -144,22 +182,53 @@ public class ParseXML extends ExtractXml {
                                 inventario.setNumeroDocumentoReferencia(e.getId());
                             }
                             inventario.setCuiRelacionado(cui);
-                            inventario.setObservaciones("PRUEBA");
+                            inventario.setObservaciones("NUEVO");
                             iinventarioRepo.save(inventario);
                         }
-                    }if(dataMethods.verifycustomer(Long.valueOf(e.getAccountingCustomerParty().getParty().getPartyIdentification().getId().getValue()))){
+                    }if(dataMethods.verifycustomer(Long.valueOf(e.getAccountingCustomerParty().getParty().getPartyIdentification().getId().getValue()))) {
                         //INGRESAR COMPRA
-                        Icompras compra=new Icompras();
+                        Icompras compra = new Icompras();
                         compra.setRuc(Long.valueOf(e.getAccountingCustomerParty().getParty().getPartyIdentification().getId().getValue()));
                         compra.setPeriodoTributario(Integer.valueOf(anomes.format(e.getIssuedate())));
                         compra.setTipoOperacion(2);
                         compra.setTipoComprobante(Integer.valueOf(e.getInvoiceTypeCode().getValor()));
                         compra.setFechaEmision(Date.valueOf(e.getIssuedate()));
-                        compra.setFechaVencimiento(Date.valueOf("2023-08-29"));
                         compra.setNumeroSerie(e.getId().split("-")[0].trim());
                         compra.setNumeroCorrelativo(e.getId().split("-")[1].trim());
                         compra.setTipoDocumento(e.getAccountingSupplierParty().getParty().getPartyIdentification().getId().getSchemeID());
                         compra.setNumeroDocumento(e.getAccountingSupplierParty().getParty().getPartyIdentification().getId().getValue());
+                        compra.setTipoMoneda(e.getDocumentCurrencyCode().getValor());
+                        int z=0;
+                        for(AtrSet5 k:e.getNote()){
+                            if(k.getLanguageLocaleID().equals("2006")){
+                                compra.setTasaDetraccion(Integer.valueOf(e.getPaymentTerms().get(0).getPaymentmeansid()));
+                                z=1;
+                            }
+                        }
+                        if(!e.getPaymentTerms().get(z).getPaymentmeansid().equals("Contado")){
+                            compra.setFechaVencimiento(Date.valueOf(e.getDuedate()));
+                            Icobropago cobropago=new Icobropago();
+                            try {
+                                cobropago.setCuiRelacionado(cui);
+                                cobropago.setFechaCuota1(Date.valueOf(e.getPaymentTerms().get(z+1).getPaymentduedate()));
+                                cobropago.setImporteCuota1(e.getPaymentTerms().get(z+1).getAmount().getValor());
+                                cobropago.setFechaCuota2(Date.valueOf(e.getPaymentTerms().get(z+2).getPaymentduedate()));
+                                cobropago.setImporteCuota2(e.getPaymentTerms().get(z+2).getAmount().getValor());
+                                cobropago.setFechaCuota3(Date.valueOf(e.getPaymentTerms().get(z+3).getPaymentduedate()));
+                                cobropago.setImporteCuota3(e.getPaymentTerms().get(z+3).getAmount().getValor());
+                                cobropago.setFechaCuota4(Date.valueOf(e.getPaymentTerms().get(z+4).getPaymentduedate()));
+                                cobropago.setImporteCuota4(e.getPaymentTerms().get(z+4).getAmount().getValor());
+                                cobropago.setFechaCuota5(Date.valueOf(e.getPaymentTerms().get(z+5).getPaymentduedate()));
+                                cobropago.setImporteCuota5(e.getPaymentTerms().get(z+5).getAmount().getValor());
+                                cobropago.setFechaCuota6(Date.valueOf(e.getPaymentTerms().get(z+6).getPaymentduedate()));
+                                cobropago.setImporteCuota6(e.getPaymentTerms().get(z+6).getAmount().getValor());
+                                cobropago.setFechaCuota7(Date.valueOf(e.getPaymentTerms().get(z+7).getPaymentduedate()));
+                                cobropago.setImporteCuota7(e.getPaymentTerms().get(z+7).getAmount().getValor());
+                            }catch (Exception ignored){}finally {
+                                icobropagoRepo.save(cobropago);
+                            }
+                        }
+
                         for(TaxSubtotal t:e.getTaxTotal().getTaxSubtotal()){
                             switch (t.getTaxCategory().getTaxScheme().getId().getValue()) {
                                 case "1000" -> {
@@ -202,8 +271,7 @@ public class ParseXML extends ExtractXml {
                             compra.setIsc(totalIsc);
                             compra.setOtrosCargos(totalOtrosCargos.add(totalOtrosTributos));
                         }
-                        compra.setIcbp(new BigDecimal(0));
-                        compra.setTipoMoneda(e.getDocumentCurrencyCode().getValor());
+                        //compra.setIcbp(new BigDecimal(0));
                         //compra.setTasaDetraccion(null);
                         //compra.setTasaPercepcion(null);
                         compra.setObservaciones("PRUEBA");
@@ -211,7 +279,7 @@ public class ParseXML extends ExtractXml {
                         //INGRESAR INVENTARIO
                         Iinventario inventario=new Iinventario();
                         for(InvoiceLine i:e.getInvoiceLine()){
-
+                            inventario.setRuc(Long.valueOf(e.getAccountingCustomerParty().getParty().getPartyIdentification().getId().getValue()));
                             inventario.setTipoOperacion(2);
                             inventario.setPeriodoTributario(Integer.valueOf(anomes.format(e.getIssuedate())));
                             inventario.setFecha(Date.valueOf(e.getIssuedate()));
@@ -220,6 +288,11 @@ public class ParseXML extends ExtractXml {
                             inventario.setUnidadMedida(i.getInvoicedQuantity().getUnitCode());
                             inventario.setCantidad(i.getInvoicedQuantity().getValor());
                             inventario.setPrecioUnitario(i.getPrice().getPriceAmount().getValor());
+                            for(TaxSubtotal a:i.getTaxTotal().getTaxSubtotal()){
+                                if(a.getTaxCategory().getTaxScheme().getId().getValue().equals("1000")){
+                                    inventario.setIgv(a.getTaxCategory().getPercent());
+                                }
+                            }
                             try {
                                 inventario.setTipoDocumentoReferencia(Integer.valueOf(e.getDespatchDocumentReference().getDocumentTypeCode()));
                                 inventario.setNumeroDocumentoReferencia(e.getDespatchDocumentReference().getId());
@@ -228,7 +301,7 @@ public class ParseXML extends ExtractXml {
                                 inventario.setNumeroDocumentoReferencia(e.getId());
                             }
                             inventario.setCuiRelacionado(cui);
-                            inventario.setObservaciones("PRUEBA");
+                            inventario.setObservaciones("NUEVO");
                             iinventarioRepo.save(inventario);
                         }
                     }

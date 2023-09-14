@@ -1,4 +1,4 @@
-package pe.impulsa.SUNATParser.pojo.xmlelements.paymentterms;
+package pe.impulsa.SUNATParser.pojo.xmlelements.paymentsmeans;
 
 import jakarta.xml.bind.annotation.XmlElement;
 
