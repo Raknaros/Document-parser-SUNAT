@@ -50,7 +50,7 @@ public class ImpulsaDBConfig {
         bean.setJpaVendorAdapter(adapter);
         Map<String,String> props=new HashMap<>();
         props.put("hibernate.dialect","org.hibernate.dialect.PostgreSQLDialect");
-        props.put("hibernate.show_sql","true");
+        props.put("hibernate.show_sql","false");
         props.put("hibernate.hbm2ddl.auto","update");
         bean.setJpaPropertyMap(props);
         bean.setPackagesToScan("pe.impulsa.SUNATParser.impulsadb.models");

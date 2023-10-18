@@ -22,9 +22,9 @@ public class TestController {
     ParseXML parseXML;
 
     @GetMapping("/facturas")
-    public Integer parsearFacturas() throws ParserConfigurationException, IOException, SAXException, JAXBException {
+    public Integer parsearFacturas(@RequestParam String numero) throws ParserConfigurationException, IOException, SAXException, JAXBException {
 
-        return parseXML.facturas("/home/giumarchan/Documents/testxmls");
+        return parseXML.facturas("C:\\Users\\Raknaros\\Downloads\\xmls");
     }
     @GetMapping("/reset")
     public String iniciarEntidades(){
