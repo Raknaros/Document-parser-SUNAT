@@ -4,7 +4,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.xml.sax.SAXException;
-import pe.impulsa.SUNATParser.impulsadb.repo.IentitiesRepo;
+import pe.impulsa.SUNATParser.impulsadb.repo.EntitiesRepo;
 import pe.impulsa.SUNATParser.parserdb.repo.PentitiesRepo;
 import pe.impulsa.SUNATParser.service.DataMethods;
 import pe.impulsa.SUNATParser.service.ParseXML;
@@ -17,7 +17,7 @@ class SunatParserApplicationTests {
 	@Autowired
 	ParseXML parseXML;
 	@Autowired
-	IentitiesRepo Ientitiesrepo;
+	EntitiesRepo ientitiesrepo;
 	@Autowired
     PentitiesRepo Pentitiesrepo;
 	@Autowired
@@ -27,6 +27,6 @@ class SunatParserApplicationTests {
 	void contextLoads() throws ParserConfigurationException, IOException, SAXException {
 		//dataMethods.resetAllEntities();
 		//factura.facturas("D:\\SUNAT-Parser\\xmls");
-		Ientitiesrepo.findAllByActivoAndObservacionesIsNot(true,"Problema Autenticacion").forEach(IEntities -> System.out.println(IEntities.getRuc()));
+		ientitiesrepo.findAllByActivoAndObservacionesIsNot(true,"Problema Autenticacion").forEach(IEntities -> System.out.println(IEntities.getRuc()));
 	}
 }

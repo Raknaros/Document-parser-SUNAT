@@ -5,14 +5,13 @@ import jakarta.xml.bind.JAXBException;
 import jakarta.xml.bind.Unmarshaller;
 import org.springframework.stereotype.Service;
 
-import pe.impulsa.SUNATParser.impulsadb.models.Icobropago;
-import pe.impulsa.SUNATParser.impulsadb.models.Iinventario;
-import pe.impulsa.SUNATParser.impulsadb.models.Iventas;
-import pe.impulsa.SUNATParser.impulsadb.models.Icompras;
-import pe.impulsa.SUNATParser.impulsadb.repo.IcobropagoRepo;
-import pe.impulsa.SUNATParser.impulsadb.repo.IcomprasRepo;
-import pe.impulsa.SUNATParser.impulsadb.repo.IinventarioRepo;
-import pe.impulsa.SUNATParser.impulsadb.repo.IventasRepo;
+import pe.impulsa.SUNATParser.impulsadb.models.Inventario;
+import pe.impulsa.SUNATParser.impulsadb.models.Ventas;
+import pe.impulsa.SUNATParser.impulsadb.models.Compras;
+import pe.impulsa.SUNATParser.impulsadb.repo.CobropagoRepo;
+import pe.impulsa.SUNATParser.impulsadb.repo.ComprasRepo;
+import pe.impulsa.SUNATParser.impulsadb.repo.InventarioRepo;
+import pe.impulsa.SUNATParser.impulsadb.repo.VentasRepo;
 import pe.impulsa.SUNATParser.pojo.BoletaVenta;
 import pe.impulsa.SUNATParser.pojo.Factura;
 import pe.impulsa.SUNATParser.pojo.NotaCredito;
@@ -32,18 +31,18 @@ public class ParseXML extends ExtractXml {
     private final DataMethods dataMethods;
     private static DateTimeFormatter anomesdia = DateTimeFormatter.ofPattern("yyyyMMdd");
     private static DateTimeFormatter anomes = DateTimeFormatter.ofPattern("yyyyMM");
-    private final IventasRepo iventasRepo;
-    private final IcomprasRepo icomprasRepo;
-    private final IinventarioRepo iinventarioRepo;
-    private final IcobropagoRepo icobropagoRepo;
+    private final VentasRepo ventasRepo;
+    private final ComprasRepo comprasRepo;
+    private final InventarioRepo inventarioRepo;
+    private final CobropagoRepo cobropagoRepo;
     Integer i=0;
 
-    public ParseXML(DataMethods dataMethods, IventasRepo iventasRepo, IcomprasRepo icomprasRepo, IinventarioRepo iinventarioRepo, IcobropagoRepo icobropagoRepo) {
+    public ParseXML(DataMethods dataMethods, VentasRepo ventasRepo, ComprasRepo comprasRepo, InventarioRepo inventarioRepo, CobropagoRepo cobropagoRepo) {
         this.dataMethods = dataMethods;
-        this.iventasRepo = iventasRepo;
-        this.icomprasRepo = icomprasRepo;
-        this.iinventarioRepo = iinventarioRepo;
-        this.icobropagoRepo = icobropagoRepo;
+        this.ventasRepo = ventasRepo;
+        this.comprasRepo = comprasRepo;
+        this.inventarioRepo = inventarioRepo;
+        this.cobropagoRepo = cobropagoRepo;
     }
 
     public Integer facturas(String ruta) throws JAXBException {
@@ -70,7 +69,7 @@ public class ParseXML extends ExtractXml {
                         if (dataMethods.verifysupplier(Long.valueOf(e.getAccountingSupplierParty().getParty().getPartyIdentification().getId().getValue()))) {
                             //INGRESAR VENTA
 
-                            Iventas venta = new Iventas();
+                            Ventas venta = new Ventas();
                             venta.setRuc(Long.valueOf(e.getAccountingSupplierParty().getParty().getPartyIdentification().getId().getValue()));
                             venta.setPeriodoTributario(Integer.valueOf(anomes.format(e.getIssuedate())));
                             venta.setTipoOperacion(1);
@@ -163,9 +162,9 @@ public class ParseXML extends ExtractXml {
                             //venta.setTasaDetraccion(null);
                             //venta.setTasaPercepcion(null);
                             venta.setObservaciones("PRUEBA");
-                            iventasRepo.save(venta);
+                            ventasRepo.save(venta);
                             //INGRESAR INVENTARIO
-                            Iinventario inventario = new Iinventario();
+                            Inventario inventario = new Inventario();
                             for (InvoiceLine i : e.getInvoiceLine()) {
                                 inventario.setRuc(Long.valueOf(e.getAccountingSupplierParty().getParty().getPartyIdentification().getId().getValue()));
                                 inventario.setTipoOperacion(1);
@@ -190,12 +189,12 @@ public class ParseXML extends ExtractXml {
                                 }
                                 inventario.setCuiRelacionado(cui);
                                 inventario.setObservaciones("NUEVO");
-                                iinventarioRepo.save(inventario);
+                                inventarioRepo.save(inventario);
                             }
                         }
                         if (dataMethods.verifycustomer(Long.valueOf(e.getAccountingCustomerParty().getParty().getPartyIdentification().getId().getValue()))) {
                             //INGRESAR COMPRA
-                            Icompras compra = new Icompras();
+                            Compras compra = new Compras();
                             compra.setRuc(Long.valueOf(e.getAccountingCustomerParty().getParty().getPartyIdentification().getId().getValue()));
                             compra.setPeriodoTributario(Integer.valueOf(anomes.format(e.getIssuedate())));
                             compra.setTipoOperacion(2);
@@ -286,9 +285,9 @@ public class ParseXML extends ExtractXml {
                             //compra.setTasaDetraccion(null);
                             //compra.setTasaPercepcion(null);
                             compra.setObservaciones("PRUEBA");
-                            icomprasRepo.save(compra);
+                            comprasRepo.save(compra);
                             //INGRESAR INVENTARIO
-                            Iinventario inventario = new Iinventario();
+                            Inventario inventario = new Inventario();
                             for (InvoiceLine i : e.getInvoiceLine()) {
                                 inventario.setRuc(Long.valueOf(e.getAccountingCustomerParty().getParty().getPartyIdentification().getId().getValue()));
                                 inventario.setTipoOperacion(2);
@@ -313,7 +312,7 @@ public class ParseXML extends ExtractXml {
                                 }
                                 inventario.setCuiRelacionado(cui);
                                 inventario.setObservaciones("NUEVO");
-                                iinventarioRepo.save(inventario);
+                                inventarioRepo.save(inventario);
                             }
                         }
                     }

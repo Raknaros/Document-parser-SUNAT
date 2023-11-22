@@ -17,7 +17,7 @@ import java.sql.Date;
 @DynamicInsert
 @Getter
 @Setter
-public class Iventas {
+public class Ventas {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     @Column(name = "id")

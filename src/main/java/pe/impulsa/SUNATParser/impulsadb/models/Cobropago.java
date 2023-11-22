@@ -17,7 +17,7 @@ import java.sql.Date;
 @DynamicInsert
 @Getter
 @Setter
-public class Icobropago {
+public class Cobropago {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     @Column(name = "cui_relacionado")

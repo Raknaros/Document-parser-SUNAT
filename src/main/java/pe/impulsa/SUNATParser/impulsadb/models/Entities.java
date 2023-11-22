@@ -5,17 +5,16 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.hibernate.annotations.DynamicUpdate;
 
 import java.sql.Date;
 
 @Entity
-@Table(name="entities",schema="acc")
+@Table(name="entities",schema="priv")
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
 @Setter
-public class Ientities {
+public class Entities {
     /*@GeneratedValue(strategy = GenerationType.IDENTITY)
             TABLE,
             generator = "table-generator")
