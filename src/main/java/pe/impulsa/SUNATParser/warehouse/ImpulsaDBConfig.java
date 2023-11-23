@@ -1,4 +1,4 @@
-package pe.impulsa.SUNATParser.impulsadb;
+package pe.impulsa.SUNATParser.warehouse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -22,7 +22,7 @@ import java.util.Map;
 @EnableTransactionManagement
 @EnableJpaRepositories(
         entityManagerFactoryRef="secondEntityManagerFactoryBean",
-        basePackages={"pe.impulsa.SUNATParser.impulsadb.repo"},
+        basePackages={"pe.impulsa.SUNATParser.warehouse.repo"},
         transactionManagerRef="secondTransactionManager"
 )
 public class ImpulsaDBConfig {

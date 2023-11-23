@@ -1,13 +1,13 @@
 package pe.impulsa.SUNATParser.service.parsexml;
 
-import pe.impulsa.SUNATParser.impulsadb.models.Cobropago;
-import pe.impulsa.SUNATParser.impulsadb.models.Compras;
-import pe.impulsa.SUNATParser.impulsadb.models.Inventario;
-import pe.impulsa.SUNATParser.impulsadb.models.Ventas;
-import pe.impulsa.SUNATParser.impulsadb.repo.CobropagoRepo;
-import pe.impulsa.SUNATParser.impulsadb.repo.ComprasRepo;
-import pe.impulsa.SUNATParser.impulsadb.repo.InventarioRepo;
-import pe.impulsa.SUNATParser.impulsadb.repo.VentasRepo;
+import pe.impulsa.SUNATParser.warehouse.models.Cobropago;
+import pe.impulsa.SUNATParser.warehouse.models.Compras;
+import pe.impulsa.SUNATParser.warehouse.models.Inventario;
+import pe.impulsa.SUNATParser.warehouse.models.Ventas;
+import pe.impulsa.SUNATParser.warehouse.repo.CobropagoRepo;
+import pe.impulsa.SUNATParser.warehouse.repo.ComprasRepo;
+import pe.impulsa.SUNATParser.warehouse.repo.InventarioRepo;
+import pe.impulsa.SUNATParser.warehouse.repo.VentasRepo;
 import pe.impulsa.SUNATParser.pojo.Factura;
 import pe.impulsa.SUNATParser.pojo.xmlelements.AtrSet5;
 import pe.impulsa.SUNATParser.pojo.xmlelements.InvoiceLine;
@@ -18,10 +18,10 @@ import java.sql.Date;
 import java.time.format.DateTimeFormatter;
 
 public class FacturaParse {
-    private static VentasRepo iventasRepo = null;
-    private static ComprasRepo icomprasRepo = null;
-    private static InventarioRepo iinventarioRepo = null;
-    private static final CobropagoRepo cobropagoRepo = null;
+    private static VentasRepo ventasRepo = null;
+    private static ComprasRepo comprasRepo = null;
+    private static InventarioRepo inventarioRepo = null;
+    private static CobropagoRepo cobropagoRepo = null;
     private static Factura factura;
     private static DateTimeFormatter anomesdia = DateTimeFormatter.ofPattern("yyyyMMdd");
     private static DateTimeFormatter anomes = DateTimeFormatter.ofPattern("yyyyMM");
@@ -38,10 +38,10 @@ public class FacturaParse {
     private static BigDecimal totalAdelanto = new BigDecimal(0);
 
     public FacturaParse(VentasRepo ventasRepo, ComprasRepo comprasRepo, InventarioRepo inventarioRepo, CobropagoRepo cobropagoRepo, Factura factura) {
-        FacturaParse.iventasRepo = ventasRepo;
-        FacturaParse.icomprasRepo = comprasRepo;
-        FacturaParse.iinventarioRepo = inventarioRepo;
-        this.icobropagoRepo = cobropagoRepo;
+        FacturaParse.ventasRepo = ventasRepo;
+        FacturaParse.comprasRepo = comprasRepo;
+        FacturaParse.inventarioRepo = inventarioRepo;
+        FacturaParse.cobropagoRepo = cobropagoRepo;
         FacturaParse.factura =factura;
     }
     public Integer toDB(){

@@ -1,4 +1,4 @@
-package pe.impulsa.SUNATParser.impulsadb.models;
+package pe.impulsa.SUNATParser.warehouse.models;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;

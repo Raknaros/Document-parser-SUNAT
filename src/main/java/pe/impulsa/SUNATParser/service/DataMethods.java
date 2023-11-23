@@ -1,29 +1,24 @@
 package pe.impulsa.SUNATParser.service;
 import org.springframework.stereotype.Service;
-import pe.impulsa.SUNATParser.impulsadb.models.Entities;
-import pe.impulsa.SUNATParser.impulsadb.repo.EntitiesRepo;
+import pe.impulsa.SUNATParser.warehouse.models.Entities;
+import pe.impulsa.SUNATParser.warehouse.repo.EntitiesRepo;
 import pe.impulsa.SUNATParser.parserdb.models.Pentities;
 import pe.impulsa.SUNATParser.parserdb.models.Plog;
-import pe.impulsa.SUNATParser.parserdb.repo.PentitiesRepo;
 import pe.impulsa.SUNATParser.parserdb.repo.PlogRepo;
 
 import java.util.List;
 
 @Service
 public class DataMethods {
-    private final PentitiesRepo Pentitiesrepo;
-    private final EntitiesRepo ientitiesrepo;
+    private final EntitiesRepo entitiesRepo;
     private final PlogRepo plogRepo;
-    public DataMethods(PentitiesRepo pentitiesRepository, EntitiesRepo entitiesRepository, PlogRepo plogRepo) {
-        this.Pentitiesrepo = pentitiesRepository;
-        this.ientitiesrepo = entitiesRepository;
+    public DataMethods(EntitiesRepo entitiesRepo, PlogRepo plogRepo) {
+        this.entitiesRepo = entitiesRepo;
         this.plogRepo = plogRepo;
     }
 
-    public void resetAllEntities(){
-
-        Pentitiesrepo.deleteAll();
-        List<Entities> Entidades = ientitiesrepo.findAllByActivo(true);
+    public void fetchEntities(){
+        List<Entities> Entidades = entitiesRepo.findAllByActivo(true);
         for (Entities e : Entidades) {
             Pentities NuevaEntidad = new Pentities(e.getRuc(), e.getNombreRazon(), e.getUsuarioSol(), e.getClaveSol());
             Pentitiesrepo.save(NuevaEntidad);

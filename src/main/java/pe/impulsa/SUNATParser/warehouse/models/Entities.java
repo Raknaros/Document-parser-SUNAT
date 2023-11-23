@@ -1,10 +1,12 @@
-package pe.impulsa.SUNATParser.impulsadb.models;
+package pe.impulsa.SUNATParser.warehouse.models;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.DynamicUpdate;
+import pe.impulsa.SUNATParser.pojo.FetchEntities;
 
 import java.sql.Date;
 
@@ -14,6 +16,26 @@ import java.sql.Date;
 @AllArgsConstructor
 @Getter
 @Setter
+@DynamicUpdate
+/*@NamedNativeQueries(value = {
+        @NamedNativeQuery(
+                name="EntidadesLista",
+                query="SELECT nombre_razon, ruc, observaciones FROM acc.entities WHERE activo IS TRUE",
+                resultSetMapping="ListaEntidadesMapping")
+})
+@SqlResultSetMappings(value={
+        @SqlResultSetMapping(
+                name = "ListaEntidadesMapping",
+                classes = @ConstructorResult(
+                        targetClass = FetchEntities.class,
+                        columns = {
+                                @ColumnResult(name = "ruc", type= Long.class),
+                                @ColumnResult(name = "ruc"),
+                                @ColumnResult(name = "observaciones")
+                        }
+                )
+        )
+})*/
 public class Entities {
     /*@GeneratedValue(strategy = GenerationType.IDENTITY)
             TABLE,
