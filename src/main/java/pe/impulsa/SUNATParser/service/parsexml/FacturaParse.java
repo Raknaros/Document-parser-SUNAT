@@ -16,6 +16,7 @@ import pe.impulsa.SUNATParser.pojo.xmlelements.taxtotal.TaxSubtotal;
 import java.math.BigDecimal;
 import java.sql.Date;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 
 public class FacturaParse {
     private static VentasRepo ventasRepo = null;
@@ -44,8 +45,9 @@ public class FacturaParse {
         FacturaParse.cobropagoRepo = cobropagoRepo;
         FacturaParse.factura =factura;
     }
-    public Integer toDB(){
+    public static Integer toDB(String cui, List<Long> entidades){
         Integer i=0;
+
         String cui = Long.toHexString(Long.parseLong(factura.getAccountingSupplierParty().getParty().getPartyIdentification().getId().getValue())) + factura.getInvoiceTypeCode().getValor() + factura.getId().split("-")[0].trim() + factura.getId().split("-")[1].trim();
 
       return i;
@@ -120,8 +122,8 @@ public class FacturaParse {
         //venta.setIcbp(new BigDecimal(0));
         //venta.setTasaDetraccion(null);
         //venta.setTasaPercepcion(null);
-        venta.setObservaciones("PRUEBA");
-        iventasRepo.save(venta);
+        venta.setObservaciones("PARSER");
+        ventasRepo.save(venta);
     }
     private static void registrarCompra(){
         Compras compra = new Compras();
@@ -189,8 +191,8 @@ public class FacturaParse {
         //compra.setIcbp(new BigDecimal(0));
         //compra.setTasaDetraccion(null);
         //compra.setTasaPercepcion(null);
-        compra.setObservaciones("PRUEBA");
-        icomprasRepo.save(compra);
+        compra.setObservaciones("PARSER");
+        comprasRepo.save(compra);
     }
     private static void registrarCobroPago(){
         Cobropago cobropago=new Cobropago();
@@ -260,7 +262,7 @@ public class FacturaParse {
             cobropago.setImporteCuota7(factura.getPaymentTerms().get(z+7).getAmount().getValor());
 
         }catch (Exception ignored){}finally {
-            icobropagoRepo.save(cobropago);
+            cobropagoRepo.save(cobropago);
         }
     }
     private static void registrarInventario(){
@@ -288,8 +290,8 @@ public class FacturaParse {
                 inventario.setNumeroDocumentoReferencia(factura.getId());
             }
             inventario.setCuiRelacionado(cui);
-            inventario.setObservaciones("NUEVO");
-            iinventarioRepo.save(inventario);
+            inventario.setObservaciones("PARSER");
+            inventarioRepo.save(inventario);
         }
     }
 

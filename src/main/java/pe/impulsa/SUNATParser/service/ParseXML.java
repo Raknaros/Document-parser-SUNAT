@@ -5,6 +5,7 @@ import jakarta.xml.bind.JAXBException;
 import jakarta.xml.bind.Unmarshaller;
 import org.springframework.stereotype.Service;
 
+import pe.impulsa.SUNATParser.service.parsexml.FacturaParse;
 import pe.impulsa.SUNATParser.warehouse.models.Inventario;
 import pe.impulsa.SUNATParser.warehouse.models.Ventas;
 import pe.impulsa.SUNATParser.warehouse.models.Compras;
@@ -52,9 +53,12 @@ public class ParseXML extends ExtractXml {
                 JAXBContext jaxbContext = JAXBContext.newInstance(Factura.class);
                 Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
                 Factura e = (Factura) jaxbUnmarshaller.unmarshal(content);
+                String cui = Long.toHexString(Long.valueOf(e.getAccountingSupplierParty().getParty().getPartyIdentification().getId().getValue())) + e.getInvoiceTypeCode().getValor() + e.getId().split("-")[0].trim() + e.getId().split("-")[1].trim();
+                //Listo para cambiar metodo verifyxml y probar el facturaparse, corregir tambien ingreso de cobropago.
                 try {
-                    String cui = Long.toHexString(Long.valueOf(e.getAccountingSupplierParty().getParty().getPartyIdentification().getId().getValue())) + e.getInvoiceTypeCode().getValor() + e.getId().split("-")[0].trim() + e.getId().split("-")[1].trim();
                     if (dataMethods.verifyxml(Integer.valueOf(anomes.format(e.getIssuedate())), cui)) {
+                        FacturaParse.toDB(cui,dataMethods.fetchEntities());
+                        /*
                         BigDecimal totalBaseImponible = new BigDecimal(0);
                         BigDecimal totalDescuento = new BigDecimal(0);
                         BigDecimal totalIgv = new BigDecimal(0);
@@ -91,7 +95,7 @@ public class ParseXML extends ExtractXml {
                                         z = 1;
                                     }
                                 }
-                            }catch (Exception ignored){}/*
+                            }catch (Exception ignored){}
                         if(!e.getPaymentTerms().get(z).getPaymentmeansid().equals("Contado")){
                             venta.setFechaVencimiento(Date.valueOf(e.getDuedate()));
                             Icobropago cobropago=new Icobropago();
@@ -114,7 +118,7 @@ public class ParseXML extends ExtractXml {
                             }catch (Exception ignored){}finally {
                                 icobropagoRepo.save(cobropago);
                             }
-                        }*/
+                        }
                             for (TaxSubtotal t : e.getTaxTotal().getTaxSubtotal()) {
                                 switch (t.getTaxCategory().getTaxScheme().getId().getValue()) {
                                     case "1000" -> {
@@ -237,7 +241,7 @@ public class ParseXML extends ExtractXml {
                             }catch (Exception ignored){}finally {
                                 icobropagoRepo.save(cobropago);
                             }
-                        }*/
+                        }
 
                             for (TaxSubtotal t : e.getTaxTotal().getTaxSubtotal()) {
                                 switch (t.getTaxCategory().getTaxScheme().getId().getValue()) {
@@ -314,7 +318,7 @@ public class ParseXML extends ExtractXml {
                                 inventario.setObservaciones("NUEVO");
                                 inventarioRepo.save(inventario);
                             }
-                        }
+                        }*/
                     }
 
                 } catch (Exception ex) {

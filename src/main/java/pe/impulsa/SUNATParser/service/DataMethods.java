@@ -17,29 +17,15 @@ public class DataMethods {
         this.plogRepo = plogRepo;
     }
 
-    public void fetchEntities(){
-        List<Entities> Entidades = entitiesRepo.findAllByActivo(true);
-        for (Entities e : Entidades) {
-            Pentities NuevaEntidad = new Pentities(e.getRuc(), e.getNombreRazon(), e.getUsuarioSol(), e.getClaveSol());
-            Pentitiesrepo.save(NuevaEntidad);
-        }
+    public List<Long> fetchEntities(){
+        return entitiesRepo.findAllByActivo(true).stream()
+                .map(Entities::getRuc)
+                .toList();
     }
     public boolean verifyxml(Integer periodo, String cui){
         List<String> Log = plogRepo.findAllByPeriodo(periodo).stream()
                 .map(Plog::getCui)
                 .toList();
         return !Log.contains(cui);
-    }
-    public boolean verifysupplier(Long ruc){
-        List<Long> Suppliers = Pentitiesrepo.findAll().stream()
-                .map(Pentities::getRuc)
-                .toList();
-        return Suppliers.contains(ruc);
-    }
-    public boolean verifycustomer(Long ruc){
-        List<Long> Customers = Pentitiesrepo.findAll().stream()
-                .map(Pentities::getRuc)
-                .toList();
-        return Customers.contains(ruc);
     }
 }
