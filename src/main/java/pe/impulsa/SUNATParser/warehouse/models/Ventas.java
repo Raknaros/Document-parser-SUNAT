@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.DynamicInsert;
+import pe.impulsa.SUNATParser.pojo.LogCUI;
 
 import java.math.BigDecimal;
 import java.sql.Date;
@@ -17,6 +18,23 @@ import java.sql.Date;
 @DynamicInsert
 @Getter
 @Setter
+@NamedNativeQueries(value = {
+        @NamedNativeQuery(
+                name="LogCUI",
+                query="SELECT ruc, periodo_tributario, RIGHT(cui,-1) FROM acc._5 UNION SELECT ruc, periodo_tributario, RIGHT(cui,-1) FROM acc._8",
+                resultSetMapping="LogCUIMapping")
+})
+@SqlResultSetMappings(value={
+        @SqlResultSetMapping(
+                name = "LogCUIMapping",
+                classes = @ConstructorResult(
+                        targetClass = LogCUI.class,
+                        columns = {
+                                @ColumnResult(name = "log")
+                        }
+                )
+        )
+})
 public class Ventas {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id

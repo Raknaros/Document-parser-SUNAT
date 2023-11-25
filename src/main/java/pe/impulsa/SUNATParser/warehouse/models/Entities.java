@@ -6,7 +6,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.DynamicUpdate;
-import pe.impulsa.SUNATParser.pojo.FetchEntities;
 
 import java.sql.Date;
 
@@ -19,19 +18,17 @@ import java.sql.Date;
 @DynamicUpdate
 /*@NamedNativeQueries(value = {
         @NamedNativeQuery(
-                name="EntidadesLista",
-                query="SELECT nombre_razon, ruc, observaciones FROM acc.entities WHERE activo IS TRUE",
-                resultSetMapping="ListaEntidadesMapping")
+                name="LogCUI",
+                query="SELECT RIGHT(cui,-1) FROM acc._5 UNION SELECT RIGHT(cui,-1) FROM acc._8",
+                resultSetMapping="LogCUIMapping")
 })
 @SqlResultSetMappings(value={
         @SqlResultSetMapping(
-                name = "ListaEntidadesMapping",
+                name = "LogCUIMapping",
                 classes = @ConstructorResult(
-                        targetClass = FetchEntities.class,
+                        targetClass = LogCUI.class,
                         columns = {
-                                @ColumnResult(name = "ruc", type= Long.class),
-                                @ColumnResult(name = "ruc"),
-                                @ColumnResult(name = "observaciones")
+                                @ColumnResult(name = "log")
                         }
                 )
         )

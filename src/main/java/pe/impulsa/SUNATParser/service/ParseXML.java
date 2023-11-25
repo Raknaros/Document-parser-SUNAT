@@ -5,7 +5,9 @@ import jakarta.xml.bind.JAXBException;
 import jakarta.xml.bind.Unmarshaller;
 import org.springframework.stereotype.Service;
 
+import pe.impulsa.SUNATParser.pojo.*;
 import pe.impulsa.SUNATParser.service.parsexml.FacturaParse;
+import pe.impulsa.SUNATParser.warehouse.models.Entities;
 import pe.impulsa.SUNATParser.warehouse.models.Inventario;
 import pe.impulsa.SUNATParser.warehouse.models.Ventas;
 import pe.impulsa.SUNATParser.warehouse.models.Compras;
@@ -13,10 +15,6 @@ import pe.impulsa.SUNATParser.warehouse.repo.CobropagoRepo;
 import pe.impulsa.SUNATParser.warehouse.repo.ComprasRepo;
 import pe.impulsa.SUNATParser.warehouse.repo.InventarioRepo;
 import pe.impulsa.SUNATParser.warehouse.repo.VentasRepo;
-import pe.impulsa.SUNATParser.pojo.BoletaVenta;
-import pe.impulsa.SUNATParser.pojo.Factura;
-import pe.impulsa.SUNATParser.pojo.NotaCredito;
-import pe.impulsa.SUNATParser.pojo.NotaDebito;
 import pe.impulsa.SUNATParser.pojo.xmlelements.AtrSet5;
 import pe.impulsa.SUNATParser.pojo.xmlelements.InvoiceLine;
 import pe.impulsa.SUNATParser.pojo.xmlelements.taxtotal.TaxSubtotal;
@@ -25,7 +23,10 @@ import java.io.StringReader;
 import java.math.BigDecimal;
 import java.sql.Date;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 import java.util.Map;
+import java.util.Objects;
+import java.util.stream.Collectors;
 
 @Service
 public class ParseXML extends ExtractXml {
@@ -47,6 +48,7 @@ public class ParseXML extends ExtractXml {
     }
 
     public Integer facturas(String ruta) throws JAXBException {
+        List<LogCUI> lista=dataMethods.verifyxml();
         for (Map.Entry<String, String> entry : listaXml(ruta).entrySet()) {
             if (entry.getKey().startsWith("FACTURA")) {
                 StringReader content = new StringReader(entry.getValue());
@@ -56,8 +58,11 @@ public class ParseXML extends ExtractXml {
                 String cui = Long.toHexString(Long.valueOf(e.getAccountingSupplierParty().getParty().getPartyIdentification().getId().getValue())) + e.getInvoiceTypeCode().getValor() + e.getId().split("-")[0].trim() + e.getId().split("-")[1].trim();
                 //Listo para cambiar metodo verifyxml y probar el facturaparse, corregir tambien ingreso de cobropago.
                 try {
-                    if (dataMethods.verifyxml(Integer.valueOf(anomes.format(e.getIssuedate())), cui)) {
-                        FacturaParse.toDB(cui,dataMethods.fetchEntities());
+
+                    if (!lista.stream()
+                            .filter(c -> c.getRuc().equals(Long.valueOf(e.getAccountingSupplierParty().getParty().getPartyIdentification().getId().getValue())) && c.getPeriodoTributario() > Integer.parseInt(anomes.format(e.getIssuedate())))
+                            .map(LogCUI::getLog).toList().contains(cui)) {
+                        FacturaParse.toDB(dataMethods.fetchEntities());
                         /*
                         BigDecimal totalBaseImponible = new BigDecimal(0);
                         BigDecimal totalDescuento = new BigDecimal(0);

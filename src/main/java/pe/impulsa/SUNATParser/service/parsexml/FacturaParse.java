@@ -1,5 +1,6 @@
 package pe.impulsa.SUNATParser.service.parsexml;
 
+import pe.impulsa.SUNATParser.pojo.xmlelements.PaymentTerms;
 import pe.impulsa.SUNATParser.warehouse.models.Cobropago;
 import pe.impulsa.SUNATParser.warehouse.models.Compras;
 import pe.impulsa.SUNATParser.warehouse.models.Inventario;
@@ -45,14 +46,21 @@ public class FacturaParse {
         FacturaParse.cobropagoRepo = cobropagoRepo;
         FacturaParse.factura =factura;
     }
-    public static Integer toDB(String cui, List<Long> entidades){
-        Integer i=0;
+    public static void toDB(List<Long> entidades){
+        int z = 0;
+        if(entidades.contains(Long.valueOf(factura.getAccountingSupplierParty().getParty().getPartyIdentification().getId().getValue()))){
+            registrarVenta(z);
+            registrarInventario(1);
+        }else if (entidades.contains(Long.valueOf(factura.getAccountingCustomerParty().getParty().getPartyIdentification().getId().getValue()))){
+            registrarCompra();
+            registrarInventario(2);
+        }
+        if(!factura.getPaymentTerms().get(z).getPaymentmeansid().equals("Contado")){
+            registrarCobroPago();
+        }
 
-        String cui = Long.toHexString(Long.parseLong(factura.getAccountingSupplierParty().getParty().getPartyIdentification().getId().getValue())) + factura.getInvoiceTypeCode().getValor() + factura.getId().split("-")[0].trim() + factura.getId().split("-")[1].trim();
-
-      return i;
     };
-    private static void registrarVenta(){
+    private static void registrarVenta(int z){
         Ventas venta = new Ventas();
         venta.setRuc(Long.valueOf(factura.getAccountingSupplierParty().getParty().getPartyIdentification().getId().getValue()));
         venta.setPeriodoTributario(Integer.valueOf(anomes.format(factura.getIssuedate())));
@@ -67,7 +75,6 @@ public class FacturaParse {
             venta.setTipoDocumento(factura.getAccountingCustomerParty().getParty().getPartyIdentification().getId().getSchemeID());
         }
         venta.setNumeroDocumento(factura.getAccountingCustomerParty().getParty().getPartyIdentification().getId().getValue());
-        int z = 0;
         try {
             for (AtrSet5 k : factura.getNote()) {
                 if (k.getLanguageLocaleID().equals("2006")) {
@@ -196,6 +203,7 @@ public class FacturaParse {
     }
     private static void registrarCobroPago(){
         Cobropago cobropago=new Cobropago();
+        for(PaymentTerms pago:factura.getPaymentTerms())
         try {
             cobropago.setCuiRelacionado(cui);
             cobropago.setFechaCuota1(Date.valueOf(factura.getPaymentTerms().get(z+1).getPaymentduedate()));
@@ -265,11 +273,11 @@ public class FacturaParse {
             cobropagoRepo.save(cobropago);
         }
     }
-    private static void registrarInventario(){
+    private static void registrarInventario(int tipoOperacion){
         Inventario inventario = new Inventario();
         for (InvoiceLine i : factura.getInvoiceLine()) {
             inventario.setRuc(Long.valueOf(factura.getAccountingSupplierParty().getParty().getPartyIdentification().getId().getValue()));
-            inventario.setTipoOperacion(1);
+            inventario.setTipoOperacion(tipoOperacion);
             inventario.setPeriodoTributario(Integer.valueOf(anomes.format(factura.getIssuedate())));
             inventario.setFecha(Date.valueOf(factura.getIssuedate()));
             inventario.setCodigoItem(i.getItem().getSellersItemIdentification().getId());
