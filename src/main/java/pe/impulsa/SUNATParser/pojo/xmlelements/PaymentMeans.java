@@ -1,4 +1,4 @@
-package pe.impulsa.SUNATParser.pojo.xmlelements.ublextensions;
+package pe.impulsa.SUNATParser.pojo.xmlelements;
 
 import jakarta.xml.bind.annotation.XmlElement;
 import lombok.Getter;

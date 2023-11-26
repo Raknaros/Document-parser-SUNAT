@@ -4,7 +4,7 @@ import jakarta.xml.bind.annotation.*;
 import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import lombok.Getter;
 import pe.impulsa.SUNATParser.pojo.xmlelements.*;
-import pe.impulsa.SUNATParser.pojo.xmlelements.ublextensions.PaymentMeans;
+import pe.impulsa.SUNATParser.pojo.xmlelements.PaymentMeans;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
