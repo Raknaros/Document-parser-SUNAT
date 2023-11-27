@@ -97,6 +97,10 @@ public class FacturaParse {
                     totalGratuito = t.getTaxableAmount().getValor();
                     totalIgv = t.getTaxAmount().getValor();
                 }
+                case "9995" -> {
+                    venta.setTipoOperacion(17);
+                    totalBaseImponible = t.getTaxableAmount().getValor();
+                }
             }
         }
         subTotalVenta = factura.getLegalMonetaryTotal().getLineExtensionAmount().getValor();
@@ -166,6 +170,10 @@ public class FacturaParse {
                 case "9996" -> {
                     totalGratuito = t.getTaxableAmount().getValor();
                     totalIgv = t.getTaxAmount().getValor();
+                }
+                case "9995" -> {
+                    compra.setTipoOperacion(18);
+                    totalBaseImponible = t.getTaxableAmount().getValor();
                 }
             }
         }
