@@ -21,7 +21,7 @@ import java.sql.Date;
 @NamedNativeQueries(value = {
         @NamedNativeQuery(
                 name="LogCUI",
-                query="SELECT ruc, periodo_tributario, RIGHT(cui,-1) FROM acc._5 UNION SELECT ruc, periodo_tributario, RIGHT(cui,-1) FROM acc._8",
+                query="SELECT ruc, periodo_tributario, RIGHT(cui,-1) AS log FROM acc._5 UNION SELECT ruc, periodo_tributario, RIGHT(cui,-1) AS log FROM acc._8",
                 resultSetMapping="LogCUIMapping")
 })
 @SqlResultSetMappings(value={
@@ -30,6 +30,8 @@ import java.sql.Date;
                 classes = @ConstructorResult(
                         targetClass = LogCUI.class,
                         columns = {
+                                @ColumnResult(name = "ruc", type = Long.class),
+                                @ColumnResult(name = "periodo_tributario", type = Integer.class),
                                 @ColumnResult(name = "log")
                         }
                 )

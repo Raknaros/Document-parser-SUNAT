@@ -1,6 +1,8 @@
 package pe.impulsa.SUNATParser.service.parsexml;
 
-import pe.impulsa.SUNATParser.pojo.xmlelements.PaymentTerms;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
+import org.springframework.stereotype.Component;
 import pe.impulsa.SUNATParser.warehouse.models.Cobropago;
 import pe.impulsa.SUNATParser.warehouse.models.Compras;
 import pe.impulsa.SUNATParser.warehouse.models.Inventario;
@@ -10,7 +12,6 @@ import pe.impulsa.SUNATParser.warehouse.repo.ComprasRepo;
 import pe.impulsa.SUNATParser.warehouse.repo.InventarioRepo;
 import pe.impulsa.SUNATParser.warehouse.repo.VentasRepo;
 import pe.impulsa.SUNATParser.pojo.Factura;
-import pe.impulsa.SUNATParser.pojo.xmlelements.AtrSet5;
 import pe.impulsa.SUNATParser.pojo.xmlelements.InvoiceLine;
 import pe.impulsa.SUNATParser.pojo.xmlelements.taxtotal.TaxSubtotal;
 
@@ -19,10 +20,11 @@ import java.sql.Date;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
+@Component
 public class FacturaParse {
     private static VentasRepo ventasRepo = null;
-    private static ComprasRepo comprasRepo = null;
     private static InventarioRepo inventarioRepo = null;
+    private static ComprasRepo comprasRepo = null;
     private static CobropagoRepo cobropagoRepo = null;
     private static Factura factura;
     private static DateTimeFormatter anomesdia = DateTimeFormatter.ofPattern("yyyyMMdd");
@@ -39,25 +41,29 @@ public class FacturaParse {
     private static BigDecimal subTotalVenta = new BigDecimal(0);
     private static BigDecimal totalAdelanto = new BigDecimal(0);
 
-    public FacturaParse(VentasRepo ventasRepo, ComprasRepo comprasRepo, InventarioRepo inventarioRepo, CobropagoRepo cobropagoRepo, Factura factura) {
-        FacturaParse.ventasRepo = ventasRepo;
-        FacturaParse.comprasRepo = comprasRepo;
-        FacturaParse.inventarioRepo = inventarioRepo;
-        FacturaParse.cobropagoRepo = cobropagoRepo;
-        FacturaParse.factura =factura;
+    public FacturaParse(VentasRepo ventasRepo, ComprasRepo comprasRepo, InventarioRepo inventarioRepo, CobropagoRepo cobropagoRepo) {
+        this.ventasRepo = ventasRepo;
+        this.comprasRepo = comprasRepo;
+        this.inventarioRepo = inventarioRepo;
+        this.cobropagoRepo = cobropagoRepo;
     }
-    public static void toDB(List<Long> entidades){
+    public static void toDB(List<Long> entidades,String cui,Factura e){
         int z = 0;
+        factura = e;
         if(entidades.contains(Long.valueOf(factura.getAccountingSupplierParty().getParty().getPartyIdentification().getId().getValue()))){
             registrarVenta(z);
-            registrarInventario(1);
+            registrarInventario(1,cui,'5');
+            if(!factura.getPaymentTerms().get(z).getPaymentmeansid().equals("Contado")){
+                registrarCobroPago(z,cui,"5");
+            }
         }else if (entidades.contains(Long.valueOf(factura.getAccountingCustomerParty().getParty().getPartyIdentification().getId().getValue()))){
-            registrarCompra();
-            registrarInventario(2);
+            registrarCompra(z);
+            registrarInventario(2,cui,'8');
+            if(!factura.getPaymentTerms().get(z).getPaymentmeansid().equals("Contado")){
+                registrarCobroPago(z,cui,"8");
+            }
         }
-        if(!factura.getPaymentTerms().get(z).getPaymentmeansid().equals("Contado")){
-            registrarCobroPago();
-        }
+
 
     };
     private static void registrarVenta(int z){
@@ -76,12 +82,12 @@ public class FacturaParse {
         }
         venta.setNumeroDocumento(factura.getAccountingCustomerParty().getParty().getPartyIdentification().getId().getValue());
         try {
-            for (AtrSet5 k : factura.getNote()) {
-                if (k.getLanguageLocaleID().equals("2006")) {
-                    venta.setTasaDetraccion(Integer.valueOf(factura.getPaymentTerms().get(0).getPaymentmeansid()));
-                    z = 1;
-                }
+
+            if (factura.getPaymentmeans().getId().equals("Detraccion")) {
+                venta.setTasaDetraccion(Integer.valueOf(factura.getPaymentTerms().get(0).getPaymentmeansid()));
+                z = 1;
             }
+
         }catch (Exception ignored){}
         for (TaxSubtotal t : factura.getTaxTotal().getTaxSubtotal()) {
             switch (t.getTaxCategory().getTaxScheme().getId().getValue()) {
@@ -99,14 +105,17 @@ public class FacturaParse {
                 }
                 case "9995" -> {
                     venta.setTipoOperacion(17);
-                    totalBaseImponible = t.getTaxableAmount().getValor();
+                    totalExonerado = t.getTaxableAmount().getValor();
                 }
             }
         }
-        subTotalVenta = factura.getLegalMonetaryTotal().getLineExtensionAmount().getValor();
-        totalDescuento = factura.getLegalMonetaryTotal().getAllowanceTotalAmount().getValor();
-        totalOtrosCargos = factura.getLegalMonetaryTotal().getChargeTotalAmount().getValor();
-        totalAdelanto = factura.getLegalMonetaryTotal().getPrepaidAmount().getValor();
+        try {
+            subTotalVenta = factura.getLegalMonetaryTotal().getLineExtensionAmount().getValor();
+            totalDescuento = factura.getLegalMonetaryTotal().getAllowanceTotalAmount().getValor();
+            totalOtrosCargos = factura.getLegalMonetaryTotal().getChargeTotalAmount().getValor();
+            totalAdelanto = factura.getLegalMonetaryTotal().getPrepaidAmount().getValor();
+        } catch (Exception ignore) {}
+
         venta.setTipoMoneda(factura.getDocumentCurrencyCode().getValor());
         //Si Base imponible no es null y suma de exonerado e inafecto no es null ni 0 destino es 3
         //Si base imponible es null y sumat de exonerado e inafecto no es null ni 0 destino 2
@@ -136,7 +145,7 @@ public class FacturaParse {
         venta.setObservaciones("PARSER");
         ventasRepo.save(venta);
     }
-    private static void registrarCompra(){
+    private static void registrarCompra(int z){
         Compras compra = new Compras();
         compra.setRuc(Long.valueOf(factura.getAccountingCustomerParty().getParty().getPartyIdentification().getId().getValue()));
         compra.setPeriodoTributario(Integer.valueOf(anomes.format(factura.getIssuedate())));
@@ -148,14 +157,13 @@ public class FacturaParse {
         compra.setTipoDocumento(factura.getAccountingSupplierParty().getParty().getPartyIdentification().getId().getSchemeID());
         compra.setNumeroDocumento(factura.getAccountingSupplierParty().getParty().getPartyIdentification().getId().getValue());
         compra.setTipoMoneda(factura.getDocumentCurrencyCode().getValor());
-        int z = 0;
         try {
-            for (AtrSet5 k : factura.getNote()) {
-                if (k.getLanguageLocaleID().equals("2006")) {
-                    compra.setTasaDetraccion(Integer.valueOf(factura.getPaymentTerms().get(0).getPaymentmeansid()));
-                    z = 1;
-                }
+
+            if (factura.getPaymentmeans().getId().equals("Detraccion")) {
+                compra.setTasaDetraccion(Integer.valueOf(factura.getPaymentTerms().get(0).getPaymentmeansid()));
+                z = 1;
             }
+
         }catch (Exception ignored){}
         for (TaxSubtotal t : factura.getTaxTotal().getTaxSubtotal()) {
             switch (t.getTaxCategory().getTaxScheme().getId().getValue()) {
@@ -173,14 +181,17 @@ public class FacturaParse {
                 }
                 case "9995" -> {
                     compra.setTipoOperacion(18);
-                    totalBaseImponible = t.getTaxableAmount().getValor();
+                    totalExonerado = t.getTaxableAmount().getValor();
+                    compra.setObservaciones("ALERTA IMPORTACION");
                 }
             }
         }
-        subTotalVenta = factura.getLegalMonetaryTotal().getLineExtensionAmount().getValor();
-        totalDescuento = factura.getLegalMonetaryTotal().getAllowanceTotalAmount().getValor();
-        totalOtrosCargos = factura.getLegalMonetaryTotal().getChargeTotalAmount().getValor();
-        totalAdelanto = factura.getLegalMonetaryTotal().getPrepaidAmount().getValor();
+        try {
+            subTotalVenta = factura.getLegalMonetaryTotal().getLineExtensionAmount().getValor();
+            totalDescuento = factura.getLegalMonetaryTotal().getAllowanceTotalAmount().getValor();
+            totalOtrosCargos = factura.getLegalMonetaryTotal().getChargeTotalAmount().getValor();
+            totalAdelanto = factura.getLegalMonetaryTotal().getPrepaidAmount().getValor();
+        } catch (Exception ignore) {}
         //Si Base imponible no es null y suma de exonerado e inafecto no es null ni 0 destino es 5
         //Si base imponible es null y sumat de exonerado e inafecto no es null ni 0 destino 4
         //Si base imponible no es null y suma de exonerado e inafecto es null o 0 destino 1
@@ -209,11 +220,10 @@ public class FacturaParse {
         compra.setObservaciones("PARSER");
         comprasRepo.save(compra);
     }
-    private static void registrarCobroPago(){
+    private static void registrarCobroPago(int z,String cui, String subdiary){
         Cobropago cobropago=new Cobropago();
-        for(PaymentTerms pago:factura.getPaymentTerms())
         try {
-            cobropago.setCuiRelacionado(cui);
+            cobropago.setCuiRelacionado(subdiary+cui);
             cobropago.setFechaCuota1(Date.valueOf(factura.getPaymentTerms().get(z+1).getPaymentduedate()));
             cobropago.setImporteCuota1(factura.getPaymentTerms().get(z+1).getAmount().getValor());
             cobropago.setFechaCuota2(Date.valueOf(factura.getPaymentTerms().get(z+2).getPaymentduedate()));
@@ -228,22 +238,23 @@ public class FacturaParse {
             cobropago.setImporteCuota6(factura.getPaymentTerms().get(z+6).getAmount().getValor());
             cobropago.setFechaCuota7(Date.valueOf(factura.getPaymentTerms().get(z+7).getPaymentduedate()));
             cobropago.setImporteCuota7(factura.getPaymentTerms().get(z+7).getAmount().getValor());
-            cobropago.setFechaCuota7(Date.valueOf(factura.getPaymentTerms().get(z+8).getPaymentduedate()));
-            cobropago.setImporteCuota7(factura.getPaymentTerms().get(z+8).getAmount().getValor());
-            cobropago.setFechaCuota7(Date.valueOf(factura.getPaymentTerms().get(z+9).getPaymentduedate()));
-            cobropago.setImporteCuota7(factura.getPaymentTerms().get(z+9).getAmount().getValor());
-            cobropago.setFechaCuota7(Date.valueOf(factura.getPaymentTerms().get(z+10).getPaymentduedate()));
-            cobropago.setImporteCuota7(factura.getPaymentTerms().get(z+10).getAmount().getValor());
-            cobropago.setFechaCuota7(Date.valueOf(factura.getPaymentTerms().get(z+11).getPaymentduedate()));
-            cobropago.setImporteCuota7(factura.getPaymentTerms().get(z+11).getAmount().getValor());
-            cobropago.setFechaCuota7(Date.valueOf(factura.getPaymentTerms().get(z+12).getPaymentduedate()));
-            cobropago.setImporteCuota7(factura.getPaymentTerms().get(z+12).getAmount().getValor());
-            cobropago.setFechaCuota7(Date.valueOf(factura.getPaymentTerms().get(z+13).getPaymentduedate()));
-            cobropago.setImporteCuota7(factura.getPaymentTerms().get(z+13).getAmount().getValor());
-            cobropago.setFechaCuota7(Date.valueOf(factura.getPaymentTerms().get(z+14).getPaymentduedate()));
-            cobropago.setImporteCuota7(factura.getPaymentTerms().get(z+14).getAmount().getValor());
-            cobropago.setFechaCuota7(Date.valueOf(factura.getPaymentTerms().get(z+15).getPaymentduedate()));
-            cobropago.setImporteCuota7(factura.getPaymentTerms().get(z+15).getAmount().getValor());
+            cobropago.setFechaCuota8(Date.valueOf(factura.getPaymentTerms().get(z+8).getPaymentduedate()));
+            cobropago.setImporteCuota8(factura.getPaymentTerms().get(z+8).getAmount().getValor());
+            cobropago.setFechaCuota9(Date.valueOf(factura.getPaymentTerms().get(z+9).getPaymentduedate()));
+            cobropago.setImporteCuota9(factura.getPaymentTerms().get(z+9).getAmount().getValor());
+            /*
+            cobropago.setFechaCuota10(Date.valueOf(factura.getPaymentTerms().get(z+10).getPaymentduedate()));
+            cobropago.setImporteCuota10(factura.getPaymentTerms().get(z+10).getAmount().getValor());
+            cobropago.setFechaCuota11(Date.valueOf(factura.getPaymentTerms().get(z+11).getPaymentduedate()));
+            cobropago.setImporteCuota11(factura.getPaymentTerms().get(z+11).getAmount().getValor());
+            cobropago.setFechaCuota12(Date.valueOf(factura.getPaymentTerms().get(z+12).getPaymentduedate()));
+            cobropago.setImporteCuota12(factura.getPaymentTerms().get(z+12).getAmount().getValor());
+            cobropago.setFechaCuota13(Date.valueOf(factura.getPaymentTerms().get(z+13).getPaymentduedate()));
+            cobropago.setImporteCuota13(factura.getPaymentTerms().get(z+13).getAmount().getValor());
+            cobropago.setFechaCuota14(Date.valueOf(factura.getPaymentTerms().get(z+14).getPaymentduedate()));
+            cobropago.setImporteCuota14(factura.getPaymentTerms().get(z+14).getAmount().getValor());
+            cobropago.setFechaCuota15(Date.valueOf(factura.getPaymentTerms().get(z+15).getPaymentduedate()));
+            cobropago.setImporteCuota15(factura.getPaymentTerms().get(z+15).getAmount().getValor());
             cobropago.setFechaCuota7(Date.valueOf(factura.getPaymentTerms().get(z+7).getPaymentduedate()));
             cobropago.setImporteCuota7(factura.getPaymentTerms().get(z+7).getAmount().getValor());
             cobropago.setFechaCuota7(Date.valueOf(factura.getPaymentTerms().get(z+7).getPaymentduedate()));
@@ -276,12 +287,12 @@ public class FacturaParse {
             cobropago.setImporteCuota7(factura.getPaymentTerms().get(z+7).getAmount().getValor());
             cobropago.setFechaCuota7(Date.valueOf(factura.getPaymentTerms().get(z+7).getPaymentduedate()));
             cobropago.setImporteCuota7(factura.getPaymentTerms().get(z+7).getAmount().getValor());
-
+*/
         }catch (Exception ignored){}finally {
             cobropagoRepo.save(cobropago);
         }
     }
-    private static void registrarInventario(int tipoOperacion){
+    private static void registrarInventario(int tipoOperacion,String cui,Character subdiary){
         Inventario inventario = new Inventario();
         for (InvoiceLine i : factura.getInvoiceLine()) {
             inventario.setRuc(Long.valueOf(factura.getAccountingSupplierParty().getParty().getPartyIdentification().getId().getValue()));
@@ -305,7 +316,7 @@ public class FacturaParse {
                 inventario.setTipoDocumentoReferencia(Integer.valueOf(factura.getInvoiceTypeCode().getValor()));
                 inventario.setNumeroDocumentoReferencia(factura.getId());
             }
-            inventario.setCuiRelacionado(cui);
+            inventario.setCuiRelacionado(subdiary+cui);
             inventario.setObservaciones("PARSER");
             inventarioRepo.save(inventario);
         }

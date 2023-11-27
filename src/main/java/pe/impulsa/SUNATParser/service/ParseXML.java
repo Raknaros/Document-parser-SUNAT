@@ -49,6 +49,7 @@ public class ParseXML extends ExtractXml {
 
     public Integer facturas(String ruta) throws JAXBException {
         List<LogCUI> lista=dataMethods.verifyxml();
+        List <Long> entidades = dataMethods.fetchEntities();
         for (Map.Entry<String, String> entry : listaXml(ruta).entrySet()) {
             if (entry.getKey().startsWith("FACTURA")) {
                 StringReader content = new StringReader(entry.getValue());
@@ -58,11 +59,10 @@ public class ParseXML extends ExtractXml {
                 String cui = Long.toHexString(Long.valueOf(e.getAccountingSupplierParty().getParty().getPartyIdentification().getId().getValue())) + e.getInvoiceTypeCode().getValor() + e.getId().split("-")[0].trim() + e.getId().split("-")[1].trim();
                 //Listo para cambiar metodo verifyxml y probar el facturaparse, corregir tambien ingreso de cobropago.
                 try {
-
                     if (!lista.stream()
                             .filter(c -> c.getRuc().equals(Long.valueOf(e.getAccountingSupplierParty().getParty().getPartyIdentification().getId().getValue())) && c.getPeriodoTributario() > Integer.parseInt(anomes.format(e.getIssuedate())))
                             .map(LogCUI::getLog).toList().contains(cui)) {
-                        FacturaParse.toDB(dataMethods.fetchEntities());
+                        FacturaParse.toDB(entidades,cui,e);
                         /*
                         BigDecimal totalBaseImponible = new BigDecimal(0);
                         BigDecimal totalDescuento = new BigDecimal(0);
