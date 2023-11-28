@@ -20,7 +20,7 @@ import java.sql.Date;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
-@Component
+
 public class FacturaParse {
     private static VentasRepo ventasRepo = null;
     private static InventarioRepo inventarioRepo = null;
@@ -29,18 +29,6 @@ public class FacturaParse {
     private static Factura factura;
     private static DateTimeFormatter anomesdia = DateTimeFormatter.ofPattern("yyyyMMdd");
     private static DateTimeFormatter anomes = DateTimeFormatter.ofPattern("yyyyMM");
-    private static BigDecimal totalBaseImponible = new BigDecimal(0);
-    private static BigDecimal totalDescuento = new BigDecimal(0);
-    private static BigDecimal totalIgv = new BigDecimal(0);
-    private static BigDecimal totalIsc = new BigDecimal(0);
-    private static BigDecimal totalOtrosCargos = new BigDecimal(0);
-    private static BigDecimal totalExonerado = new BigDecimal(0);
-    private static BigDecimal totalInafecto = new BigDecimal(0);
-    private static BigDecimal totalGratuito = new BigDecimal(0);
-    private static BigDecimal totalOtrosTributos = new BigDecimal(0);
-    private static BigDecimal subTotalVenta = new BigDecimal(0);
-    private static BigDecimal totalAdelanto = new BigDecimal(0);
-
     public FacturaParse(VentasRepo ventasRepo, ComprasRepo comprasRepo, InventarioRepo inventarioRepo, CobropagoRepo cobropagoRepo) {
         this.ventasRepo = ventasRepo;
         this.comprasRepo = comprasRepo;
@@ -48,6 +36,8 @@ public class FacturaParse {
         this.cobropagoRepo = cobropagoRepo;
     }
     public static void toDB(List<Long> entidades,String cui,Factura e){
+
+
         int z = 0;
         factura = e;
         if(entidades.contains(Long.valueOf(factura.getAccountingSupplierParty().getParty().getPartyIdentification().getId().getValue()))){
@@ -63,10 +53,19 @@ public class FacturaParse {
                 registrarCobroPago(z,cui,"8");
             }
         }
-
-
     };
     private static void registrarVenta(int z){
+        BigDecimal totalBaseImponible = new BigDecimal(0);
+        BigDecimal totalDescuento = new BigDecimal(0);
+        BigDecimal totalIgv = new BigDecimal(0);
+        BigDecimal totalIsc = new BigDecimal(0);
+        BigDecimal totalOtrosCargos = new BigDecimal(0);
+        BigDecimal totalExonerado = new BigDecimal(0);
+        BigDecimal totalInafecto = new BigDecimal(0);
+        BigDecimal totalGratuito = new BigDecimal(0);
+        BigDecimal totalOtrosTributos = new BigDecimal(0);
+        BigDecimal subTotalVenta = new BigDecimal(0);
+        BigDecimal totalAdelanto = new BigDecimal(0);
         Ventas venta = new Ventas();
         venta.setRuc(Long.valueOf(factura.getAccountingSupplierParty().getParty().getPartyIdentification().getId().getValue()));
         venta.setPeriodoTributario(Integer.valueOf(anomes.format(factura.getIssuedate())));
@@ -146,6 +145,17 @@ public class FacturaParse {
         ventasRepo.save(venta);
     }
     private static void registrarCompra(int z){
+        BigDecimal totalBaseImponible = new BigDecimal(0);
+        BigDecimal totalDescuento = new BigDecimal(0);
+        BigDecimal totalIgv = new BigDecimal(0);
+        BigDecimal totalIsc = new BigDecimal(0);
+        BigDecimal totalOtrosCargos = new BigDecimal(0);
+        BigDecimal totalExonerado = new BigDecimal(0);
+        BigDecimal totalInafecto = new BigDecimal(0);
+        BigDecimal totalGratuito = new BigDecimal(0);
+        BigDecimal totalOtrosTributos = new BigDecimal(0);
+        BigDecimal subTotalVenta = new BigDecimal(0);
+        BigDecimal totalAdelanto = new BigDecimal(0);
         Compras compra = new Compras();
         compra.setRuc(Long.valueOf(factura.getAccountingCustomerParty().getParty().getPartyIdentification().getId().getValue()));
         compra.setPeriodoTributario(Integer.valueOf(anomes.format(factura.getIssuedate())));
