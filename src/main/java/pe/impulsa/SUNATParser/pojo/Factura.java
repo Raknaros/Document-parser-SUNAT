@@ -85,7 +85,7 @@ public class Factura {
     }
 
     @XmlElement(name="DespatchDocumentReference",namespace="urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2")
-    public void setDespatchDocumentReference(DespatchDocumentReference despatchDocumentReference) {
+    public void setDespatchDocumentReference(List<DespatchDocumentReference> despatchDocumentReference) {
         this.despatchDocumentReference = despatchDocumentReference;
     }
 
@@ -136,7 +136,7 @@ public class Factura {
     private OrderReference orderReference;
     private List<PaymentTerms> paymentTerms;
     private AtrSet2 documentCurrencyCode;
-    private DespatchDocumentReference despatchDocumentReference;
+    private List<DespatchDocumentReference> despatchDocumentReference;
     private Signatura signatura;
     private AccountingParty accountingSupplierParty;
     private AccountingParty accountingCustomerParty;

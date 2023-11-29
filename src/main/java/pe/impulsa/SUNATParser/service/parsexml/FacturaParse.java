@@ -3,6 +3,7 @@ package pe.impulsa.SUNATParser.service.parsexml;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
+import pe.impulsa.SUNATParser.pojo.xmlelements.DespatchDocumentReference;
 import pe.impulsa.SUNATParser.warehouse.models.Cobropago;
 import pe.impulsa.SUNATParser.warehouse.models.Compras;
 import pe.impulsa.SUNATParser.warehouse.models.Inventario;
@@ -232,10 +233,10 @@ public class FacturaParse {
     }
     private static void registrarCobroPago(int z,String cui, String subdiary){
         Cobropago cobropago=new Cobropago();
+        cobropago.setCuiRelacionado(subdiary+cui);
+        cobropago.setFechaCuota1(Date.valueOf(factura.getPaymentTerms().get(z+1).getPaymentduedate()));
+        cobropago.setImporteCuota1(factura.getPaymentTerms().get(z+1).getAmount().getValor());
         try {
-            cobropago.setCuiRelacionado(subdiary+cui);
-            cobropago.setFechaCuota1(Date.valueOf(factura.getPaymentTerms().get(z+1).getPaymentduedate()));
-            cobropago.setImporteCuota1(factura.getPaymentTerms().get(z+1).getAmount().getValor());
             cobropago.setFechaCuota2(Date.valueOf(factura.getPaymentTerms().get(z+2).getPaymentduedate()));
             cobropago.setImporteCuota2(factura.getPaymentTerms().get(z+2).getAmount().getValor());
             cobropago.setFechaCuota3(Date.valueOf(factura.getPaymentTerms().get(z+3).getPaymentduedate()));
@@ -303,9 +304,15 @@ public class FacturaParse {
         }
     }
     private static void registrarInventario(int tipoOperacion,String cui,Character subdiary){
-        Inventario inventario = new Inventario();
+
         for (InvoiceLine i : factura.getInvoiceLine()) {
-            inventario.setRuc(Long.valueOf(factura.getAccountingSupplierParty().getParty().getPartyIdentification().getId().getValue()));
+            Inventario inventario = new Inventario();
+            if (tipoOperacion==1){
+                inventario.setRuc(Long.valueOf(factura.getAccountingSupplierParty().getParty().getPartyIdentification().getId().getValue()));
+            }else{
+                inventario.setRuc(Long.valueOf(factura.getAccountingCustomerParty().getParty().getPartyIdentification().getId().getValue()));
+            }
+
             inventario.setTipoOperacion(tipoOperacion);
             inventario.setPeriodoTributario(Integer.valueOf(anomes.format(factura.getIssuedate())));
             inventario.setFecha(Date.valueOf(factura.getIssuedate()));
@@ -320,8 +327,12 @@ public class FacturaParse {
                 }
             }
             try {
-                inventario.setTipoDocumentoReferencia(Integer.valueOf(factura.getDespatchDocumentReference().getDocumentTypeCode()));
-                inventario.setNumeroDocumentoReferencia(factura.getDespatchDocumentReference().getId());
+                String guia = null;
+                inventario.setTipoDocumentoReferencia(Integer.valueOf(factura.getDespatchDocumentReference().get(0).getDocumentTypeCode()));
+                for(DespatchDocumentReference a:factura.getDespatchDocumentReference()){
+                    guia=guia+a.getId();
+                }
+                inventario.setNumeroDocumentoReferencia(guia);
             } catch (NullPointerException ex) {
                 inventario.setTipoDocumentoReferencia(Integer.valueOf(factura.getInvoiceTypeCode().getValor()));
                 inventario.setNumeroDocumentoReferencia(factura.getId());
