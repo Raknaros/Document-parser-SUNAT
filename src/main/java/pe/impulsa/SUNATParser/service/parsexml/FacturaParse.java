@@ -21,7 +21,7 @@ import java.sql.Date;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
-
+@Component
 public class FacturaParse {
     private static VentasRepo ventasRepo = null;
     private static InventarioRepo inventarioRepo = null;
@@ -31,10 +31,10 @@ public class FacturaParse {
     private static DateTimeFormatter anomesdia = DateTimeFormatter.ofPattern("yyyyMMdd");
     private static DateTimeFormatter anomes = DateTimeFormatter.ofPattern("yyyyMM");
     public FacturaParse(VentasRepo ventasRepo, ComprasRepo comprasRepo, InventarioRepo inventarioRepo, CobropagoRepo cobropagoRepo) {
-        this.ventasRepo = ventasRepo;
-        this.comprasRepo = comprasRepo;
-        this.inventarioRepo = inventarioRepo;
-        this.cobropagoRepo = cobropagoRepo;
+        FacturaParse.ventasRepo = ventasRepo;
+        FacturaParse.comprasRepo = comprasRepo;
+        FacturaParse.inventarioRepo = inventarioRepo;
+        FacturaParse.cobropagoRepo = cobropagoRepo;
     }
     public static void toDB(List<Long> entidades,String cui,Factura e){
 
@@ -327,10 +327,10 @@ public class FacturaParse {
                 }
             }
             try {
-                String guia = null;
+                String guia = "";
                 inventario.setTipoDocumentoReferencia(Integer.valueOf(factura.getDespatchDocumentReference().get(0).getDocumentTypeCode()));
                 for(DespatchDocumentReference a:factura.getDespatchDocumentReference()){
-                    guia=guia+a.getId();
+                    guia=guia+a.getId()+'|';
                 }
                 inventario.setNumeroDocumentoReferencia(guia);
             } catch (NullPointerException ex) {

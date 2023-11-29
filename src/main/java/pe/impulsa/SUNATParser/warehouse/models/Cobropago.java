@@ -18,7 +18,6 @@ import java.sql.Date;
 @Getter
 @Setter
 public class Cobropago {
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     @Column(name = "cui_relacionado")
     private String cuiRelacionado;
