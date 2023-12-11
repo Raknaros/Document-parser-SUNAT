@@ -5,7 +5,7 @@ import jakarta.xml.bind.annotation.XmlElement;
 import pe.impulsa.SUNATParser.pojo.xmlelements.AtrSet2;
 import pe.impulsa.SUNATParser.pojo.xmlelements.AtrSet4;
 
-public class AlternativaConditionPrice {
+public class AlternativeConditionPrice {
     private AtrSet4 priceAmount;
     private AtrSet2 priceTypeCode;
 

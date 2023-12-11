@@ -73,11 +73,11 @@ public class NotaCredito {
     public void setDocumentCurrencyCode(AtrSet2 documentCurrencyCode) {
         this.documentCurrencyCode = documentCurrencyCode;
     }
-
+    @XmlElement(name="DiscrepancyResponse",namespace="urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2")
     public void setDiscrepancyResponse(DiscrepancyResponse discrepancyResponse) {
         this.discrepancyResponse = discrepancyResponse;
     }
-
+    @XmlElement(name="BillingReference",namespace="urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2")
     public void setBillingReference(BillingReference billingReference) {
         this.billingReference = billingReference;
     }
@@ -116,7 +116,7 @@ public class NotaCredito {
     public void setLegalMonetaryTotal(LegalMonetaryTotal legalMonetaryTotal) {
         this.legalMonetaryTotal = legalMonetaryTotal;
     }
-
+    @XmlElement(name="CreditNoteLine",namespace="urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2")
     public void setCreditNoteLines(List<CreditNoteLine> creditNoteLines) {
         this.creditNoteLines = creditNoteLines;
     }

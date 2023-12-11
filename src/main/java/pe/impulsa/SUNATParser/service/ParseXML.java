@@ -345,6 +345,10 @@ public class ParseXML extends ExtractXml {
                 Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
                 NotaCredito e=(NotaCredito) jaxbUnmarshaller.unmarshal(content);
                 //System.out.println(doc.getDocumentElement().getNodeName());
+                //SI ES TIPO 03 CORRECION POR ERROR EN LA DESCRIPCION
+                //SI ES TIPO 13 AJUNTES MONTOS Y/O FECHAS DE PAGO
+                //SI ES TIPO 07 DEVOLUCION POR ITEM
+                //SI ES TIPO 01 ANULACION DE LA OPERACION
             }
         }
         return i;
