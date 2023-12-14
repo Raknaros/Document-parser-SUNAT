@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import pe.impulsa.SUNATParser.pojo.*;
 import pe.impulsa.SUNATParser.service.parsexml.FacturaParse;
+import pe.impulsa.SUNATParser.service.parsexml.NotaCreditoParse;
 import pe.impulsa.SUNATParser.warehouse.models.Entities;
 import pe.impulsa.SUNATParser.warehouse.models.Inventario;
 import pe.impulsa.SUNATParser.warehouse.models.Ventas;
@@ -46,7 +47,37 @@ public class ParseXML extends ExtractXml {
         this.inventarioRepo = inventarioRepo;
         this.cobropagoRepo = cobropagoRepo;
     }
-
+    public List<Integer> parse(String ruta) throws JAXBException {
+        List<LogCUI> lista = dataMethods.verifyxml();
+        List<Long> entidades = dataMethods.fetchEntities();
+        for (Map.Entry<String, String> entry : listaXml(ruta).entrySet()) {
+            StringReader content = new StringReader(entry.getValue());
+            if (entry.getKey().startsWith("FACTURA")) {
+                JAXBContext jaxbContext = JAXBContext.newInstance(Factura.class);
+                Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
+                Factura e = (Factura) jaxbUnmarshaller.unmarshal(content);
+                String cui = Long.toHexString(Long.valueOf(e.getAccountingSupplierParty().getParty().getPartyIdentification().getId().getValue())) + e.getInvoiceTypeCode().getValor() + e.getId().split("-")[0].trim() + e.getId().split("-")[1].trim();
+                //REVISAR METODO VERIFY XML
+                if (!lista.stream()
+                        .filter(c -> c.getRuc().equals(Long.valueOf(e.getAccountingSupplierParty().getParty().getPartyIdentification().getId().getValue())) && c.getPeriodoTributario() > Integer.parseInt(anomes.format(e.getIssuedate())))
+                        .map(LogCUI::getLog).toList().contains(cui)) {
+                    FacturaParse.toDB(entidades, cui, e);
+                }
+            } else if (entry.getKey().startsWith("NOTACREDITO")) {
+                JAXBContext jaxbContext = JAXBContext.newInstance(NotaCredito.class);
+                Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
+                NotaCredito e = (NotaCredito) jaxbUnmarshaller.unmarshal(content);
+                String cui = Long.toHexString(Long.valueOf(e.getAccountingSupplierParty().getParty().getPartyIdentification().getId().getValue())) + "07" + e.getId().split("-")[0].trim() + e.getId().split("-")[1].trim();
+                //
+                if (!lista.stream()
+                        .filter(c -> c.getRuc().equals(Long.valueOf(e.getAccountingSupplierParty().getParty().getPartyIdentification().getId().getValue())) && c.getPeriodoTributario() > Integer.parseInt(anomes.format(e.getIssuedate())))
+                        .map(LogCUI::getLog).toList().contains(cui)) {
+                    NotaCreditoParse.toDB(entidades, cui, e);
+                }
+            }
+        }
+        return null;
+    }
     public Integer facturas(String ruta) throws JAXBException {
         List<LogCUI> lista=dataMethods.verifyxml();
         List <Long> entidades = dataMethods.fetchEntities();
@@ -344,11 +375,9 @@ public class ParseXML extends ExtractXml {
                 JAXBContext jaxbContext = JAXBContext.newInstance(NotaCredito.class);
                 Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
                 NotaCredito e=(NotaCredito) jaxbUnmarshaller.unmarshal(content);
+
                 //System.out.println(doc.getDocumentElement().getNodeName());
-                //SI ES TIPO 03 CORRECION POR ERROR EN LA DESCRIPCION
-                //SI ES TIPO 13 AJUNTES MONTOS Y/O FECHAS DE PAGO
-                //SI ES TIPO 07 DEVOLUCION POR ITEM
-                //SI ES TIPO 01 ANULACION DE LA OPERACION
+
             }
         }
         return i;

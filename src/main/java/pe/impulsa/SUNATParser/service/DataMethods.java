@@ -2,6 +2,7 @@ package pe.impulsa.SUNATParser.service;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.Query;
 import org.springframework.stereotype.Service;
+import pe.impulsa.SUNATParser.pojo.LogCUI;
 import pe.impulsa.SUNATParser.warehouse.models.Entities;
 import pe.impulsa.SUNATParser.warehouse.repo.EntitiesRepo;
 
