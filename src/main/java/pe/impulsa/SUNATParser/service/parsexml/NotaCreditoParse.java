@@ -47,13 +47,51 @@ public class NotaCreditoParse {
     private static void anulacionOperacion(int z){
         if (z==5){
             Ventas notav=new Ventas();
-
-        }
-        if (z==8){
+            Ventas modificadav=ventasRepo.findByCui(Long.toHexString(Long.valueOf(notaCredito.getAccountingSupplierParty().getParty().getPartyIdentification().getId().getValue())) +notaCredito.getBillingReference().getInvoceDocumentReference().getDocumentTypeCode().getValor()+ notaCredito.getBillingReference().getInvoceDocumentReference().getId().split("-")[0].trim() + notaCredito.getBillingReference().getInvoceDocumentReference().getId().split("-")[1].trim());
+            notav.setPeriodoTributario();
+            notav.setTipoOperacion();
+            notav.setTipoComprobante();
+            notav.setFechaEmision();
+            notav.setNumeroSerie();
+            notav.setNumeroCorrelativo();
+            notav.setTipoDocumento();
+            notav.setNumeroDocumento();
+            notav.setTipoMoneda();
+            notav.setTipoComprobanteModificado();
+            notav.setNumeroSerieModificado();
+            notav.setNumeroCorrelativoModificado();
+            notav.setDestino();
+            notav.setValor();
+            notav.setOtrosCargos();
+            notav.setIcbp();
+            notav.setIsc();
+            notav.setGlosa("ANULACION DE OPERACION");
+            inventarioRepo.deleteByCuiRelacionado();
+            cobropagoRepo.deleteByCuiRelacionado();
+        }else if (z==8){
             Compras notac=new Compras();
-
+            //CREAR EN COMPRAS REPO FINDBYCUI
+            Compras modificadac=comprasRepo.findByCui(Long.toHexString(Long.valueOf(notaCredito.getAccountingSupplierParty().getParty().getPartyIdentification().getId().getValue())) +notaCredito.getBillingReference().getInvoceDocumentReference().getDocumentTypeCode().getValor()+ notaCredito.getBillingReference().getInvoceDocumentReference().getId().split("-")[0].trim() + notaCredito.getBillingReference().getInvoceDocumentReference().getId().split("-")[1].trim());
+            notac.setPeriodoTributario();
+            notac.setTipoOperacion();
+            notac.setTipoComprobante();
+            notac.setNumeroSerie();
+            notac.setNumeroCorrelativo();
+            notac.setTipoDocumento();
+            notac.setNumeroDocumento();
+            notac.setTipoMoneda();
+            notac.setTipoComprobanteModificado();
+            notac.setNumeroSerieModificado();
+            notac.setNumeroCorrelativoModificado();
+            notac.setDestino();
+            notac.setValor();
+            notac.setOtrosCargos();
+            notac.setIcbp();
+            notac.setIsc();
+            notac.setGlosa("ANULACIÓN DE OPERACIÓN");
+            inventarioRepo.deleteByCuiRelacionado();
+            cobropagoRepo.deleteByCuiRelacionado();
         }
-
     }
     private static void ajustesMontosFechas(int z){
 
