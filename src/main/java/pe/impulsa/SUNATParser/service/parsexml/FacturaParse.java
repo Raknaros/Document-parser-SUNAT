@@ -18,6 +18,7 @@ import pe.impulsa.SUNATParser.pojo.xmlelements.taxtotal.TaxSubtotal;
 
 import java.math.BigDecimal;
 import java.sql.Date;
+import java.sql.SQLException;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
@@ -36,25 +37,26 @@ public class FacturaParse {
         FacturaParse.inventarioRepo = inventarioRepo;
         FacturaParse.cobropagoRepo = cobropagoRepo;
     }
-    public static void toDB(List<Long> entidades,String cui,Factura e){
-
-
+    public static void toDB(List<Long> entidades,String cui,Factura e) throws SQLException{
         int z = 0;
         factura = e;
-        if(entidades.contains(Long.valueOf(factura.getAccountingSupplierParty().getParty().getPartyIdentification().getId().getValue()))){
-            registrarVenta(z);
-            registrarInventario(1,cui,'5');
-            if(!factura.getPaymentTerms().get(z).getPaymentmeansid().equals("Contado")){
-                registrarCobroPago(z,cui,"5");
+        try {
+            if(entidades.contains(Long.valueOf(factura.getAccountingSupplierParty().getParty().getPartyIdentification().getId().getValue()))){
+                registrarVenta(z);
+                registrarInventario(1,cui,'5');
+                if(!factura.getPaymentTerms().get(z).getPaymentmeansid().equals("Contado")){
+                    registrarCobroPago(z,cui,"5");
+                }
             }
-        }else if (entidades.contains(Long.valueOf(factura.getAccountingCustomerParty().getParty().getPartyIdentification().getId().getValue()))){
-            registrarCompra(z);
-            registrarInventario(2,cui,'8');
-            if(!factura.getPaymentTerms().get(z).getPaymentmeansid().equals("Contado")){
-                registrarCobroPago(z,cui,"8");
+            if (entidades.contains(Long.valueOf(factura.getAccountingCustomerParty().getParty().getPartyIdentification().getId().getValue()))){
+                registrarCompra(z);
+                registrarInventario(2,cui,'8');
+                if(!factura.getPaymentTerms().get(z).getPaymentmeansid().equals("Contado")){
+                    registrarCobroPago(z,cui,"8");
+                }
             }
-        }
-    };
+        }catch (Exception ignored){}
+}
     private static void registrarVenta(int z){
         BigDecimal totalBaseImponible = new BigDecimal(0);
         BigDecimal totalDescuento = new BigDecimal(0);

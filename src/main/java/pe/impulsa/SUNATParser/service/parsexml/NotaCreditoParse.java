@@ -48,7 +48,7 @@ public class NotaCreditoParse {
         if (z==5){
             Ventas notav=new Ventas();
             Ventas modificadav=ventasRepo.findByCui(Long.toHexString(Long.valueOf(notaCredito.getAccountingSupplierParty().getParty().getPartyIdentification().getId().getValue())) +notaCredito.getBillingReference().getInvoceDocumentReference().getDocumentTypeCode().getValor()+ notaCredito.getBillingReference().getInvoceDocumentReference().getId().split("-")[0].trim() + notaCredito.getBillingReference().getInvoceDocumentReference().getId().split("-")[1].trim());
-            notav.setPeriodoTributario();
+            /*notav.setPeriodoTributario();
             notav.setTipoOperacion();
             notav.setTipoComprobante();
             notav.setFechaEmision();
@@ -90,7 +90,7 @@ public class NotaCreditoParse {
             notac.setIsc();
             notac.setGlosa("ANULACIÓN DE OPERACIÓN");
             inventarioRepo.deleteByCuiRelacionado();
-            cobropagoRepo.deleteByCuiRelacionado();
+            cobropagoRepo.deleteByCuiRelacionado();*/
         }
     }
     private static void ajustesMontosFechas(int z){

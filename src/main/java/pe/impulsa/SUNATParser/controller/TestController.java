@@ -9,6 +9,8 @@ import pe.impulsa.SUNATParser.service.ParseXML;
 
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
+import java.sql.SQLException;
+import java.util.List;
 
 @RestController
 @RequestMapping("/test")
@@ -19,8 +21,8 @@ public class TestController {
     ParseXML parseXML;
 
     @GetMapping("/facturas")
-    public Integer parsearFacturas(@RequestParam String numero) throws ParserConfigurationException, IOException, SAXException, JAXBException {
+    public List<Integer> parsearFacturas() throws ParserConfigurationException, IOException, SAXException, JAXBException, SQLException {
 
-        return parseXML.facturas("C:\\Users\\Raknaros\\Downloads\\xmls\\test");
+        return parseXML.parse("C:\\Users\\Raknaros\\Downloads\\xmlsnoviembre");
     }
 }
