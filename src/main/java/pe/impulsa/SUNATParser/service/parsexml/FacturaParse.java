@@ -37,25 +37,30 @@ public class FacturaParse {
         FacturaParse.inventarioRepo = inventarioRepo;
         FacturaParse.cobropagoRepo = cobropagoRepo;
     }
-    public static void toDB(List<Long> entidades,String cui,Factura e) throws SQLException{
-        int z = 0;
+    public static void toDB(List<Long> entidades,String cui,Factura e) {
+
         factura = e;
         try {
             if(entidades.contains(Long.valueOf(factura.getAccountingSupplierParty().getParty().getPartyIdentification().getId().getValue()))){
-                registrarVenta(z);
+                int payment = 0;
+                registrarVenta(payment);
                 registrarInventario(1,cui,'5');
-                if(!factura.getPaymentTerms().get(z).getPaymentmeansid().equals("Contado")){
-                    registrarCobroPago(z,cui,"5");
+                if(!factura.getPaymentTerms().get(payment).getPaymentmeansid().equals("Contado")){
+                    registrarCobroPago(payment,cui,"5");
                 }
             }
             if (entidades.contains(Long.valueOf(factura.getAccountingCustomerParty().getParty().getPartyIdentification().getId().getValue()))){
-                registrarCompra(z);
+                int payment = 0;
+                registrarCompra(payment);
                 registrarInventario(2,cui,'8');
-                if(!factura.getPaymentTerms().get(z).getPaymentmeansid().equals("Contado")){
-                    registrarCobroPago(z,cui,"8");
+                if(!factura.getPaymentTerms().get(payment).getPaymentmeansid().equals("Contado")){
+                    registrarCobroPago(payment,cui,"8");
                 }
             }
-        }catch (Exception ignored){}
+        }catch (Exception ignored){
+            System.out.println(cui);
+            System.out.println(ignored.getMessage());
+        }
 }
     private static void registrarVenta(int z){
         BigDecimal totalBaseImponible = new BigDecimal(0);

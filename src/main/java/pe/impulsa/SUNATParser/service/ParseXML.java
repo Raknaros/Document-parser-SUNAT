@@ -48,7 +48,7 @@ public class ParseXML extends ExtractXml {
         this.inventarioRepo = inventarioRepo;
         this.cobropagoRepo = cobropagoRepo;
     }
-    public List<Integer> parse(String ruta) throws JAXBException, SQLException {
+    public List<Integer> parse(String ruta) throws JAXBException {
         List<LogCUI> lista = dataMethods.verifyxml();
         List<Long> entidades = dataMethods.fetchEntities();
         for (Map.Entry<String, String> entry : listaXml(ruta).entrySet()) {
@@ -60,11 +60,12 @@ public class ParseXML extends ExtractXml {
                     Factura e = (Factura) jaxbUnmarshaller.unmarshal(content);
                     String cui = Long.toHexString(Long.valueOf(e.getAccountingSupplierParty().getParty().getPartyIdentification().getId().getValue())) + e.getInvoiceTypeCode().getValor() + e.getId().split("-")[0].trim() + e.getId().split("-")[1].trim();
                     //REVISAR METODO VERIFY XML
-                    if (!lista.stream()
+                    FacturaParse.toDB(entidades, cui, e);
+                    /*if (!lista.stream()
                             .filter(c -> c.getRuc().equals(Long.valueOf(e.getAccountingSupplierParty().getParty().getPartyIdentification().getId().getValue())) && c.getPeriodoTributario() > Integer.parseInt(anomes.format(e.getIssuedate())))
                             .map(LogCUI::getLog).toList().contains(cui)) {
                         FacturaParse.toDB(entidades, cui, e);
-                    }
+                    }*/
                 } else if (entry.getKey().startsWith("NOTACREDITO")) {
                     JAXBContext jaxbContext = JAXBContext.newInstance(NotaCredito.class);
                     Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();

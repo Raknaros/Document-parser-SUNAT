@@ -10,7 +10,7 @@ import org.hibernate.annotations.DynamicUpdate;
 import java.sql.Date;
 
 @Entity
-@Table(name="entities",schema="acc")
+@Table(name="entities",schema="priv")
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
