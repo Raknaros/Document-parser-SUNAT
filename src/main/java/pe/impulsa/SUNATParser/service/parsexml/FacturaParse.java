@@ -38,31 +38,45 @@ public class FacturaParse {
         FacturaParse.cobropagoRepo = cobropagoRepo;
     }
     public static void toDB(List<Long> entidades,String cui,Factura e) {
-
         factura = e;
-        try {
             if(entidades.contains(Long.valueOf(factura.getAccountingSupplierParty().getParty().getPartyIdentification().getId().getValue()))){
+                int check=0;
                 int payment = 0;
-                registrarVenta(payment);
-                registrarInventario(1,cui,'5');
-                if(!factura.getPaymentTerms().get(payment).getPaymentmeansid().equals("Contado")){
-                    registrarCobroPago(payment,cui,"5");
+                try{
+                    check+=1;
+                    registrarVenta(payment);
+                    if(check==1){
+                        registrarInventario(1,cui,'5');
+                        if(!factura.getPaymentTerms().get(payment).getPaymentmeansid().equals("Contado")){
+                            registrarCobroPago(payment,cui,"5");
+                        }
+                    }
+                }catch(Exception ex){
+                    check-=1;
+                    System.out.println(cui);
+                    System.out.println(ex.getMessage());
                 }
             }
             if (entidades.contains(Long.valueOf(factura.getAccountingCustomerParty().getParty().getPartyIdentification().getId().getValue()))){
                 int payment = 0;
-                registrarCompra(payment);
-                registrarInventario(2,cui,'8');
-                if(!factura.getPaymentTerms().get(payment).getPaymentmeansid().equals("Contado")){
-                    registrarCobroPago(payment,cui,"8");
+                int check=0;
+                try{
+                    check+=1;
+                    registrarCompra(payment);
+                    if(check==1){
+                        registrarInventario(2,cui,'8');
+                        if(!factura.getPaymentTerms().get(payment).getPaymentmeansid().equals("Contado")){
+                            registrarCobroPago(payment,cui,"8");
+                        }
+                    }
+                }catch(Exception ex){
+                    check-=1;
+                    System.out.println(cui);
+                    System.out.println(ex.getMessage());
                 }
             }
-        }catch (Exception ignored){
-            System.out.println(cui);
-            System.out.println(ignored.getMessage());
-        }
 }
-    private static void registrarVenta(int z){
+    private static void registrarVenta(int payment){
         BigDecimal totalBaseImponible = new BigDecimal(0);
         BigDecimal totalDescuento = new BigDecimal(0);
         BigDecimal totalIgv = new BigDecimal(0);
@@ -92,7 +106,7 @@ public class FacturaParse {
 
             if (factura.getPaymentmeans().getId().equals("Detraccion")) {
                 venta.setTasaDetraccion(Integer.valueOf(factura.getPaymentTerms().get(0).getPaymentmeansid()));
-                z = 1;
+                payment = 1;
             }
 
         }catch (Exception ignored){}
@@ -176,7 +190,6 @@ public class FacturaParse {
         compra.setNumeroDocumento(factura.getAccountingSupplierParty().getParty().getPartyIdentification().getId().getValue());
         compra.setTipoMoneda(factura.getDocumentCurrencyCode().getValor());
         try {
-
             if (factura.getPaymentmeans().getId().equals("Detraccion")) {
                 compra.setTasaDetraccion(Integer.valueOf(factura.getPaymentTerms().get(0).getPaymentmeansid()));
                 z = 1;
