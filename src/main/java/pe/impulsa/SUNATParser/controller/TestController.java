@@ -21,8 +21,8 @@ public class TestController {
     ParseXML parseXML;
 
     @GetMapping("/facturas")
-    public List<Integer> parsearFacturas() throws ParserConfigurationException, IOException, SAXException, JAXBException, SQLException {
+    public void parsearFacturas(@RequestParam String a) throws JAXBException{
 
-        return parseXML.parse("D:\\XMLSUNAT\\xmlsilvana");
+        parseXML.parse("D:\\XMLSUNAT\\"+a);
     }
 }

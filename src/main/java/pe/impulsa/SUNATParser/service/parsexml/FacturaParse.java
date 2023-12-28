@@ -44,11 +44,11 @@ public class FacturaParse {
                 int payment = 0;
                 try{
                     check+=1;
-                    registrarVenta(payment);
+                    registrarVenta(payment,cui);
                     if(check==1){
-                        registrarInventario(1,cui,'5');
+                        registrarInventario(1,cui,5);
                         if(!factura.getPaymentTerms().get(payment).getPaymentmeansid().equals("Contado")){
-                            registrarCobroPago(payment,cui,"5");
+                            registrarCobroPago(payment,cui,5);
                         }
                     }
                 }catch(Exception ex){
@@ -62,11 +62,11 @@ public class FacturaParse {
                 int check=0;
                 try{
                     check+=1;
-                    registrarCompra(payment);
+                    registrarCompra(payment,cui);
                     if(check==1){
-                        registrarInventario(2,cui,'8');
+                        registrarInventario(2,cui,8);
                         if(!factura.getPaymentTerms().get(payment).getPaymentmeansid().equals("Contado")){
-                            registrarCobroPago(payment,cui,"8");
+                            registrarCobroPago(payment,cui,8);
                         }
                     }
                 }catch(Exception ex){
@@ -76,7 +76,7 @@ public class FacturaParse {
                 }
             }
 }
-    private static void registrarVenta(int payment){
+    private static void registrarVenta(int payment,String cui){
         BigDecimal totalBaseImponible = new BigDecimal(0);
         BigDecimal totalDescuento = new BigDecimal(0);
         BigDecimal totalIgv = new BigDecimal(0);
@@ -164,9 +164,10 @@ public class FacturaParse {
         //venta.setTasaDetraccion(null);
         //venta.setTasaPercepcion(null);
         venta.setObservaciones("PARSER");
+        venta.setCui(cui);
         ventasRepo.save(venta);
     }
-    private static void registrarCompra(int z){
+    private static void registrarCompra(int z,String cui){
         BigDecimal totalBaseImponible = new BigDecimal(0);
         BigDecimal totalDescuento = new BigDecimal(0);
         BigDecimal totalIgv = new BigDecimal(0);
@@ -249,11 +250,12 @@ public class FacturaParse {
         //compra.setTasaDetraccion(null);
         //compra.setTasaPercepcion(null);
         compra.setObservaciones("PARSER");
+        compra.setCui(cui);
         comprasRepo.save(compra);
     }
-    private static void registrarCobroPago(int z,String cui, String subdiary){
+    private static void registrarCobroPago(int z,String cui, int subdiary){
         Cobropago cobropago=new Cobropago();
-        cobropago.setCuiRelacionado(subdiary+cui);
+        cobropago.setCuiRelacionado(subdiary +cui);
         cobropago.setFechaCuota1(Date.valueOf(factura.getPaymentTerms().get(z+1).getPaymentduedate()));
         cobropago.setImporteCuota1(factura.getPaymentTerms().get(z+1).getAmount().getValor());
         try {
@@ -323,7 +325,7 @@ public class FacturaParse {
             cobropagoRepo.save(cobropago);
         }
     }
-    private static void registrarInventario(int tipoOperacion,String cui,Character subdiary){
+    private static void registrarInventario(int tipoOperacion,String cui,int subdiary){
 
         for (InvoiceLine i : factura.getInvoiceLine()) {
             Inventario inventario = new Inventario();
@@ -332,7 +334,7 @@ public class FacturaParse {
             }else{
                 inventario.setRuc(Long.valueOf(factura.getAccountingCustomerParty().getParty().getPartyIdentification().getId().getValue()));
             }
-
+            inventario.setSubdiario(subdiary);
             inventario.setTipoOperacion(tipoOperacion);
             inventario.setPeriodoTributario(Integer.valueOf(anomes.format(factura.getIssuedate())));
             inventario.setFecha(Date.valueOf(factura.getIssuedate()));
@@ -362,5 +364,4 @@ public class FacturaParse {
             inventarioRepo.save(inventario);
         }
     }
-
 }

@@ -25,6 +25,7 @@ import java.math.BigDecimal;
 import java.sql.Date;
 import java.sql.SQLException;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -48,12 +49,11 @@ public class ParseXML extends ExtractXml {
         this.inventarioRepo = inventarioRepo;
         this.cobropagoRepo = cobropagoRepo;
     }
-    public List<Integer> parse(String ruta) throws JAXBException {
+    public void parse(String ruta) throws JAXBException {
         List<LogCUI> lista = dataMethods.verifyxml();
         List<Long> entidades = dataMethods.fetchEntities();
         for (Map.Entry<String, String> entry : listaXml(ruta).entrySet()) {
             StringReader content = new StringReader(entry.getValue());
-
                 if (entry.getKey().startsWith("FACTURA")) {
                     JAXBContext jaxbContext = JAXBContext.newInstance(Factura.class);
                     Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
@@ -78,9 +78,7 @@ public class ParseXML extends ExtractXml {
                         NotaCreditoParse.toDB(entidades, cui, e);
                     }
                 }
-
         }
-        return null;
     }
     public Integer facturas(String ruta) throws JAXBException {
         List<LogCUI> lista=dataMethods.verifyxml();
