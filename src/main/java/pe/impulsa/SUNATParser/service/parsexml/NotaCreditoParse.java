@@ -34,46 +34,76 @@ public class NotaCreditoParse {
         int z = 0;
         notaCredito = e;
         if(entidades.contains(Long.valueOf(notaCredito.getAccountingSupplierParty().getParty().getPartyIdentification().getId().getValue()))){
+            if(!notaCredito.getDiscrepancyResponse().getResponsecode().equals("01")){
+                anulacionOperacion(5);
+            }else if(!notaCredito.getDiscrepancyResponse().getResponsecode().equals("03")){
 
-            if(!notaCredito.getPaymentTerms().get(z).getPaymentmeansid().equals("Contado")){
+            }else if(!notaCredito.getDiscrepancyResponse().getResponsecode().equals("07")){
+
+            }else if(!notaCredito.getDiscrepancyResponse().getResponsecode().equals("13")){
 
             }
         }else if (entidades.contains(Long.valueOf(notaCredito.getAccountingCustomerParty().getParty().getPartyIdentification().getId().getValue()))){
+            if(!notaCredito.getDiscrepancyResponse().getResponsecode().equals("01")){
+                anulacionOperacion(8);
+            }else if(!notaCredito.getDiscrepancyResponse().getResponsecode().equals("03")){
 
-            if(!notaCredito.getPaymentTerms().get(z).getPaymentmeansid().equals("Contado")){
+            }else if(!notaCredito.getDiscrepancyResponse().getResponsecode().equals("07")){
+
+            }else if(!notaCredito.getDiscrepancyResponse().getResponsecode().equals("13")){
+
             }
         }
     }
     private static void anulacionOperacion(int z){
-        Ventas notav=new Ventas();
-        Compras notac=new Compras();
-        Ventas modificadav;
-        Compras modificadac;
+
+
         if (z==5){
-            modificadav=ventasRepo.findByCui(Long.toHexString(Long.valueOf(notaCredito.getAccountingSupplierParty().getParty().getPartyIdentification().getId().getValue())) +notaCredito.getBillingReference().getInvoceDocumentReference().getDocumentTypeCode().getValor()+ notaCredito.getBillingReference().getInvoceDocumentReference().getId().split("-")[0].trim() + notaCredito.getBillingReference().getInvoceDocumentReference().getId().split("-")[1].trim());
+            Ventas notav=new Ventas();
+            Ventas modificadav=ventasRepo.findByCui(Long.toHexString(Long.valueOf(notaCredito.getAccountingSupplierParty().getParty().getPartyIdentification().getId().getValue())) +notaCredito.getBillingReference().getInvoceDocumentReference().getDocumentTypeCode().getValor()+ notaCredito.getBillingReference().getInvoceDocumentReference().getId().split("-")[0].trim() + notaCredito.getBillingReference().getInvoceDocumentReference().getId().split("-")[1].trim());
+            notav.setPeriodoTributario(modificadav.getPeriodoTributario());
+            notav.setTipoOperacion(modificadav.getTipoOperacion());
+            notav.setTipoComprobante(modificadav.getTipoComprobante());
+            notav.setFechaEmision(modificadav.getFechaEmision());
+            notav.setNumeroSerie(modificadav.getNumeroSerie());
+            notav.setNumeroCorrelativo(modificadav.getNumeroCorrelativo());
+            notav.setTipoDocumento(modificadav.getTipoDocumento());
+            notav.setNumeroDocumento(modificadav.getNumeroDocumento());
+            notav.setTipoMoneda(modificadav.getTipoMoneda());
+            notav.setTipoComprobanteModificado(modificadav.getTipoComprobanteModificado());
+            notav.setNumeroSerieModificado(modificadav.getNumeroSerieModificado());
+            notav.setNumeroCorrelativoModificado(modificadav.getNumeroCorrelativoModificado());
+            notav.setDestino(modificadav.getDestino());
+            notav.setValor(modificadav.getValor());
+            notav.setOtrosCargos(modificadav.getOtrosCargos());
+            notav.setIcbp(modificadav.getIcbp());
+            notav.setIsc(modificadav.getIsc());
+            notav.setGlosa("ANULACION DE OPERACION");
+            inventarioRepo.deleteByCuiRelacionado();
+            cobropagoRepo.deleteByCuiRelacionado();
         }else if (z==8){
-            modificadac=comprasRepo.findByCui(Long.toHexString(Long.valueOf(notaCredito.getAccountingSupplierParty().getParty().getPartyIdentification().getId().getValue())) +notaCredito.getBillingReference().getInvoceDocumentReference().getDocumentTypeCode().getValor()+ notaCredito.getBillingReference().getInvoceDocumentReference().getId().split("-")[0].trim() + notaCredito.getBillingReference().getInvoceDocumentReference().getId().split("-")[1].trim());
+            Compras notac=new Compras();
+            Compras modificadac=comprasRepo.findByCui(Long.toHexString(Long.valueOf(notaCredito.getAccountingSupplierParty().getParty().getPartyIdentification().getId().getValue())) +notaCredito.getBillingReference().getInvoceDocumentReference().getDocumentTypeCode().getValor()+ notaCredito.getBillingReference().getInvoceDocumentReference().getId().split("-")[0].trim() + notaCredito.getBillingReference().getInvoceDocumentReference().getId().split("-")[1].trim());
+            notac.setPeriodoTributario();
+            notac.setTipoOperacion();
+            notac.setTipoComprobante();
+            notac.setNumeroSerie();
+            notac.setNumeroCorrelativo();
+            notac.setTipoDocumento();
+            notac.setNumeroDocumento();
+            notac.setTipoMoneda();
+            notac.setTipoComprobanteModificado();
+            notac.setNumeroSerieModificado();
+            notac.setNumeroCorrelativoModificado();
+            notac.setDestino();
+            notac.setValor();
+            notac.setOtrosCargos();
+            notac.setIcbp();
+            notac.setIsc();
+            notac.setGlosa("ANULACIÓN DE OPERACIÓN");
+            inventarioRepo.deleteByCuiRelacionado();
+            cobropagoRepo.deleteByCuiRelacionado();
         }
-        notav.setPeriodoTributario(modificadav.getPeriodoTributario());
-        notav.setTipoOperacion(modificadav.getTipoOperacion());
-        notav.setTipoComprobante(modificadav.getTipoComprobante());
-        notav.setFechaEmision(modificadav.getFechaEmision());
-        notav.setNumeroSerie(modificadav.getNumeroSerie());
-        notav.setNumeroCorrelativo(modificadav.getNumeroCorrelativo());
-        notav.setTipoDocumento(modificadav.getTipoDocumento());
-        notav.setNumeroDocumento(modificadav.getNumeroDocumento());
-        notav.setTipoMoneda(modificadav.getTipoMoneda());
-        notav.setTipoComprobanteModificado(modificadav.getTipoComprobanteModificado());
-        notav.setNumeroSerieModificado(modificadav.getNumeroSerieModificado());
-        notav.setNumeroCorrelativoModificado(modificadav.getNumeroCorrelativoModificado());
-        notav.setDestino(modificadav.getDestino());
-        notav.setValor(modificadav.getValor());
-        notav.setOtrosCargos(modificadav.getOtrosCargos());
-        notav.setIcbp(modificadav.getIcbp());
-        notav.setIsc(modificadav.getIsc());
-        notav.setGlosa("ANULACION DE OPERACION");
-        inventarioRepo.deleteByCuiRelacionado();
-        cobropagoRepo.deleteByCuiRelacionado();
 
     }
     private static void ajustesMontosFechas(int z){
