@@ -6,12 +6,12 @@ import lombok.Getter;
 import pe.impulsa.SUNATParser.pojo.DateAdapter;
 import pe.impulsa.SUNATParser.pojo.xmlelements.AtrSet2;
 
-import java.sql.Date;
+import java.time.LocalDate;
 
 @Getter
 public class InvoiceDocumentReference {
     private String id;
-    private Date issuedate;
+    private LocalDate issuedate;
     private AtrSet2 documentTypeCode;
     private String documenttype;
 
@@ -21,7 +21,7 @@ public class InvoiceDocumentReference {
     }
     @XmlElement(name="IssueDate",namespace="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2")
     @XmlJavaTypeAdapter(DateAdapter.class)
-    public void setIssuedate(Date issuedate) {
+    public void setIssuedate(LocalDate issuedate) {
         this.issuedate = issuedate;
     }
     @XmlElement(name="DocumentTypeCode",namespace="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2")

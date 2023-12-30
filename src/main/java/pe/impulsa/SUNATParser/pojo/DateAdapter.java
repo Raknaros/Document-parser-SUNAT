@@ -4,7 +4,6 @@ import jakarta.xml.bind.annotation.adapters.XmlAdapter;
 
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
-import java.util.Date;
 
 public class DateAdapter extends XmlAdapter<String, LocalDate> {
     private final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
