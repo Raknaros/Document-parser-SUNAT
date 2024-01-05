@@ -39,43 +39,50 @@ public class FacturaParse {
     }
     public static void toDB(List<Long> entidades,String cui,Factura e) {
         factura = e;
-            if(entidades.contains(Long.valueOf(factura.getAccountingSupplierParty().getParty().getPartyIdentification().getId().getValue()))){
-                int check=0;
-                int payment = 0;
-                try{
-                    check+=1;
-                    registrarVenta(payment,cui);
-                    if(check==1){
-                        registrarInventario(1,cui,5);
-                        if(!factura.getPaymentTerms().get(payment).getPaymentmeansid().equals("Contado")){
-                            registrarCobroPago(payment,cui,5);
-                        }
+        Long adquiriente;
+        if(entidades.contains(Long.valueOf(factura.getAccountingSupplierParty().getParty().getPartyIdentification().getId().getValue()))){
+            int check=0;
+            int payment = 0;
+            try{
+                check+=1;
+                registrarVenta(payment,cui);
+                if(check==1){
+                    registrarInventario(1,cui,5);
+                    if(!factura.getPaymentTerms().get(payment).getPaymentmeansid().equals("Contado")){
+                        registrarCobroPago(payment,cui,5);
                     }
-                }catch(Exception ex){
-                    check-=1;
-                    System.out.println(cui);
-                    System.out.println(ex.getMessage());
                 }
+            }catch(Exception ex){
+                check-=1;
+                System.out.println(cui);
+                System.out.println(ex.getMessage());
             }
-            if (entidades.contains(Long.valueOf(factura.getAccountingCustomerParty().getParty().getPartyIdentification().getId().getValue()))){
-                int payment = 0;
-                int check=0;
-                try{
-                    check+=1;
-                    registrarCompra(payment,cui);
-                    if(check==1){
-                        registrarInventario(2,cui,8);
-                        if(!factura.getPaymentTerms().get(payment).getPaymentmeansid().equals("Contado")){
-                            registrarCobroPago(payment,cui,8);
-                        }
+        }
+        if(factura.getAccountingCustomerParty().getParty().getPartyIdentification().getId().getValue().equals("-")){
+            adquiriente= 0L;
+        }else{
+            adquiriente=Long.valueOf(factura.getAccountingCustomerParty().getParty().getPartyIdentification().getId().getValue());
+        }
+        //RESOLVER CUANDO ES NO DOMICILIADO (VALUE -)
+        if (entidades.contains(adquiriente)){
+            int payment = 0;
+            int check=0;
+            try{
+                check+=1;
+                registrarCompra(payment,cui);
+                if(check==1){
+                    registrarInventario(2,cui,8);
+                    if(!factura.getPaymentTerms().get(payment).getPaymentmeansid().equals("Contado")){
+                        registrarCobroPago(payment,cui,8);
                     }
-                }catch(Exception ex){
-                    check-=1;
-                    System.out.println(cui);
-                    System.out.println(ex.getMessage());
                 }
+            }catch(Exception ex){
+                check-=1;
+                System.out.println(cui);
+                System.out.println(ex.getMessage());
             }
-}
+        }
+    }
     private static void registrarVenta(int payment,String cui){
         BigDecimal totalBaseImponible = new BigDecimal(0);
         BigDecimal totalDescuento = new BigDecimal(0);
@@ -98,10 +105,12 @@ public class FacturaParse {
         venta.setNumeroCorrelativo(factura.getId().split("-")[1].trim());
         if(factura.getAccountingCustomerParty().getParty().getPartyIdentification().getId().getSchemeID().equals("-")){
             venta.setTipoDocumento("0");
+            venta.setNumeroDocumento(factura.getAccountingCustomerParty().getParty().getPartyLegalEntity().getRegistrationname());
         }else {
             venta.setTipoDocumento(factura.getAccountingCustomerParty().getParty().getPartyIdentification().getId().getSchemeID());
+            venta.setNumeroDocumento(factura.getAccountingCustomerParty().getParty().getPartyIdentification().getId().getValue());
         }
-        venta.setNumeroDocumento(factura.getAccountingCustomerParty().getParty().getPartyIdentification().getId().getValue());
+
         try {
 
             if (factura.getPaymentmeans().getId().equals("Detraccion")) {

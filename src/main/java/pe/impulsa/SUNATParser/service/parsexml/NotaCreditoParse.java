@@ -32,38 +32,54 @@ public class NotaCreditoParse {
         //SI ES TIPO 13 AJUNTES MONTOS Y/O FECHAS DE PAGO
         //SI ES TIPO 07 DEVOLUCION POR ITEM
         //SI ES TIPO 01 ANULACION DE LA OPERACION
+        //ANULACION POR ERROR EN EL RUC
+        //DESCUENTO GLOBAL
+        //DEVOLUCION TOTAL
+        //DESCUENTO POR ITEM
+        //OTROS CONCEPTOS
+
     }
     public static void toDB(List<Long> entidades, String cui, NotaCredito e){
+        //CORREGIR SOLO PASA UNA VEZ, MEJORAR EL MANEJO CON TRANSACCIONES
+        //IMPLEMENTAR DECODE DE ISO-8859-1 A UTF-8 SOLO DE LA DESCRIPCION
+        Long adquiriente;
         notaCredito = e;
-        if(entidades.contains(Long.valueOf(notaCredito.getAccountingSupplierParty().getParty().getPartyIdentification().getId().getValue()))){
-            if(notaCredito.getDiscrepancyResponse().getResponsecode().equals("01")){
-                anulacionOperacion(5);
-            }else if(notaCredito.getDiscrepancyResponse().getResponsecode().equals("03")){
-                System.out.println("CORRECCION POR ERROR EN LA DESCRIPCION");
-            }else if(notaCredito.getDiscrepancyResponse().getResponsecode().equals("07")){
-                System.out.println("DEVOLUCION POR ITEM");
-            }else if(notaCredito.getDiscrepancyResponse().getResponsecode().equals("13")){
-                System.out.println("AJUSTES MONTOS Y/O FECHAS DE PAGO");
+        try{
+            if(entidades.contains(Long.valueOf(notaCredito.getAccountingSupplierParty().getParty().getPartyIdentification().getId().getValue()))){
+                switch (notaCredito.getDiscrepancyResponse().getResponsecode()) {
+                    case "01" -> anulacionOperacion(5, cui);
+                    case "03" -> System.out.println("CORRECCION POR ERROR EN LA DESCRIPCION");
+                    case "07" -> System.out.println("DEVOLUCION POR ITEM");
+                    case "13" -> System.out.println("AJUSTES MONTOS Y/O FECHAS DE PAGO");
+                }
             }
-        }else if (entidades.contains(Long.valueOf(notaCredito.getAccountingCustomerParty().getParty().getPartyIdentification().getId().getValue()))){
-            if(notaCredito.getDiscrepancyResponse().getResponsecode().equals("01")){
-                anulacionOperacion(8);
-            }else if(notaCredito.getDiscrepancyResponse().getResponsecode().equals("03")){
-                System.out.println("CORRECCION POR ERROR EN LA DESCRIPCION");
-            }else if(notaCredito.getDiscrepancyResponse().getResponsecode().equals("07")){
-                System.out.println("DEVOLUCION POR ITEM");
-            }else if(notaCredito.getDiscrepancyResponse().getResponsecode().equals("13")){
-                System.out.println("AJUSTES MONTOS Y/O FECHAS DE PAGO");
+            if(notaCredito.getAccountingCustomerParty().getParty().getPartyIdentification().getId().getValue().equals("-")){
+                adquiriente= 0L;
+            }else{
+                adquiriente=Long.valueOf(notaCredito.getAccountingCustomerParty().getParty().getPartyIdentification().getId().getValue());
             }
+            if (entidades.contains(adquiriente)){
+                switch (notaCredito.getDiscrepancyResponse().getResponsecode()) {
+                    case "01" -> anulacionOperacion(8, cui);
+                    case "03" -> System.out.println("CORRECCION POR ERROR EN LA DESCRIPCION");
+                    case "07" -> System.out.println("DEVOLUCION POR ITEM");
+                    case "13" -> System.out.println("AJUSTES MONTOS Y/O FECHAS DE PAGO");
+                }
+            }
+        }catch(Exception ex){
+            System.out.println(cui);
+            System.out.println(ex.getMessage());
         }
+
     }
-    private static void anulacionOperacion(int z){
+    private static void anulacionOperacion(int z,String cui){
         if (z==5){
             String cuimodificado=Long.toHexString(Long.valueOf(notaCredito.getAccountingSupplierParty().getParty().getPartyIdentification().getId().getValue())) +notaCredito.getBillingReference().getInvoceDocumentReference().getDocumentTypeCode().getValor()+ notaCredito.getBillingReference().getInvoceDocumentReference().getId().split("-")[0].trim() + notaCredito.getBillingReference().getInvoceDocumentReference().getId().split("-")[1].trim();
             Ventas notav=new Ventas();
             Ventas modificadav=ventasRepo.findByCui(cuimodificado);
+            notav.setRuc(Long.valueOf(notaCredito.getAccountingSupplierParty().getParty().getPartyIdentification().getId().getValue()));
             notav.setPeriodoTributario(Integer.valueOf(anomes.format(notaCredito.getIssuedate())));
-            notav.setTipoOperacion(1);
+            notav.setTipoOperacion(modificadav.getTipoOperacion());
             notav.setTipoComprobante(7);
             notav.setFechaEmision(Date.valueOf(notaCredito.getIssuedate()));
             notav.setNumeroSerie(notaCredito.getId().split("-")[0].trim());
@@ -79,16 +95,19 @@ public class NotaCreditoParse {
             notav.setOtrosCargos(modificadav.getOtrosCargos());
             notav.setIcbp(modificadav.getIcbp());
             notav.setIsc(modificadav.getIsc());
+            notav.setIgv(modificadav.getIgv());
+            notav.setCui(cui);
             notav.setGlosa("ANULACION DE OPERACION");
-            inventarioRepo.deleteByCuiRelacionado(cuimodificado);
-            cobropagoRepo.deleteByCuiRelacionado(cuimodificado);
             ventasRepo.save(notav);
+            inventarioRepo.deleteByCuiRelacionado(5+cuimodificado);
+            cobropagoRepo.deleteByCuiRelacionado(5+cuimodificado);
         }else if (z==8){
             String cuimodificado=Long.toHexString(Long.valueOf(notaCredito.getAccountingSupplierParty().getParty().getPartyIdentification().getId().getValue())) +notaCredito.getBillingReference().getInvoceDocumentReference().getDocumentTypeCode().getValor()+ notaCredito.getBillingReference().getInvoceDocumentReference().getId().split("-")[0].trim() + notaCredito.getBillingReference().getInvoceDocumentReference().getId().split("-")[1].trim();
             Compras notac=new Compras();
-            Compras modificadac=comprasRepo.findByCui(Long.toHexString(Long.valueOf(notaCredito.getAccountingSupplierParty().getParty().getPartyIdentification().getId().getValue())) +notaCredito.getBillingReference().getInvoceDocumentReference().getDocumentTypeCode().getValor()+ notaCredito.getBillingReference().getInvoceDocumentReference().getId().split("-")[0].trim() + notaCredito.getBillingReference().getInvoceDocumentReference().getId().split("-")[1].trim());
+            Compras modificadac=comprasRepo.findByCui(cuimodificado);
+            notac.setRuc(Long.valueOf(notaCredito.getAccountingCustomerParty().getParty().getPartyIdentification().getId().getValue()));
             notac.setPeriodoTributario(Integer.valueOf(anomes.format(notaCredito.getIssuedate())));
-            notac.setTipoOperacion(1);
+            notac.setTipoOperacion(modificadac.getTipoOperacion());
             notac.setTipoComprobante(7);
             notac.setFechaEmision(Date.valueOf(notaCredito.getIssuedate()));
             notac.setNumeroSerie(notaCredito.getId().split("-")[0].trim());
@@ -104,10 +123,12 @@ public class NotaCreditoParse {
             notac.setOtrosCargos(modificadac.getOtrosCargos());
             notac.setIcbp(modificadac.getIcbp());
             notac.setIsc(modificadac.getIsc());
+            notac.setIgv(modificadac.getIgv());
+            notac.setCui(cui);
             notac.setGlosa("ANULACION DE OPERACION");
-            inventarioRepo.deleteByCuiRelacionado(cuimodificado);
-            cobropagoRepo.deleteByCuiRelacionado(cuimodificado);
             comprasRepo.save(notac);
+            inventarioRepo.deleteByCuiRelacionado(8+cuimodificado);
+            cobropagoRepo.deleteByCuiRelacionado(8+cuimodificado);
         }
 
     }

@@ -1,5 +1,6 @@
 package pe.impulsa.SUNATParser.controller;
 
+import jakarta.transaction.Transactional;
 import jakarta.xml.bind.JAXBException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -21,6 +22,7 @@ public class TestController {
     ParseXML parseXML;
 
     @GetMapping("/facturas")
+    //@Transactional
     public void parsearFacturas(@RequestParam String a) throws JAXBException{
 
         parseXML.parse("D:\\XMLSUNAT\\"+a);
