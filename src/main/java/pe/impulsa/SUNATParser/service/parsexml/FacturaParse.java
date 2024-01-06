@@ -204,7 +204,6 @@ public class FacturaParse {
                 compra.setTasaDetraccion(Integer.valueOf(factura.getPaymentTerms().get(0).getPaymentmeansid()));
                 z = 1;
             }
-
         }catch (Exception ignored){}
         for (TaxSubtotal t : factura.getTaxTotal().getTaxSubtotal()) {
             switch (t.getTaxCategory().getTaxScheme().getId().getValue()) {

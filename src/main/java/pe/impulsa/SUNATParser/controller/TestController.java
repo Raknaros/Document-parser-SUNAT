@@ -22,7 +22,7 @@ public class TestController {
     ParseXML parseXML;
 
     @GetMapping("/facturas")
-    //@Transactional
+    @Transactional
     public void parsearFacturas(@RequestParam String a) throws JAXBException{
 
         parseXML.parse("D:\\XMLSUNAT\\"+a);
