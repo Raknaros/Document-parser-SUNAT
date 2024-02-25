@@ -1,12 +1,5 @@
 package pe.impulsa.SUNATParser.service;
 
-import org.w3c.dom.Document;
-import org.xml.sax.InputSource;
-import org.xml.sax.SAXException;
-
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
 import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
@@ -17,7 +10,7 @@ import java.util.zip.ZipFile;
 
 
 
-public class ExtractXml {
+public class ExtractXML {
 
     public Map<String, String> listaXml(String ruta){
         Map<String, String> filesContent = new HashMap<>();
@@ -30,7 +23,7 @@ public class ExtractXml {
                     ZipEntry entry = entries.nextElement();
                     if (!entry.isDirectory()) {
                         String entryName = entry.getName();
-                        if (entryName.endsWith(".XML")) {  // Leer solo archivos de texto
+                        if (entryName.endsWith(".XML")) {  // Leer solo archivos .xml
                             InputStream inputStream = zipFile.getInputStream(entry);
                             InputStreamReader inputStreamReader = new InputStreamReader(inputStream, StandardCharsets.UTF_8);
                             BufferedReader bufferedReader = new BufferedReader(inputStreamReader);

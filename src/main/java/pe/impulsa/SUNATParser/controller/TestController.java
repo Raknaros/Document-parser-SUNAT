@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.xml.sax.SAXException;
 import pe.impulsa.SUNATParser.service.DataMethods;
+import pe.impulsa.SUNATParser.service.ParseCSV;
 import pe.impulsa.SUNATParser.service.ParseXML;
 
 import javax.xml.parsers.ParserConfigurationException;
@@ -20,11 +21,19 @@ public class TestController {
     DataMethods dataMethods;
     @Autowired
     ParseXML parseXML;
+    @Autowired
+    ParseCSV parseCSV;
 
     @GetMapping("/facturas")
     @Transactional
     public void parsearFacturas(@RequestParam String a) throws JAXBException{
 
-        parseXML.parse("D:\\XMLSUNAT\\"+a);
+        parseXML.parse(a);
+    }
+    @GetMapping("/csv")
+    @Transactional
+    public void parsearCsv(@RequestParam String a) throws JAXBException{
+
+        parseCSV.parse(a);
     }
 }

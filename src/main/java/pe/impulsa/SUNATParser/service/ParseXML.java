@@ -8,31 +8,18 @@ import org.springframework.stereotype.Service;
 import pe.impulsa.SUNATParser.pojo.*;
 import pe.impulsa.SUNATParser.service.parsexml.FacturaParse;
 import pe.impulsa.SUNATParser.service.parsexml.NotaCreditoParse;
-import pe.impulsa.SUNATParser.warehouse.models.Entities;
-import pe.impulsa.SUNATParser.warehouse.models.Inventario;
-import pe.impulsa.SUNATParser.warehouse.models.Ventas;
-import pe.impulsa.SUNATParser.warehouse.models.Compras;
 import pe.impulsa.SUNATParser.warehouse.repo.CobropagoRepo;
 import pe.impulsa.SUNATParser.warehouse.repo.ComprasRepo;
 import pe.impulsa.SUNATParser.warehouse.repo.InventarioRepo;
 import pe.impulsa.SUNATParser.warehouse.repo.VentasRepo;
-import pe.impulsa.SUNATParser.pojo.xmlelements.AtrSet5;
-import pe.impulsa.SUNATParser.pojo.xmlelements.InvoiceLine;
-import pe.impulsa.SUNATParser.pojo.xmlelements.taxtotal.TaxSubtotal;
 
 import java.io.StringReader;
-import java.math.BigDecimal;
-import java.sql.Date;
-import java.sql.SQLException;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
-import java.util.stream.Collectors;
 
 @Service
-public class ParseXML extends ExtractXml {
+public class ParseXML extends ExtractXML {
     private final DataMethods dataMethods;
     private static DateTimeFormatter anomesdia = DateTimeFormatter.ofPattern("yyyyMMdd");
     private static DateTimeFormatter anomes = DateTimeFormatter.ofPattern("yyyyMM");
